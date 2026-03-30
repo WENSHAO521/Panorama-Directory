@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Panorama Scholarly Group | Open Access Publishing</title>
+    <title>Global Editorial Directory | Panorama Scholarly Group</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -33,7 +33,6 @@
       body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #000000; }
       ::selection { background-color: #000000; color: #ffffff; }
       
-      /* 自定义搜索框焦点样式，去除默认蓝框，保持纯黑 */
       input:focus {
           outline: none;
           box-shadow: none;
@@ -44,14 +43,13 @@
 <body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen">
 
     <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-black">
-        <div class="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto px-8 h-auto md:h-20 py-4 md:py-0">
+        <div class="flex flex-col md:flex-row justify-between items-center max-w-5xl mx-auto px-8 h-auto md:h-20 py-4 md:py-0">
             <div class="text-sm font-bold tracking-widest text-black uppercase mb-4 md:mb-0">
                 Panorama Scholarly Group
             </div>
             <div class="flex items-center gap-6 md:gap-8 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
                 <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-xs uppercase" href="#home">Home</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase" href="#journals">Journals</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase" href="#editorial-board">Editorial Board</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase" href="#directory">Directory</a>
                 <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase" href="#about">About</a>
                 <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase" href="#contact">Contact</a>
             </div>
@@ -60,28 +58,25 @@
 
     <main class="flex-grow pt-24 md:pt-32">
         
-        <section class="max-w-6xl mx-auto px-8 py-20 md:py-32" id="home">
-            <div class="max-w-4xl">
-                <p class="text-gray-500 font-bold tracking-widest text-[10px] uppercase mb-6">Independent Academic Publisher</p>
+        <section class="max-w-5xl mx-auto px-8 py-20 md:py-32" id="home">
+            <div class="max-w-3xl">
+                <p class="text-gray-500 font-bold tracking-widest text-[10px] uppercase mb-6">Official Researcher Database</p>
                 <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-none mb-8 text-black">
-                    Advancing Open Knowledge Through Rigorous Peer Review.
+                    Global Editorial Directory.
                 </h1>
                 <p class="text-xl font-light text-gray-700 leading-relaxed mb-16 max-w-2xl border-l-2 border-black pl-6">
-                    A global consortium of scholars dedicated to publishing high-impact research across humanities, social cognition, and interdisciplinary sciences.
+                    Discover the international network of scholars, principal investigators, and editorial board members driving rigorous peer review across our publishing group.
                 </p>
 
                 <div class="bg-surface-variant border border-black p-8 relative">
                     <label for="global-search" class="text-[10px] font-bold uppercase tracking-widest text-black mb-4 block">
-                        Search Editorial Directory & Publications
+                        Search Scholars by Name, Affiliation, or Domain
                     </label>
-                    <div class="flex items-center border-b-2 border-black pb-2">
-                        <span class="material-symbols-outlined text-black mr-4 text-3xl">search</span>
+                    <div class="flex items-center border-b-2 border-black pb-2 bg-white">
+                        <span class="material-symbols-outlined text-black mx-4 text-3xl">search</span>
                         <input type="text" id="global-search" 
-                               class="w-full bg-transparent border-none text-xl md:text-2xl text-black placeholder-gray-400 font-light px-0" 
-                               placeholder="e.g., Chengwen Song, Social Cognition, Health Nexus...">
-                        <button class="bg-black text-white px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors ml-4 hidden md:block">
-                            Search
-                        </button>
+                               class="w-full bg-transparent border-none text-xl md:text-2xl text-black placeholder-gray-400 font-light px-0 py-2 focus:ring-0" 
+                               placeholder="e.g., Chengwen Song, Kookmin, Social Cognition...">
                     </div>
                     <div id="search-results" class="absolute w-full left-0 top-full mt-[-1px] border border-black bg-white hidden z-40 shadow-2xl">
                         </div>
@@ -89,87 +84,89 @@
             </div>
         </section>
 
-        <section class="border-t border-outline-variant bg-white py-24" id="journals">
-            <div class="max-w-6xl mx-auto px-8">
+        <section class="border-t border-outline-variant bg-white py-24" id="directory">
+            <div class="max-w-5xl mx-auto px-8">
                 <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 border-b border-black pb-8">
                     <div>
-                        <h2 class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-4">Publication Matrix</h2>
-                        <h3 class="text-3xl font-bold text-black tracking-tighter">Journals</h3>
+                        <h2 class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-4">Board Members</h2>
+                        <h3 class="text-3xl font-bold text-black tracking-tighter">Featured Scholars</h3>
                     </div>
-                    <a href="#" class="text-[10px] font-bold uppercase tracking-widest text-black hover:text-gray-500 transition-colors flex items-center gap-2">
-                        View All Journals <span class="material-symbols-outlined text-sm">arrow_forward</span>
-                    </a>
+                    <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">A - Z Index</span>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="border border-outline-variant p-10 hover:border-black transition-colors group relative">
-                        <div class="absolute top-0 right-0 bg-black text-white text-[9px] font-bold uppercase tracking-widest px-2 py-1 m-4">Diamond OA</div>
-                        <h4 class="text-2xl font-bold text-black mb-4 pr-16 group-hover:underline decoration-2 underline-offset-4">
-                            Global Review of Humanities, Arts, and Society
-                        </h4>
-                        <p class="text-sm text-gray-600 leading-relaxed mb-8">
-                            Publishing interdisciplinary research at the intersection of cultural studies, modern philosophy, and societal evolution.
-                        </p>
-                        <div class="flex gap-4">
-                            <a href="#" class="text-xs font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">Current Issue</a>
-                            <a href="#" class="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Submit</a>
+                <div class="space-y-8">
+                    
+                    <div class="border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
+                        <div class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden">
+                            <img alt="Portrait" class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF81XSmNvj9HqtKXdaDByjR4bdowYy2YChiaMPUDLpO3a2KW1sG9BVEJFNgHzbI56lQd_ORTnMeUqTcDWbZvFBlChnSHHKZrbE7zFcxzS5y1GEaMPaK6zAo7A6Qv38ufaljBWvJvwtIpPpsVoaE19clQQ9uNJd3vgs6BWNsQFW3abIO1qpzzPQOw8lpts4a1f4TO8qIL2MY1p8ZODDLnRoVXdJ1DywfKirU5cOMlEE5w8ZnB3FpVBBJZOBYlIJLRf8HpmeYAjKGxk"/>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="text-2xl font-bold text-black mb-2 group-hover:underline decoration-2 underline-offset-4">Chengwen Song</h4>
+                            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">Kookmin University</p>
+                            <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed">
+                                Research focuses on organizational administration, the digital transformation of SMEs, and developing cognitive-psychological models within human-AI interaction frameworks.
+                            </p>
+                            <div class="flex gap-4">
+                                <a href="board/chengwen-song.html" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">View Academic Profile</a>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="border border-outline-variant p-10 hover:border-black transition-colors group relative">
-                        <div class="absolute top-0 right-0 bg-black text-white text-[9px] font-bold uppercase tracking-widest px-2 py-1 m-4">Diamond OA</div>
-                        <h4 class="text-2xl font-bold text-black mb-4 pr-16 group-hover:underline decoration-2 underline-offset-4">
-                            Journal of Social Cognition and Communication
-                        </h4>
-                        <p class="text-sm text-gray-600 leading-relaxed mb-8">
-                            Exploring the cognitive-psychological models underlying human interaction, AI dynamics, and social communication.
-                        </p>
-                        <div class="flex gap-4">
-                            <a href="#" class="text-xs font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">Current Issue</a>
-                            <a href="#" class="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Submit</a>
+                    <div class="border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
+                        <div class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden">
+                            <div class="w-full h-full flex items-center justify-center bg-gray-100">
+                                <span class="material-symbols-outlined text-4xl text-gray-300">person</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="text-2xl font-bold text-black mb-2 group-hover:underline decoration-2 underline-offset-4">Elena Volkov</h4>
+                            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">University of the West</p>
+                            <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed">
+                                Specializes in digital humanities, neural archaeology, and the ethical implications of data persistence in modern archival systems.
+                            </p>
+                            <div class="flex gap-4">
+                                <a href="#" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">View Academic Profile</a>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="border border-outline-variant p-10 hover:border-black transition-colors group relative">
-                        <div class="absolute top-0 right-0 border border-black text-black text-[9px] font-bold uppercase tracking-widest px-2 py-1 m-4">Peer Reviewed</div>
-                        <h4 class="text-2xl font-bold text-black mb-4 pr-16 group-hover:underline decoration-2 underline-offset-4">
-                            Health Nexus
-                        </h4>
-                        <p class="text-sm text-gray-600 leading-relaxed mb-8">
-                            An interdisciplinary medical research journal focusing on continuous care, clinical applications, and healthcare administration.
-                        </p>
-                        <div class="flex gap-4">
-                            <a href="#" class="text-xs font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">Current Issue</a>
-                            <a href="#" class="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Submit</a>
+                    <div class="border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
+                        <div class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden">
+                            <div class="w-full h-full flex items-center justify-center bg-gray-100">
+                                <span class="material-symbols-outlined text-4xl text-gray-300">person</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h4 class="text-2xl font-bold text-black mb-2 group-hover:underline decoration-2 underline-offset-4">Marcus Thorne</h4>
+                            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">Institute for Advanced Study</p>
+                            <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed">
+                                Expert in public administration and policy analysis, with a focus on institutional governance and digital forensics in state structures.
+                            </p>
+                            <div class="flex gap-4">
+                                <a href="#" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">View Academic Profile</a>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="border border-outline-variant p-10 hover:border-black transition-colors group relative">
-                        <div class="absolute top-0 right-0 border border-black text-black text-[9px] font-bold uppercase tracking-widest px-2 py-1 m-4">Peer Reviewed</div>
-                        <h4 class="text-2xl font-bold text-black mb-4 pr-16 group-hover:underline decoration-2 underline-offset-4">
-                            PoliEcoM Administration Review
-                        </h4>
-                        <p class="text-sm text-gray-600 leading-relaxed mb-8">
-                            Advancing theories in political economics, state ideology, real estate structures, and modern governance pragmatism.
-                        </p>
-                        <div class="flex gap-4">
-                            <a href="#" class="text-xs font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">Current Issue</a>
-                            <a href="#" class="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Submit</a>
-                        </div>
-                    </div>
+                </div>
+
+                <div class="mt-16 text-center">
+                    <button class="bg-white border border-black text-black px-8 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors">
+                        Load More Scholars
+                    </button>
                 </div>
             </div>
         </section>
 
-        <section class="bg-black text-white py-32" id="editorial-board">
-            <div class="max-w-6xl mx-auto px-8 text-center">
-                <span class="material-symbols-outlined text-5xl mb-6">groups</span>
-                <h3 class="text-4xl md:text-5xl font-bold tracking-tighter mb-8">Global Editorial Directory</h3>
-                <p class="text-gray-400 font-light max-w-2xl mx-auto mb-12">
-                    Our rigorous peer-review process is sustained by an international network of leading scholars. Browse the complete directory to view academic profiles, research domains, and official contact information for our board members.
+        <section class="bg-surface-variant py-24 border-t border-outline-variant" id="contact">
+            <div class="max-w-5xl mx-auto px-8 text-center">
+                <span class="material-symbols-outlined text-4xl mb-6 block text-black">account_balance</span>
+                <h3 class="text-3xl font-bold text-black tracking-tighter mb-6">Panorama Scholarly Group</h3>
+                <p class="text-gray-600 font-light max-w-xl mx-auto mb-8 text-sm leading-relaxed">
+                    If you are an academic interested in joining our editorial board or have inquiries regarding our scholarly network, please contact the directory administration.
                 </p>
-                <a href="#board-directory" class="bg-white text-black border border-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-transparent hover:text-white transition-colors inline-block">
-                    Access Editorial Directory
+                <a href="#" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">
+                    directory.admin@panoramascholarly.org
                 </a>
             </div>
         </section>
@@ -177,20 +174,84 @@
     </main>
 
     <footer class="bg-white w-full border-t border-black mt-auto">
-        <div class="max-w-6xl mx-auto px-8 py-10 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="font-bold text-black uppercase tracking-widest text-sm">
+        <div class="max-w-5xl mx-auto px-8 py-8 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="font-bold text-black uppercase tracking-widest text-xs">
                 Panorama Scholarly Group
             </div>
             <div class="font-inter text-[10px] uppercase tracking-widest text-gray-500 text-center md:text-left">
-                © 2026 Panorama Scholarly Group. Advancing Open Science.
-            </div>
-            <div class="flex gap-6">
-                <a href="#" class="text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Ethics</a>
-                <a href="#" class="text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Policies</a>
-                <a href="#" class="text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Contact</a>
+                © 2026 Panorama Scholarly Group. Editorial Directory.
             </div>
         </div>
     </footer>
 
+    <script>
+        // 本地编委数据 (后期可扩展)
+        const editorialData = [
+            {
+                name: "Chengwen Song",
+                affiliation: "Kookmin University",
+                keywords: ["Organizational Administration", "Digital Transformation", "Social Cognition"],
+                url: "board/chengwen-song.html"
+            },
+            {
+                name: "Elena Volkov",
+                affiliation: "University of the West",
+                keywords: ["Neural Archeology", "Pattern Recognition", "Digital Humanities"],
+                url: "#"
+            },
+            {
+                name: "Marcus Thorne",
+                affiliation: "Institute for Advanced Study",
+                keywords: ["Digital Forensics", "Data Ethics", "Public Administration"],
+                url: "#"
+            }
+        ];
+
+        const searchInput = document.getElementById('global-search');
+        const searchResults = document.getElementById('search-results');
+
+        searchInput.addEventListener('input', function() {
+            const query = this.value.toLowerCase().trim();
+            searchResults.innerHTML = ''; 
+
+            if (query === '') {
+                searchResults.classList.add('hidden');
+                return;
+            }
+
+            const matches = editorialData.filter(editor => {
+                const matchName = editor.name.toLowerCase().includes(query);
+                const matchAffiliation = editor.affiliation.toLowerCase().includes(query);
+                const matchKeywords = editor.keywords.some(kw => kw.toLowerCase().includes(query));
+                
+                return matchName || matchAffiliation || matchKeywords;
+            });
+
+            if (matches.length > 0) {
+                searchResults.classList.remove('hidden');
+                matches.forEach(match => {
+                    const resultItem = document.createElement('a');
+                    resultItem.href = match.url;
+                    resultItem.className = 'block px-8 py-5 border-b border-outline-variant hover:bg-surface-variant transition-colors text-black decoration-none group';
+                    
+                    resultItem.innerHTML = `
+                        <div class="font-bold text-lg group-hover:underline decoration-2 underline-offset-4">${match.name}</div>
+                        <div class="text-[10px] text-gray-500 uppercase tracking-widest mt-2">${match.affiliation}</div>
+                        <div class="text-xs text-gray-400 mt-2 line-clamp-1">${match.keywords.join(' · ')}</div>
+                    `;
+                    searchResults.appendChild(resultItem);
+                });
+            } else {
+                searchResults.classList.remove('hidden');
+                searchResults.innerHTML = '<div class="px-8 py-5 text-sm text-gray-500 italic">No matching scholarly profiles found.</div>';
+            }
+        });
+
+        document.addEventListener('click', function(e) {
+            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                searchResults.classList.add('hidden');
+            }
+        });
+    </script>
 </body>
 </html>
