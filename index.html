@@ -35,7 +35,7 @@
       ::selection { background-color: #000000; color: #ffffff; }
       
       /* 强制去除所有输入框和链接点击时的默认边框与下划线 */
-      input:focus, a:focus, a:active {
+      input:focus, a:focus, a:active, button:focus {
           outline: none !important;
           box-shadow: none !important;
           text-decoration: none !important;
@@ -83,7 +83,7 @@
                                class="w-full bg-transparent border-none text-xl md:text-2xl text-black placeholder-gray-400 font-light px-0 py-2 focus:ring-0 outline-none" 
                                placeholder="e.g., Chengwen Song, Kookmin, Social Cognition...">
                     </div>
-                    <div id="search-results" class="absolute w-full left-0 top-full mt-[-1px] border border-black bg-white hidden z-40 shadow-2xl">
+                    <div id="search-results" class="absolute w-full left-0 top-full mt-[-1px] border border-black bg-white hidden z-40 shadow-2xl max-h-96 overflow-y-auto">
                         </div>
                 </div>
             </div>
@@ -99,76 +99,11 @@
                     <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">A - Z Index</span>
                 </div>
 
-                <div class="space-y-8">
-                    
-                    <div class="border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
-                        <a href="board/chengwen-song.html" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden block outline-none">
-                            <img alt="Portrait of Chengwen Song" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" src="assets/images/chengwen-song.jpg"/>
-                        </a>
-                        <div class="flex-grow">
-                            <a href="board/chengwen-song.html" class="block outline-none">
-                                <h4 class="text-2xl font-bold text-black mb-2 transition-colors">Chengwen Song</h4>
-                            </a>
-                            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">Kookmin University</p>
-                            <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed">
-                                Research focuses on organizational administration, the digital transformation of SMEs, and developing cognitive-psychological models within human-AI interaction frameworks.
-                            </p>
-                            <div class="flex gap-4">
-                                <a href="board/chengwen-song.html" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-none">
-                                    View Academic Profile
-                                </a>
-                            </div>
-                        </div>
+                <div class="space-y-8" id="scholar-list">
                     </div>
-
-                    <div class="border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
-                        <a href="board/elena-volkov.html" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden block outline-none">
-                            <div class="w-full h-full flex items-center justify-center bg-gray-100 transition-all duration-700 group-hover:bg-gray-200">
-                                <span class="material-symbols-outlined text-4xl text-gray-400">person</span>
-                            </div>
-                        </a>
-                        <div class="flex-grow">
-                            <a href="board/elena-volkov.html" class="block outline-none">
-                                <h4 class="text-2xl font-bold text-black mb-2 transition-colors">Elena Volkov</h4>
-                            </a>
-                            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">University of the West</p>
-                            <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed">
-                                Specializes in digital humanities, neural archaeology, and the ethical implications of data persistence in modern archival systems.
-                            </p>
-                            <div class="flex gap-4">
-                                <a href="board/elena-volkov.html" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-none">
-                                    View Academic Profile
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
-                        <a href="board/marcus-thorne.html" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden block outline-none">
-                            <div class="w-full h-full flex items-center justify-center bg-gray-100 transition-all duration-700 group-hover:bg-gray-200">
-                                <span class="material-symbols-outlined text-4xl text-gray-400">person</span>
-                            </div>
-                        </a>
-                        <div class="flex-grow">
-                            <a href="board/marcus-thorne.html" class="block outline-none">
-                                <h4 class="text-2xl font-bold text-black mb-2 transition-colors">Marcus Thorne</h4>
-                            </a>
-                            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">Institute for Advanced Study</p>
-                            <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed">
-                                Expert in public administration and policy analysis, with a focus on institutional governance and digital forensics in state structures.
-                            </p>
-                            <div class="flex gap-4">
-                                <a href="board/marcus-thorne.html" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-none">
-                                    View Academic Profile
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
 
                 <div class="mt-16 text-center">
-                    <button class="bg-white border border-black text-black px-8 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors outline-none">
+                    <button id="load-more-btn" style="display: none;" class="bg-white border border-black text-black px-8 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors outline-none cursor-pointer">
                         Load More Scholars
                     </button>
                 </div>
@@ -202,73 +137,134 @@
     </footer>
 
     <script>
-        const editorialData = [
-            {
-                name: "Chengwen Song",
-                affiliation: "Kookmin University",
-                keywords: ["Organizational Administration", "Digital Transformation", "Social Cognition"],
-                url: "board/chengwen-song.html"
-            },
-            {
-                name: "Elena Volkov",
-                affiliation: "University of the West",
-                keywords: ["Neural Archeology", "Pattern Recognition", "Digital Humanities"],
-                url: "board/elena-volkov.html"
-            },
-            {
-                name: "Marcus Thorne",
-                affiliation: "Institute for Advanced Study",
-                keywords: ["Digital Forensics", "Data Ethics", "Public Administration"],
-                url: "board/marcus-thorne.html"
-            }
-        ];
-
+        const scholarListContainer = document.getElementById('scholar-list');
+        const loadMoreBtn = document.getElementById('load-more-btn');
         const searchInput = document.getElementById('global-search');
         const searchResults = document.getElementById('search-results');
+        
+        let editorialData = []; 
+        let currentlyShown = 0;
+        const itemsToLoad = 3;  // 每次加载/初始显示的数量
 
-        searchInput.addEventListener('input', function() {
-            const query = this.value.toLowerCase().trim();
-            searchResults.innerHTML = ''; 
-
-            if (query === '') {
-                searchResults.classList.add('hidden');
-                return;
-            }
-
-            const matches = editorialData.filter(editor => {
-                const matchName = editor.name.toLowerCase().includes(query);
-                const matchAffiliation = editor.affiliation.toLowerCase().includes(query);
-                const matchKeywords = editor.keywords.some(kw => kw.toLowerCase().includes(query));
-                
-                return matchName || matchAffiliation || matchKeywords;
+        // 1. 从 JSON 文件抓取数据并初始化
+        fetch('data/scholars.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                editorialData = data;
+                renderCards(itemsToLoad); // 初始渲染
+                initSearch();             // 初始化搜索
+            })
+            .catch(error => {
+                console.error('Error loading scholar data:', error);
+                scholarListContainer.innerHTML = '<p class="text-sm text-gray-500 italic">Connecting to directory database... If this message persists, please check your connection or ensure the data source is deployed correctly.</p>';
             });
 
-            if (matches.length > 0) {
-                searchResults.classList.remove('hidden');
-                matches.forEach(match => {
-                    const resultItem = document.createElement('a');
-                    resultItem.href = match.url;
-                    // 去除下拉框内的 group-hover:underline
-                    resultItem.className = 'block px-8 py-5 border-b border-outline-variant hover:bg-surface-variant transition-colors text-black decoration-none outline-none';
-                    
-                    resultItem.innerHTML = `
-                        <div class="font-bold text-lg">${match.name}</div>
-                        <div class="text-[10px] text-gray-500 uppercase tracking-widest mt-2">${match.affiliation}</div>
-                        <div class="text-xs text-gray-400 mt-2 line-clamp-1">${match.keywords.join(' · ')}</div>
-                    `;
-                    searchResults.appendChild(resultItem);
-                });
-            } else {
-                searchResults.classList.remove('hidden');
-                searchResults.innerHTML = '<div class="px-8 py-5 text-sm text-gray-500 italic">No matching scholarly profiles found.</div>';
-            }
-        });
+        // 2. 自动生成 HTML 卡片的函数
+        function renderCards(countToLoad) {
+            const limit = Math.min(currentlyShown + countToLoad, editorialData.length);
+            
+            for (let i = currentlyShown; i < limit; i++) {
+                const scholar = editorialData[i];
+                
+                // 处理照片逻辑
+                const imageHTML = (scholar.imagePath && scholar.imagePath.trim() !== "") 
+                    ? `<img alt="Portrait of ${scholar.name}" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" src="${scholar.imagePath}"/>`
+                    : `<div class="w-full h-full flex items-center justify-center bg-gray-100 transition-all duration-700 group-hover:bg-gray-200"><span class="material-symbols-outlined text-4xl text-gray-400">person</span></div>`;
 
-        document.addEventListener('click', function(e) {
-            if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
-                searchResults.classList.add('hidden');
+                const cardHTML = `
+                    <div class="scholar-card border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
+                        <a href="${scholar.profileLink}" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden block outline-none">
+                            ${imageHTML}
+                        </a>
+                        <div class="flex-grow">
+                            <a href="${scholar.profileLink}" class="block outline-none">
+                                <h4 class="text-2xl font-bold text-black mb-2 transition-colors">${scholar.name}</h4>
+                            </a>
+                            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">${scholar.affiliation}</p>
+                            <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed">${scholar.bio}</p>
+                            <div class="flex gap-4">
+                                <a href="${scholar.profileLink}" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-none">View Academic Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                scholarListContainer.insertAdjacentHTML('beforeend', cardHTML);
             }
-        });
+            
+            currentlyShown = limit;
+            
+            // 判定是否还需要显示 "Load More" 按钮
+            if (currentlyShown < editorialData.length) {
+                loadMoreBtn.style.display = 'inline-block';
+            } else {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+
+        // 绑定 Load More 按钮点击事件
+        if(loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', () => {
+                renderCards(itemsToLoad);
+            });
+        }
+
+        // 3. 搜索功能逻辑
+        function initSearch() {
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                searchResults.innerHTML = ''; 
+
+                if (query === '') {
+                    searchResults.classList.add('hidden');
+                    return;
+                }
+
+                // 在 JSON 数据中比对
+                const matches = editorialData.filter(editor => {
+                    const matchName = editor.name.toLowerCase().includes(query);
+                    const matchAffiliation = editor.affiliation.toLowerCase().includes(query);
+                    const matchBio = editor.bio.toLowerCase().includes(query);
+                    const matchKeywords = editor.keywords ? editor.keywords.some(kw => kw.toLowerCase().includes(query)) : false;
+                    
+                    return matchName || matchAffiliation || matchBio || matchKeywords;
+                });
+
+                if (matches.length > 0) {
+                    searchResults.classList.remove('hidden');
+                    matches.forEach(match => {
+                        const resultItem = document.createElement('a');
+                        resultItem.href = match.profileLink;
+                        resultItem.className = 'block px-8 py-5 border-b border-outline-variant hover:bg-surface-variant transition-colors text-black decoration-none outline-none';
+                        
+                        // 优先显示关键词，若无关键词则截取部分bio
+                        const displayKeywords = match.keywords && match.keywords.length > 0 
+                            ? match.keywords.join(' · ') 
+                            : match.bio;
+
+                        resultItem.innerHTML = `
+                            <div class="font-bold text-lg">${match.name}</div>
+                            <div class="text-[10px] text-gray-500 uppercase tracking-widest mt-2">${match.affiliation}</div>
+                            <div class="text-xs text-gray-400 mt-2 line-clamp-1">${displayKeywords}</div>
+                        `;
+                        searchResults.appendChild(resultItem);
+                    });
+                } else {
+                    searchResults.classList.remove('hidden');
+                    searchResults.innerHTML = '<div class="px-8 py-5 text-sm text-gray-500 italic">No matching scholarly profiles found.</div>';
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.classList.add('hidden');
+                }
+            });
+        }
     </script>
 </body>
 </html>
