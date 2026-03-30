@@ -34,7 +34,6 @@
       body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #000000; }
       ::selection { background-color: #000000; color: #ffffff; }
       
-      /* 强制去除所有输入框、链接、按钮点击时的默认边框与下划线 */
       input:focus, a:focus, a:active, button:focus {
           outline: none !important;
           box-shadow: none !important;
@@ -46,15 +45,15 @@
 
     <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-black">
         <div class="flex flex-col md:flex-row justify-between items-center max-w-5xl mx-auto px-8 h-auto md:h-20 py-4 md:py-0">
-            <a href="#home" class="flex items-center gap-3 mb-4 md:mb-0 outline-none">
+            <a href="index.html" class="flex items-center gap-3 mb-4 md:mb-0 outline-none">
                 <img src="assets/images/panorama-logo.png" alt="Panorama Scholarly Group Logo" class="h-10 w-auto">
                 <div class="text-sm font-bold tracking-widest text-black uppercase">
                     Panorama Scholarly Group
                 </div>
             </a>
             <div class="flex items-center gap-6 md:gap-8 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
-                <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-xs uppercase outline-none" href="#home">Home</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="#directory">Directory</a>
+                <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-xs uppercase outline-none" href="index.html">Home</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="directory.html">Directory</a>
                 <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="about.html">About</a>
                 <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="#contact">Contact</a>
             </div>
@@ -96,16 +95,16 @@
                         <h2 class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-4">Board Members</h2>
                         <h3 class="text-3xl font-bold text-black tracking-tighter">Featured Scholars</h3>
                     </div>
-                    <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">A - Z Index</span>
+                    <a href="directory.html" class="text-[10px] font-bold uppercase tracking-widest border border-black px-6 py-2 hover:bg-black hover:text-white transition-colors">View All Directory</a>
                 </div>
 
                 <div class="space-y-8" id="scholar-list">
                     </div>
 
                 <div class="mt-16 text-center">
-                    <button id="load-more-btn" style="display: none;" class="bg-white border border-black text-black px-8 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors outline-none cursor-pointer">
-                        Load More Scholars
-                    </button>
+                    <a href="directory.html" class="bg-white border border-black text-black px-8 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors outline-none inline-block">
+                        Access Full Directory
+                    </a>
                 </div>
             </div>
         </section>
@@ -117,8 +116,8 @@
                 <p class="text-gray-600 font-light max-w-xl mx-auto mb-8 text-sm leading-relaxed">
                     If you are an academic interested in joining our editorial board or have inquiries regarding our scholarly network, please contact the directory administration.
                 </p>
-                <a href="mailto:directory.admin@panorama-sg.com" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-none">
-                    directory.admin@panorama-sg.com
+                <a href="mailto:directory.admin@panoramascholarly.org" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-none">
+                    directory.admin@panoramascholarly.org
                 </a>
             </div>
         </section>
@@ -138,82 +137,50 @@
 
     <script>
         const scholarListContainer = document.getElementById('scholar-list');
-        const loadMoreBtn = document.getElementById('load-more-btn');
         const searchInput = document.getElementById('global-search');
         const searchResults = document.getElementById('search-results');
         
         let editorialData = []; 
-        let currentlyShown = 0;
-        const itemsToLoad = 3;  // 每次加载/初始显示的数量
+        const featuredCount = 3; // Number of scholars to show on home page
 
-        // 1. 从 JSON 文件抓取数据并初始化
+        // 1. Fetch Data
         fetch('data/scholars.json')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(res => res.json())
             .then(data => {
                 editorialData = data;
-                renderCards(itemsToLoad); // 初始渲染
-                initSearch();             // 初始化搜索
+                renderFeatured(featuredCount);
+                initSearch();
             })
-            .catch(error => {
-                console.error('Error loading scholar data:', error);
-                scholarListContainer.innerHTML = '<p class="text-sm text-gray-500 italic">Connecting to directory database... If this message persists, please check your connection or ensure the data source is deployed correctly.</p>';
+            .catch(err => {
+                console.error('Data Load Error:', err);
             });
 
-        // 2. 自动生成 HTML 卡片的函数
-        function renderCards(countToLoad) {
-            const limit = Math.min(currentlyShown + countToLoad, editorialData.length);
-            
-            for (let i = currentlyShown; i < limit; i++) {
+        // 2. Render Featured Scholars
+        function renderFeatured(count) {
+            const limit = Math.min(count, editorialData.length);
+            for (let i = 0; i < limit; i++) {
                 const scholar = editorialData[i];
-                
-                // 处理照片逻辑 (已去除 grayscale)
                 const imageHTML = (scholar.imagePath && scholar.imagePath.trim() !== "") 
-                    ? `<img alt="Portrait of ${scholar.name}" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" src="${scholar.imagePath}"/>`
-                    : `<div class="w-full h-full flex items-center justify-center bg-gray-100 transition-all duration-700 group-hover:bg-gray-200"><span class="material-symbols-outlined text-4xl text-gray-400">person</span></div>`;
+                    ? `<img alt="${scholar.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="${scholar.imagePath}"/>`
+                    : `<div class="w-full h-full flex items-center justify-center bg-gray-100"><span class="material-symbols-outlined text-4xl text-gray-400">person</span></div>`;
 
                 const cardHTML = `
                     <div class="scholar-card border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
-                        <a href="${scholar.profileLink}" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden block outline-none">
+                        <a href="${scholar.profileLink}" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant overflow-hidden block">
                             ${imageHTML}
                         </a>
                         <div class="flex-grow">
-                            <a href="${scholar.profileLink}" class="block outline-none">
-                                <h4 class="text-2xl font-bold text-black mb-2 transition-colors">${scholar.name}</h4>
-                            </a>
+                            <a href="${scholar.profileLink}" class="block"><h4 class="text-2xl font-bold text-black mb-2">${scholar.name}</h4></a>
                             <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">${scholar.affiliation}</p>
-                            <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed">${scholar.bio}</p>
-                            <div class="flex gap-4">
-                                <a href="${scholar.profileLink}" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-none">View Academic Profile</a>
-                            </div>
+                            <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed font-light">${scholar.bio}</p>
+                            <a href="${scholar.profileLink}" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">View Academic Profile</a>
                         </div>
-                    </div>
-                `;
+                    </div>`;
                 scholarListContainer.insertAdjacentHTML('beforeend', cardHTML);
             }
-            
-            currentlyShown = limit;
-            
-            // 判定是否还需要显示 "Load More" 按钮
-            if (currentlyShown < editorialData.length) {
-                loadMoreBtn.style.display = 'inline-block';
-            } else {
-                loadMoreBtn.style.display = 'none';
-            }
         }
 
-        // 绑定 Load More 按钮点击事件
-        if(loadMoreBtn) {
-            loadMoreBtn.addEventListener('click', () => {
-                renderCards(itemsToLoad);
-            });
-        }
-
-        // 3. 搜索功能逻辑
+        // 3. Search Logic
         function initSearch() {
             searchInput.addEventListener('input', function() {
                 const query = this.value.toLowerCase().trim();
@@ -224,14 +191,11 @@
                     return;
                 }
 
-                // 在 JSON 数据中比对
                 const matches = editorialData.filter(editor => {
                     const matchName = editor.name.toLowerCase().includes(query);
                     const matchAffiliation = editor.affiliation.toLowerCase().includes(query);
-                    const matchBio = editor.bio.toLowerCase().includes(query);
                     const matchKeywords = editor.keywords ? editor.keywords.some(kw => kw.toLowerCase().includes(query)) : false;
-                    
-                    return matchName || matchAffiliation || matchBio || matchKeywords;
+                    return matchName || matchAffiliation || matchKeywords;
                 });
 
                 if (matches.length > 0) {
@@ -239,27 +203,20 @@
                     matches.forEach(match => {
                         const resultItem = document.createElement('a');
                         resultItem.href = match.profileLink;
-                        resultItem.className = 'block px-8 py-5 border-b border-outline-variant hover:bg-surface-variant transition-colors text-black decoration-none outline-none';
-                        
-                        // 优先显示关键词，若无关键词则截取部分bio
-                        const displayKeywords = match.keywords && match.keywords.length > 0 
-                            ? match.keywords.join(' · ') 
-                            : match.bio;
-
+                        resultItem.className = 'block px-8 py-5 border-b border-outline-variant hover:bg-surface-variant text-black decoration-none';
                         resultItem.innerHTML = `
                             <div class="font-bold text-lg">${match.name}</div>
                             <div class="text-[10px] text-gray-500 uppercase tracking-widest mt-2">${match.affiliation}</div>
-                            <div class="text-xs text-gray-400 mt-2 line-clamp-1">${displayKeywords}</div>
                         `;
                         searchResults.appendChild(resultItem);
                     });
                 } else {
                     searchResults.classList.remove('hidden');
-                    searchResults.innerHTML = '<div class="px-8 py-5 text-sm text-gray-500 italic">No matching scholarly profiles found.</div>';
+                    searchResults.innerHTML = '<div class="px-8 py-5 text-sm text-gray-500 italic">No matches found. Try the full Directory.</div>';
                 }
             });
 
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', e => {
                 if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
                     searchResults.classList.add('hidden');
                 }
