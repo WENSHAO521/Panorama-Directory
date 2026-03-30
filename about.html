@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>About Us | Panorama Scholarly Group</title>
+    <title>Global Editorial Directory | Panorama Scholarly Group</title>
     <link rel="icon" href="assets/images/panorama-logo.png" type="image/png">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
@@ -34,7 +34,8 @@
       body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #000000; }
       ::selection { background-color: #000000; color: #ffffff; }
       
-      a:focus, a:active, button:focus {
+      /* 强制去除所有输入框、链接、按钮点击时的默认边框与下划线 */
+      input:focus, a:focus, a:active, button:focus {
           outline: none !important;
           box-shadow: none !important;
           text-decoration: none !important;
@@ -45,56 +46,83 @@
 
     <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-black">
         <div class="flex flex-col md:flex-row justify-between items-center max-w-5xl mx-auto px-8 h-auto md:h-20 py-4 md:py-0">
-            <a href="index.html" class="flex items-center gap-3 mb-4 md:mb-0 outline-none">
+            <a href="#home" class="flex items-center gap-3 mb-4 md:mb-0 outline-none">
                 <img src="assets/images/panorama-logo.png" alt="Panorama Scholarly Group Logo" class="h-10 w-auto">
                 <div class="text-sm font-bold tracking-widest text-black uppercase">
                     Panorama Scholarly Group
                 </div>
             </a>
             <div class="flex items-center gap-6 md:gap-8 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
-                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="index.html">Home</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="index.html#directory">Directory</a>
-                <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-xs uppercase outline-none" href="about.html">About</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="index.html#contact">Contact</a>
+                <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-xs uppercase outline-none" href="#home">Home</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="#directory">Directory</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="about.html">About</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="#contact">Contact</a>
             </div>
         </div>
     </nav>
 
     <main class="flex-grow pt-24 md:pt-32">
-        <section class="max-w-5xl mx-auto px-8 py-20 md:py-32">
-            <div class="flex flex-col md:flex-row justify-between items-start gap-16">
-                <div class="md:w-1/3">
-                    <p class="text-gray-500 font-bold tracking-widest text-[10px] uppercase mb-6">About Us</p>
-                    <h1 class="text-4xl md:text-5xl font-extrabold tracking-tighter leading-none mb-8 text-black">
-                        Panorama Scholarly Group
-                    </h1>
-                    <div class="border-l-2 border-black pl-4">
-                        <p class="text-[10px] font-mono text-gray-500 uppercase tracking-widest mb-2">
-                            <span class="font-bold text-black">Headquarters:</span> Berlin, Germany
-                        </p>
-                        <p class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">
-                            <span class="font-bold text-black">Model:</span> Open Access
-                        </p>
+        
+        <section class="max-w-5xl mx-auto px-8 py-20 md:py-32" id="home">
+            <div class="max-w-3xl">
+                <p class="text-gray-500 font-bold tracking-widest text-[10px] uppercase mb-6">Official Researcher Database</p>
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-none mb-8 text-black">
+                    Global Editorial Directory.
+                </h1>
+                <p class="text-xl font-light text-gray-700 leading-relaxed mb-16 max-w-2xl border-l-2 border-black pl-6">
+                    Discover the international network of scholars, principal investigators, and editorial board members driving rigorous peer review across our publishing group.
+                </p>
+
+                <div class="bg-surface-variant border border-black p-8 relative">
+                    <label for="global-search" class="text-[10px] font-bold uppercase tracking-widest text-black mb-4 block">
+                        Search Scholars by Name, Affiliation, or Domain
+                    </label>
+                    <div class="flex items-center border-b-2 border-black pb-2 bg-white">
+                        <span class="material-symbols-outlined text-black mx-4 text-3xl">search</span>
+                        <input type="text" id="global-search" 
+                               class="w-full bg-transparent border-none text-xl md:text-2xl text-black placeholder-gray-400 font-light px-0 py-2 focus:ring-0 outline-none" 
+                               placeholder="e.g., Chengwen Song, Kookmin, Social Cognition...">
                     </div>
-                </div>
-                <div class="md:w-2/3 space-y-8 text-gray-700 font-light leading-relaxed text-lg">
-                    <p>
-                        Panorama Scholarly Group (PSG) is an independent academic publisher based in Berlin, Germany. We are committed to dismantling academic barriers and facilitating the free flow of interdisciplinary knowledge through rigorous double-blind peer review and the <strong>Diamond Open Access</strong> publishing model.
-                    </p>
-                    <p>
-                        Our diverse portfolio of academic journals—including the exclusively English-language <em>Global Review of Humanities, Arts, and Society</em> (GRHAS), alongside <em>Health Nexus</em>, <em>SILENCE</em>, and <em>Journal of Social Cognition and Communication</em>—focuses on frontier explorations in humanities, social cognition, public administration, interdisciplinary medical research, and art theory.
-                    </p>
-                    <p>
-                        This directory showcases the global network of principal investigators and editorial board members who form the bedrock of our academic integrity. PSG firmly believes that transparent academic governance, stringent research ethics, and a diverse international perspective are crucial to addressing the complex challenges of modern society.
-                    </p>
-                    <div class="pt-8">
-                        <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="text-xs font-bold uppercase tracking-widest border border-black text-black px-8 py-4 hover:bg-black hover:text-white transition-colors outline-none inline-flex items-center gap-2">
-                            Visit Official Publishing Platform <span class="material-symbols-outlined text-sm">open_in_new</span>
-                        </a>
-                    </div>
+                    <div id="search-results" class="absolute w-full left-0 top-full mt-[-1px] border border-black bg-white hidden z-40 shadow-2xl max-h-96 overflow-y-auto">
+                        </div>
                 </div>
             </div>
         </section>
+
+        <section class="border-t border-outline-variant bg-white py-24" id="directory">
+            <div class="max-w-5xl mx-auto px-8">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 border-b border-black pb-8">
+                    <div>
+                        <h2 class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-4">Board Members</h2>
+                        <h3 class="text-3xl font-bold text-black tracking-tighter">Featured Scholars</h3>
+                    </div>
+                    <span class="text-[10px] font-mono text-gray-500 uppercase tracking-widest">A - Z Index</span>
+                </div>
+
+                <div class="space-y-8" id="scholar-list">
+                    </div>
+
+                <div class="mt-16 text-center">
+                    <button id="load-more-btn" style="display: none;" class="bg-white border border-black text-black px-8 py-4 text-[10px] font-bold uppercase tracking-widest hover:bg-black hover:text-white transition-colors outline-none cursor-pointer">
+                        Load More Scholars
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-surface-variant py-24 border-t border-outline-variant" id="contact">
+            <div class="max-w-5xl mx-auto px-8 text-center">
+                <span class="material-symbols-outlined text-4xl mb-6 block text-black">account_balance</span>
+                <h3 class="text-3xl font-bold text-black tracking-tighter mb-6">Panorama Scholarly Group</h3>
+                <p class="text-gray-600 font-light max-w-xl mx-auto mb-8 text-sm leading-relaxed">
+                    If you are an academic interested in joining our editorial board or have inquiries regarding our scholarly network, please contact the directory administration.
+                </p>
+                <a href="mailto:directory.admin@panoramascholarly.org" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-none">
+                    directory.admin@panoramascholarly.org
+                </a>
+            </div>
+        </section>
+
     </main>
 
     <footer class="bg-white w-full border-t border-black mt-auto">
@@ -108,5 +136,135 @@
         </div>
     </footer>
 
+    <script>
+        const scholarListContainer = document.getElementById('scholar-list');
+        const loadMoreBtn = document.getElementById('load-more-btn');
+        const searchInput = document.getElementById('global-search');
+        const searchResults = document.getElementById('search-results');
+        
+        let editorialData = []; 
+        let currentlyShown = 0;
+        const itemsToLoad = 3;  // 每次加载/初始显示的数量
+
+        // 1. 从 JSON 文件抓取数据并初始化
+        fetch('data/scholars.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                editorialData = data;
+                renderCards(itemsToLoad); // 初始渲染
+                initSearch();             // 初始化搜索
+            })
+            .catch(error => {
+                console.error('Error loading scholar data:', error);
+                scholarListContainer.innerHTML = '<p class="text-sm text-gray-500 italic">Connecting to directory database... If this message persists, please check your connection or ensure the data source is deployed correctly.</p>';
+            });
+
+        // 2. 自动生成 HTML 卡片的函数
+        function renderCards(countToLoad) {
+            const limit = Math.min(currentlyShown + countToLoad, editorialData.length);
+            
+            for (let i = currentlyShown; i < limit; i++) {
+                const scholar = editorialData[i];
+                
+                // 处理照片逻辑
+                const imageHTML = (scholar.imagePath && scholar.imagePath.trim() !== "") 
+                    ? `<img alt="Portrait of ${scholar.name}" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" src="${scholar.imagePath}"/>`
+                    : `<div class="w-full h-full flex items-center justify-center bg-gray-100 transition-all duration-700 group-hover:bg-gray-200"><span class="material-symbols-outlined text-4xl text-gray-400">person</span></div>`;
+
+                const cardHTML = `
+                    <div class="scholar-card border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
+                        <a href="${scholar.profileLink}" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden block outline-none">
+                            ${imageHTML}
+                        </a>
+                        <div class="flex-grow">
+                            <a href="${scholar.profileLink}" class="block outline-none">
+                                <h4 class="text-2xl font-bold text-black mb-2 transition-colors">${scholar.name}</h4>
+                            </a>
+                            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">${scholar.affiliation}</p>
+                            <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed">${scholar.bio}</p>
+                            <div class="flex gap-4">
+                                <a href="${scholar.profileLink}" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-none">View Academic Profile</a>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                scholarListContainer.insertAdjacentHTML('beforeend', cardHTML);
+            }
+            
+            currentlyShown = limit;
+            
+            // 判定是否还需要显示 "Load More" 按钮
+            if (currentlyShown < editorialData.length) {
+                loadMoreBtn.style.display = 'inline-block';
+            } else {
+                loadMoreBtn.style.display = 'none';
+            }
+        }
+
+        // 绑定 Load More 按钮点击事件
+        if(loadMoreBtn) {
+            loadMoreBtn.addEventListener('click', () => {
+                renderCards(itemsToLoad);
+            });
+        }
+
+        // 3. 搜索功能逻辑
+        function initSearch() {
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                searchResults.innerHTML = ''; 
+
+                if (query === '') {
+                    searchResults.classList.add('hidden');
+                    return;
+                }
+
+                // 在 JSON 数据中比对
+                const matches = editorialData.filter(editor => {
+                    const matchName = editor.name.toLowerCase().includes(query);
+                    const matchAffiliation = editor.affiliation.toLowerCase().includes(query);
+                    const matchBio = editor.bio.toLowerCase().includes(query);
+                    const matchKeywords = editor.keywords ? editor.keywords.some(kw => kw.toLowerCase().includes(query)) : false;
+                    
+                    return matchName || matchAffiliation || matchBio || matchKeywords;
+                });
+
+                if (matches.length > 0) {
+                    searchResults.classList.remove('hidden');
+                    matches.forEach(match => {
+                        const resultItem = document.createElement('a');
+                        resultItem.href = match.profileLink;
+                        resultItem.className = 'block px-8 py-5 border-b border-outline-variant hover:bg-surface-variant transition-colors text-black decoration-none outline-none';
+                        
+                        // 优先显示关键词，若无关键词则截取部分bio
+                        const displayKeywords = match.keywords && match.keywords.length > 0 
+                            ? match.keywords.join(' · ') 
+                            : match.bio;
+
+                        resultItem.innerHTML = `
+                            <div class="font-bold text-lg">${match.name}</div>
+                            <div class="text-[10px] text-gray-500 uppercase tracking-widest mt-2">${match.affiliation}</div>
+                            <div class="text-xs text-gray-400 mt-2 line-clamp-1">${displayKeywords}</div>
+                        `;
+                        searchResults.appendChild(resultItem);
+                    });
+                } else {
+                    searchResults.classList.remove('hidden');
+                    searchResults.innerHTML = '<div class="px-8 py-5 text-sm text-gray-500 italic">No matching scholarly profiles found.</div>';
+                }
+            });
+
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !searchResults.contains(e.target)) {
+                    searchResults.classList.add('hidden');
+                }
+            });
+        }
+    </script>
 </body>
 </html>
