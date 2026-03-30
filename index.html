@@ -3,32 +3,25 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Global Institute for Advanced Study | Official Website</title>
+    <title>Panorama Scholarly Group | Open Access Publishing</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
       tailwind.config = {
-        darkMode: "class",
         theme: {
           extend: {
             colors: {
-              "primary": "#000000",
-              "on-primary": "#ffffff",
               "surface": "#ffffff",
               "on-surface": "#000000",
-              "surface-variant": "#f3f4f6",
-              "on-surface-variant": "#374151",
-              "outline": "#d1d5db",
+              "surface-variant": "#f9fafb",
               "outline-variant": "#e5e7eb",
-              "background": "#ffffff",
-              "on-background": "#000000",
             },
             fontFamily: {
               "headline": ["Inter", "sans-serif"],
               "body": ["Inter", "sans-serif"],
             },
-            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+            borderRadius: {"DEFAULT": "0px", "sm": "0px", "md": "0px", "lg": "0px", "xl": "0px", "2xl": "0px", "3xl": "0px", "full": "0px"},
           },
         },
       }
@@ -38,227 +31,163 @@
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       }
       body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #000000; }
-      .text-balance { text-wrap: balance; }
-      /* Strict white background and black text overriding */
       ::selection { background-color: #000000; color: #ffffff; }
+      
+      /* 自定义搜索框焦点样式，去除默认蓝框，保持纯黑 */
+      input:focus {
+          outline: none;
+          box-shadow: none;
+          border-color: #000000;
+      }
     </style>
 </head>
-<body class="bg-surface text-on-surface">
+<body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen">
 
-    <nav class="fixed top-0 w-full z-50 bg-white/90 backdrop-blur-xl border-b border-outline-variant">
-        <div class="flex justify-between items-center max-w-7xl mx-auto px-8 h-16">
-            <div class="text-lg font-bold tracking-tighter text-black uppercase">
-                Institute for Advanced Study
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-black">
+        <div class="flex flex-col md:flex-row justify-between items-center max-w-6xl mx-auto px-8 h-auto md:h-20 py-4 md:py-0">
+            <div class="text-sm font-bold tracking-widest text-black uppercase mb-4 md:mb-0">
+                Panorama Scholarly Group
             </div>
-            <div class="hidden md:flex items-center gap-8">
-                <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-sm" href="#home">Home</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-sm" href="#about">About</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-sm" href="#domains">Domains</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-sm" href="#publications">Publications</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-sm" href="#contact">Contact</a>
+            <div class="flex items-center gap-6 md:gap-8 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
+                <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-xs uppercase" href="#home">Home</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase" href="#journals">Journals</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase" href="#editorial-board">Editorial Board</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase" href="#about">About</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase" href="#contact">Contact</a>
             </div>
         </div>
     </nav>
 
-    <main class="pt-16">
-        <section class="max-w-7xl mx-auto px-8 py-24 md:py-40 grid grid-cols-1 md:grid-cols-12 gap-16 items-center" id="home">
-            <div class="md:col-span-7">
-                <p class="text-black font-bold tracking-widest text-sm uppercase mb-6 opacity-60">Independent Research & Publishing</p>
-                <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter leading-none mb-8 text-black">
-                    Advancing Interdisciplinary Knowledge.
+    <main class="flex-grow pt-24 md:pt-32">
+        
+        <section class="max-w-6xl mx-auto px-8 py-20 md:py-32" id="home">
+            <div class="max-w-4xl">
+                <p class="text-gray-500 font-bold tracking-widest text-[10px] uppercase mb-6">Independent Academic Publisher</p>
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-none mb-8 text-black">
+                    Advancing Open Knowledge Through Rigorous Peer Review.
                 </h1>
-                <p class="text-2xl font-light text-gray-700 leading-relaxed mb-12 border-l-4 border-black pl-8 max-w-2xl">
-                    Dedicated to pioneering research across <span class="text-black font-medium">Humanities</span>, <span class="text-black font-medium">Social Sciences</span>, and <span class="text-black font-medium">Technological Governance</span>.
+                <p class="text-xl font-light text-gray-700 leading-relaxed mb-16 max-w-2xl border-l-2 border-black pl-6">
+                    A global consortium of scholars dedicated to publishing high-impact research across humanities, social cognition, and interdisciplinary sciences.
                 </p>
-                <div class="flex gap-4">
-                    <button class="bg-black text-white px-8 py-4 font-bold uppercase tracking-widest text-xs hover:bg-gray-800 transition-colors">Explore Journals</button>
-                    <button class="border border-black text-black px-8 py-4 font-bold uppercase tracking-widest text-xs hover:bg-black hover:text-white transition-colors">Submit Manuscript</button>
+
+                <div class="bg-surface-variant border border-black p-8 relative">
+                    <label for="global-search" class="text-[10px] font-bold uppercase tracking-widest text-black mb-4 block">
+                        Search Editorial Directory & Publications
+                    </label>
+                    <div class="flex items-center border-b-2 border-black pb-2">
+                        <span class="material-symbols-outlined text-black mr-4 text-3xl">search</span>
+                        <input type="text" id="global-search" 
+                               class="w-full bg-transparent border-none text-xl md:text-2xl text-black placeholder-gray-400 font-light px-0" 
+                               placeholder="e.g., Chengwen Song, Social Cognition, Health Nexus...">
+                        <button class="bg-black text-white px-6 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors ml-4 hidden md:block">
+                            Search
+                        </button>
+                    </div>
+                    <div id="search-results" class="absolute w-full left-0 top-full mt-[-1px] border border-black bg-white hidden z-40 shadow-2xl">
+                        </div>
                 </div>
-            </div>
-            <div class="md:col-span-5 aspect-square bg-surface-variant overflow-hidden group border border-outline-variant">
-                <img alt="Institutional Building" class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 ease-in-out" data-alt="Monochrome architectural shot of a modern institutional building" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWLgZAIBk-NTalKAaeo5hD-yZULTOF0aOwd6AItUkdzS2lGnfMMUHYpRppigb9Bqw18N6-5Alr58OhWFM3qhLYy5NWi-CpfkA-hH5C6vH3fhCI5jH0byucJ2fATssSa-s01Ru4jq60Ab5pY_jcK4Q0T72Bdaf3ODw4H1REpRFPfBUd9vuUb3lrmA9fe0RfN-N-ojslFKT5PNtx_RzG6osoFZI6xK_Oid9q90_5uNCKUo49z8GIkVtWGzsUM-upFzQb2nwk6PQ7Zrs"/>
             </div>
         </section>
 
-        <section class="bg-surface-variant py-12 border-y border-outline-variant">
-            <div class="max-w-7xl mx-auto px-8 flex flex-wrap justify-between items-center gap-12 opacity-60 grayscale transition-all hover:grayscale-0">
-                <span class="font-bold uppercase tracking-widest text-sm text-gray-500">Indexed In:</span>
-                <img alt="Database Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC8Bka-dDXEr7Sd70UY9WthqFZyrnQN9So20euBqnfOLtxCt-IgAwaTxaNrG72_jWM__q44SooxqmJOwC2xeyzJwMoMhwL3_oyB9uJncsBNk0yWcj-GCasTPzfdX_2gVo8Cu8AcQa_th6y_-RoBi8oG4z2UiH1LCaY2oV3XYy9WCHEr7s-s-eDD4ORgrj9h41VmTeaZa574htYsdjuC1iOwImdoJZbOr6YF_TX6ivhnWG4hCMLvWUt3PnGtXdtM0aWQvyqWSp6rFE" data-alt="Scopus/Web of Science placeholder"/>
-                <img alt="Database Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbWN8KK3pMSMzm-O_RK_OWpW7oStEirtIgGwCXgkSJZ0zziBSeWgWzAh09oKF8u5-uqssMdFZ4Kezori2rNzeQIAWPaBgn2OBfdWwuZfo7T4xS8fFb9ix4FuYZ8NS18LNodlTusTWrIDG8jkeLGH4nTQ-Ovf79dfsisoiezh3AggAzTAOjHvxb5RLmGfzyTAnQAcNYaIvIml3sUHZyIcwlXM24iumwZwo4bhDuGhxHtLWTXNA5H69VG5I95fqscQDeDeBzNxHhIdA" data-alt="DOAJ placeholder"/>
-                <img alt="Database Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAPPaxAZfS-HFFHTrFSniDivJEAQDtDRXvYncw5ogtPWFpFZ6ZVZEbl7C-tITDkm8jhCPzm3omvzg3e557ibhUFkx5xzPd9rIqWgb0Gs4QdlSdPprnCd72wbeLFfT9XzYFDCmKdmaDvm-Sd7XyB6kq7_il8pvEMykeuCxK4g6zqoGxRolWgT2QdYTx_DDV32hOGjhWAMNre4LOaayyfREBOXJN3grGFlfVVqPk9ryFzJqnAz7L71_ljnH584br4wEAqYqyLHFeuHKc" data-alt="Google Scholar placeholder"/>
-                <img alt="Database Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASB-2leyAZs8LEZcBL2n2yVKu0-4EMn8Meh0FaCAvJgAYzSkVTCRYo4VCRAMtQBGmGN9a959ZgdwxRmq8EWe6p5nCK2iCkaupg0YDkDLy6Ra63LUB8fu7XZ86HRA3Q1KHflFwA0LUL0UBtj_Ln8w_zYWRgGeW1YCK51Ep4uh_5IA7Ks3AJo_egA7bwyoGRNmt7r3wSeOPd_6mSM5sgL8AAReDWRGT4Bd5OS-so64M31PtpADPvji0ZtGdxbpkVIZJ8viMBnNcuYTM" data-alt="Crossref placeholder"/>
-            </div>
-        </section>
-
-        <section class="max-w-7xl mx-auto px-8 py-32 grid grid-cols-1 md:grid-cols-12 gap-16" id="about">
-            <div class="md:col-span-4">
-                <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-gray-500 mb-4">Organizational Scope</h2>
-                <h3 class="text-3xl font-bold text-black leading-tight">A Nexus for Global Academic Exchange.</h3>
-            </div>
-            <div class="md:col-span-8 space-y-12">
-                <div class="prose prose-xl text-gray-700 font-light leading-relaxed">
-                    <p>The Institute serves as an independent platform for high-impact, peer-reviewed research. We manage a portfolio of open-access academic journals and foster international collaboration among scholars, policymakers, and industry leaders.</p>
+        <section class="border-t border-outline-variant bg-white py-24" id="journals">
+            <div class="max-w-6xl mx-auto px-8">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-8 border-b border-black pb-8">
+                    <div>
+                        <h2 class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-4">Publication Matrix</h2>
+                        <h3 class="text-3xl font-bold text-black tracking-tighter">Journals</h3>
+                    </div>
+                    <a href="#" class="text-[10px] font-bold uppercase tracking-widest text-black hover:text-gray-500 transition-colors flex items-center gap-2">
+                        View All Journals <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                    </a>
                 </div>
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="p-10 bg-white border border-outline-variant group hover:border-black transition-colors duration-500">
-                        <span class="material-symbols-outlined text-4xl text-black mb-6">menu_book</span>
-                        <h4 class="text-xl font-bold mb-4 text-black">Academic Publishing</h4>
-                        <p class="text-sm text-gray-600 leading-relaxed">Maintaining rigorous editorial standards across a diverse range of Diamond Open Access journals.</p>
-                    </div>
-                    <div class="p-10 bg-white border border-outline-variant group hover:border-black transition-colors duration-500">
-                        <span class="material-symbols-outlined text-4xl text-black mb-6">public</span>
-                        <h4 class="text-xl font-bold mb-4 text-black">Global Symposiums</h4>
-                        <p class="text-sm text-gray-600 leading-relaxed">Organizing annual conferences to bridge the gap between theoretical frameworks and practical governance.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="bg-black text-white py-32" id="domains">
-            <div class="max-w-7xl mx-auto px-8">
-                <div class="mb-16">
-                    <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-gray-400 mb-4">Focus Areas</h2>
-                    <h3 class="text-4xl font-bold text-white tracking-tighter">Research Divisions</h3>
-                </div>
-                <div class="grid grid-cols-1 sm:grid-cols-3 gap-px bg-gray-800">
-                    <div class="bg-black p-12 border border-gray-800 hover:bg-gray-900 transition-colors">
-                        <h4 class="text-xl font-bold mb-4">Public Administration & Governance</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">Analyzing institutional structures, public service dynamics, and the evolution of modern civil societies.</p>
-                    </div>
-                    <div class="bg-black p-12 border border-gray-800 hover:bg-gray-900 transition-colors">
-                        <h4 class="text-xl font-bold mb-4">Technology & Cognitive Studies</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">Evaluating the psychological impacts of artificial intelligence and digital transformation on human behavior.</p>
-                    </div>
-                    <div class="bg-black p-12 border border-gray-800 hover:bg-gray-900 transition-colors">
-                        <h4 class="text-xl font-bold mb-4">Philosophy & Humanities</h4>
-                        <p class="text-sm text-gray-400 leading-relaxed">Exploring comparative ethics, cultural heritage, and the fundamental theories shaping contemporary thought.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="max-w-7xl mx-auto px-8 py-32" id="publications">
-            <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
-                <div>
-                    <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-gray-500 mb-4">Latest Issues</h2>
-                    <h3 class="text-5xl font-bold text-black tracking-tighter">Recent Publications</h3>
-                </div>
-                <div class="flex gap-4">
-                    <button class="bg-black text-white px-6 py-2 text-xs font-bold uppercase tracking-widest hover:bg-gray-800">View All Journals</button>
-                </div>
-            </div>
-            
-            <div class="space-y-8">
-                <div class="border border-outline-variant p-8 hover:border-black transition-colors duration-300">
-                    <div class="flex flex-col md:flex-row gap-6 items-start">
-                        <div class="w-full md:w-32 flex-shrink-0">
-                            <span class="text-sm font-bold text-gray-500 uppercase tracking-widest">Vol. 4, Issue 1</span>
-                            <div class="text-xs text-gray-400 mt-1">March 2026</div>
-                        </div>
-                        <div class="flex-grow">
-                            <span class="inline-block px-2 py-1 bg-surface-variant text-black text-[10px] font-bold uppercase tracking-widest mb-3">Journal of Social Cognition</span>
-                            <h4 class="text-2xl font-bold text-black mb-3">Theoretical Models of Trust and Authority in Digital Environments</h4>
-                            <p class="text-gray-600 text-sm mb-4 leading-relaxed max-w-3xl">A comprehensive review of how organizational culture adapts to systemic technological shifts.</p>
-                            <div class="flex items-center gap-4">
-                                <button class="text-black hover:underline text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-sm">picture_as_pdf</span> Read PDF
-                                </button>
-                                <span class="text-[10px] font-mono text-gray-400">10.1234/jsc.2026.001</span>
-                            </div>
+                    <div class="border border-outline-variant p-10 hover:border-black transition-colors group relative">
+                        <div class="absolute top-0 right-0 bg-black text-white text-[9px] font-bold uppercase tracking-widest px-2 py-1 m-4">Diamond OA</div>
+                        <h4 class="text-2xl font-bold text-black mb-4 pr-16 group-hover:underline decoration-2 underline-offset-4">
+                            Global Review of Humanities, Arts, and Society
+                        </h4>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-8">
+                            Publishing interdisciplinary research at the intersection of cultural studies, modern philosophy, and societal evolution.
+                        </p>
+                        <div class="flex gap-4">
+                            <a href="#" class="text-xs font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">Current Issue</a>
+                            <a href="#" class="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Submit</a>
                         </div>
                     </div>
-                </div>
 
-                <div class="border border-outline-variant p-8 hover:border-black transition-colors duration-300">
-                    <div class="flex flex-col md:flex-row gap-6 items-start">
-                        <div class="w-full md:w-32 flex-shrink-0">
-                            <span class="text-sm font-bold text-gray-500 uppercase tracking-widest">Vol. 2, Issue 5</span>
-                            <div class="text-xs text-gray-400 mt-1">February 2026</div>
+                    <div class="border border-outline-variant p-10 hover:border-black transition-colors group relative">
+                        <div class="absolute top-0 right-0 bg-black text-white text-[9px] font-bold uppercase tracking-widest px-2 py-1 m-4">Diamond OA</div>
+                        <h4 class="text-2xl font-bold text-black mb-4 pr-16 group-hover:underline decoration-2 underline-offset-4">
+                            Journal of Social Cognition and Communication
+                        </h4>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-8">
+                            Exploring the cognitive-psychological models underlying human interaction, AI dynamics, and social communication.
+                        </p>
+                        <div class="flex gap-4">
+                            <a href="#" class="text-xs font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">Current Issue</a>
+                            <a href="#" class="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Submit</a>
                         </div>
-                        <div class="flex-grow">
-                            <span class="inline-block px-2 py-1 bg-surface-variant text-black text-[10px] font-bold uppercase tracking-widest mb-3">Global Review of Humanities</span>
-                            <h4 class="text-2xl font-bold text-black mb-3">Comparative Analysis of Public Service Motivation Across Regions</h4>
-                            <p class="text-gray-600 text-sm mb-4 leading-relaxed max-w-3xl">An empirical study evaluating the impact of leadership models on public sector efficiency.</p>
-                            <div class="flex items-center gap-4">
-                                <button class="text-black hover:underline text-xs font-bold uppercase tracking-widest flex items-center gap-2">
-                                    <span class="material-symbols-outlined text-sm">picture_as_pdf</span> Read PDF
-                                </button>
-                                <span class="text-[10px] font-mono text-gray-400">10.1234/grh.2026.014</span>
-                            </div>
+                    </div>
+
+                    <div class="border border-outline-variant p-10 hover:border-black transition-colors group relative">
+                        <div class="absolute top-0 right-0 border border-black text-black text-[9px] font-bold uppercase tracking-widest px-2 py-1 m-4">Peer Reviewed</div>
+                        <h4 class="text-2xl font-bold text-black mb-4 pr-16 group-hover:underline decoration-2 underline-offset-4">
+                            Health Nexus
+                        </h4>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-8">
+                            An interdisciplinary medical research journal focusing on continuous care, clinical applications, and healthcare administration.
+                        </p>
+                        <div class="flex gap-4">
+                            <a href="#" class="text-xs font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">Current Issue</a>
+                            <a href="#" class="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Submit</a>
+                        </div>
+                    </div>
+
+                    <div class="border border-outline-variant p-10 hover:border-black transition-colors group relative">
+                        <div class="absolute top-0 right-0 border border-black text-black text-[9px] font-bold uppercase tracking-widest px-2 py-1 m-4">Peer Reviewed</div>
+                        <h4 class="text-2xl font-bold text-black mb-4 pr-16 group-hover:underline decoration-2 underline-offset-4">
+                            PoliEcoM Administration Review
+                        </h4>
+                        <p class="text-sm text-gray-600 leading-relaxed mb-8">
+                            Advancing theories in political economics, state ideology, real estate structures, and modern governance pragmatism.
+                        </p>
+                        <div class="flex gap-4">
+                            <a href="#" class="text-xs font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">Current Issue</a>
+                            <a href="#" class="text-xs font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Submit</a>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="bg-surface-variant py-32 border-t border-outline-variant" id="contact">
-            <div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-12 gap-16">
-                <div class="md:col-span-5">
-                    <h2 class="text-xs font-bold uppercase tracking-[0.3em] text-gray-500 mb-4">Get in Touch</h2>
-                    <h3 class="text-4xl font-bold text-black tracking-tighter mb-12">Contact the Editorial Office</h3>
-                    <div class="space-y-8">
-                        <div>
-                            <h4 class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">Headquarters</h4>
-                            <p class="text-black font-medium leading-relaxed">
-                                Institute for Advanced Study<br/>
-                                Academic Research Building, Suite 100<br/>
-                                Global Innovation District<br/>
-                                Metropolis, 100000
-                            </p>
-                        </div>
-                        <div>
-                            <h4 class="text-[10px] font-bold uppercase tracking-widest text-gray-500 mb-2">General Inquiries</h4>
-                            <p class="text-black font-medium leading-relaxed">
-                                contact@institute-domain.org<br/>
-                                submissions@institute-domain.org
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="md:col-span-7 bg-white p-12 border border-outline-variant">
-                    <form class="space-y-8">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                            <div class="relative">
-                                <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500 block mb-2">Full Name</label>
-                                <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-black px-0 py-2 transition-all text-black" placeholder="Dr. Jane Doe" type="text"/>
-                            </div>
-                            <div class="relative">
-                                <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500 block mb-2">Institutional Email</label>
-                                <input class="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-black px-0 py-2 transition-all text-black" placeholder="jane.doe@university.edu" type="email"/>
-                            </div>
-                        </div>
-                        <div class="relative">
-                            <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500 block mb-2">Department / Journal</label>
-                            <select class="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-black px-0 py-2 transition-all appearance-none text-black">
-                                <option>Editorial Office (General)</option>
-                                <option>Journal Submissions</option>
-                                <option>Partnerships & Indexing</option>
-                                <option>Technical Support</option>
-                            </select>
-                        </div>
-                        <div class="relative">
-                            <label class="text-[10px] font-bold uppercase tracking-widest text-gray-500 block mb-2">Message</label>
-                            <textarea class="w-full bg-transparent border-0 border-b border-outline-variant focus:ring-0 focus:border-black px-0 py-2 transition-all text-black" placeholder="Detail your inquiry..." rows="4"></textarea>
-                        </div>
-                        <button class="bg-black text-white w-full py-4 font-bold uppercase tracking-[0.2em] text-xs hover:bg-gray-800 transition-colors" type="button">Submit Inquiry</button>
-                    </form>
-                </div>
+        <section class="bg-black text-white py-32" id="editorial-board">
+            <div class="max-w-6xl mx-auto px-8 text-center">
+                <span class="material-symbols-outlined text-5xl mb-6">groups</span>
+                <h3 class="text-4xl md:text-5xl font-bold tracking-tighter mb-8">Global Editorial Directory</h3>
+                <p class="text-gray-400 font-light max-w-2xl mx-auto mb-12">
+                    Our rigorous peer-review process is sustained by an international network of leading scholars. Browse the complete directory to view academic profiles, research domains, and official contact information for our board members.
+                </p>
+                <a href="#board-directory" class="bg-white text-black border border-white px-8 py-4 text-xs font-bold uppercase tracking-widest hover:bg-transparent hover:text-white transition-colors inline-block">
+                    Access Editorial Directory
+                </a>
             </div>
         </section>
+
     </main>
 
-    <footer class="bg-white w-full border-t border-black">
-        <div class="max-w-7xl mx-auto px-8 py-12 flex flex-col md:flex-row justify-between items-center gap-6">
-            <div class="font-bold text-black uppercase tracking-tighter text-lg">
-                Institute for Advanced Study
+    <footer class="bg-white w-full border-t border-black mt-auto">
+        <div class="max-w-6xl mx-auto px-8 py-10 flex flex-col md:flex-row justify-between items-center gap-6">
+            <div class="font-bold text-black uppercase tracking-widest text-sm">
+                Panorama Scholarly Group
             </div>
             <div class="font-inter text-[10px] uppercase tracking-widest text-gray-500 text-center md:text-left">
-                © 2026 The Institute. All rights reserved. Open Access Publishing.
+                © 2026 Panorama Scholarly Group. Advancing Open Science.
             </div>
             <div class="flex gap-6">
-                <a class="text-gray-500 hover:text-black transition-all duration-300 font-inter text-[10px] uppercase tracking-widest font-bold" href="#">Privacy Policy</a>
-                <a class="text-gray-500 hover:text-black transition-all duration-300 font-inter text-[10px] uppercase tracking-widest font-bold" href="#">Terms & Conditions</a>
-                <a class="text-gray-500 hover:text-black transition-all duration-300 font-inter text-[10px] uppercase tracking-widest font-bold" href="#">Publication Ethics</a>
+                <a href="#" class="text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Ethics</a>
+                <a href="#" class="text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Policies</a>
+                <a href="#" class="text-[10px] font-bold uppercase tracking-widest text-gray-500 hover:text-black transition-colors">Contact</a>
             </div>
         </div>
     </footer>
