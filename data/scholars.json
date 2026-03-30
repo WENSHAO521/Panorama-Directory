@@ -7,7 +7,7 @@
     "imagePath": "assets/images/chengwen-song.jpg",
     "keywords": ["Organizational Administration", "Digital Transformation", "Social Cognition"]
   },
-{
+ {
     "name": "Yang Hu",
     "affiliation": "Universiti Kebangsaan Malaysia",
     "bio": "Specializes in the digital transformation of SMEs, artificial intelligence ethics, international education strategy, and organizational sustainable innovation.",
@@ -15,12 +15,12 @@
     "imagePath": "assets/images/yang-hu.jpg",
     "keywords": ["Digital Transformation", "SMEs", "AI Ethics", "Business Management"]
   },
-  {
-    "name": "Marcus Thorne",
-    "affiliation": "Institute for Advanced Study",
-    "bio": "Expert in public administration and policy analysis, with a focus on institutional governance and digital forensics in state structures.",
-    "profileLink": "board/marcus-thorne.html",
-    "imagePath": "assets/images/marcus-thorne.jpg",
-    "keywords": ["Public Administration", "Digital Forensics"]
+ {
+    "name": "Xinhuan Zeng",
+    "affiliation": "Hanyang University",
+    "bio": "Co-Editor-in-Chief of GRHAS and Ph.D. candidate focusing on AI motion analysis in dance, digital interactive performance, and expert evaluation methodologies.",
+    "profileLink": "board/xinhuan-zeng.html",
+    "imagePath": "assets/images/xinhuan-zeng.jpg",
+    "keywords": ["AI Motion Analysis", "Digital Interactive Performance", "Dance Education"]
   }
 ]
