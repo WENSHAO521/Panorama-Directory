@@ -34,7 +34,7 @@
       body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #000000; }
       ::selection { background-color: #000000; color: #ffffff; }
       
-      /* 强制去除所有输入框和链接点击时的默认边框与下划线 */
+      /* 强制去除所有输入框、链接、按钮点击时的默认边框与下划线 */
       input:focus, a:focus, a:active, button:focus {
           outline: none !important;
           box-shadow: none !important;
@@ -55,7 +55,7 @@
             <div class="flex items-center gap-6 md:gap-8 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
                 <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-xs uppercase outline-none" href="#home">Home</a>
                 <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="#directory">Directory</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="/about.html">About</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="about.html">About</a>
                 <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase outline-none" href="#contact">Contact</a>
             </div>
         </div>
@@ -117,7 +117,7 @@
                 <p class="text-gray-600 font-light max-w-xl mx-auto mb-8 text-sm leading-relaxed">
                     If you are an academic interested in joining our editorial board or have inquiries regarding our scholarly network, please contact the directory administration.
                 </p>
-                <a href="#" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-none">
+                <a href="mailto:directory.admin@panoramascholarly.org" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-none">
                     directory.admin@panoramascholarly.org
                 </a>
             </div>
@@ -171,7 +171,7 @@
             for (let i = currentlyShown; i < limit; i++) {
                 const scholar = editorialData[i];
                 
-                // 处理照片逻辑
+                // 处理照片逻辑 (已去除 grayscale)
                 const imageHTML = (scholar.imagePath && scholar.imagePath.trim() !== "") 
                     ? `<img alt="Portrait of ${scholar.name}" class="w-full h-full object-cover transition-all duration-700 group-hover:scale-105" src="${scholar.imagePath}"/>`
                     : `<div class="w-full h-full flex items-center justify-center bg-gray-100 transition-all duration-700 group-hover:bg-gray-200"><span class="material-symbols-outlined text-4xl text-gray-400">person</span></div>`;
