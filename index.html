@@ -4,6 +4,7 @@
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
     <title>Global Editorial Directory | Panorama Scholarly Group</title>
+    <link rel="icon" href="assets/images/panorama-logo.png" type="image/png">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
@@ -44,9 +45,12 @@
 
     <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-black">
         <div class="flex flex-col md:flex-row justify-between items-center max-w-5xl mx-auto px-8 h-auto md:h-20 py-4 md:py-0">
-            <div class="text-sm font-bold tracking-widest text-black uppercase mb-4 md:mb-0">
-                Panorama Scholarly Group
-            </div>
+            <a href="#home" class="flex items-center gap-3 mb-4 md:mb-0">
+                <img src="assets/images/panorama-logo.png" alt="Panorama Scholarly Group Logo" class="h-10 w-auto">
+                <div class="text-sm font-bold tracking-widest text-black uppercase">
+                    Panorama Scholarly Group
+                </div>
+            </a>
             <div class="flex items-center gap-6 md:gap-8 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
                 <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-xs uppercase" href="#home">Home</a>
                 <a class="text-gray-500 hover:text-black transition-colors font-inter tracking-tight font-medium text-xs uppercase" href="#directory">Directory</a>
@@ -97,53 +101,65 @@
                 <div class="space-y-8">
                     
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
-                        <div class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden">
-                            <img alt="Portrait" class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF81XSmNvj9HqtKXdaDByjR4bdowYy2YChiaMPUDLpO3a2KW1sG9BVEJFNgHzbI56lQd_ORTnMeUqTcDWbZvFBlChnSHHKZrbE7zFcxzS5y1GEaMPaK6zAo7A6Qv38ufaljBWvJvwtIpPpsVoaE19clQQ9uNJd3vgs6BWNsQFW3abIO1qpzzPQOw8lpts4a1f4TO8qIL2MY1p8ZODDLnRoVXdJ1DywfKirU5cOMlEE5w8ZnB3FpVBBJZOBYlIJLRf8HpmeYAjKGxk"/>
-                        </div>
+                        <a href="board/chengwen-song.html" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden block">
+                            <img alt="Portrait of Chengwen Song" class="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105" src="assets/images/chengwen-song.jpg"/>
+                        </a>
                         <div class="flex-grow">
-                            <h4 class="text-2xl font-bold text-black mb-2 group-hover:underline decoration-2 underline-offset-4">Chengwen Song</h4>
+                            <a href="board/chengwen-song.html" class="block">
+                                <h4 class="text-2xl font-bold text-black mb-2 group-hover:underline decoration-2 underline-offset-4">Chengwen Song</h4>
+                            </a>
                             <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">Kookmin University</p>
                             <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed">
                                 Research focuses on organizational administration, the digital transformation of SMEs, and developing cognitive-psychological models within human-AI interaction frameworks.
                             </p>
                             <div class="flex gap-4">
-                                <a href="board/chengwen-song.html" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">View Academic Profile</a>
+                                <a href="board/chengwen-song.html" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">
+                                    View Academic Profile
+                                </a>
                             </div>
                         </div>
                     </div>
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
-                        <div class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden">
-                            <div class="w-full h-full flex items-center justify-center bg-gray-100">
-                                <span class="material-symbols-outlined text-4xl text-gray-300">person</span>
+                        <a href="board/elena-volkov.html" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden block">
+                            <div class="w-full h-full flex items-center justify-center bg-gray-100 transition-all duration-700 group-hover:bg-gray-200">
+                                <span class="material-symbols-outlined text-4xl text-gray-400">person</span>
                             </div>
-                        </div>
+                        </a>
                         <div class="flex-grow">
-                            <h4 class="text-2xl font-bold text-black mb-2 group-hover:underline decoration-2 underline-offset-4">Elena Volkov</h4>
+                            <a href="board/elena-volkov.html" class="block">
+                                <h4 class="text-2xl font-bold text-black mb-2 group-hover:underline decoration-2 underline-offset-4">Elena Volkov</h4>
+                            </a>
                             <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">University of the West</p>
                             <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed">
                                 Specializes in digital humanities, neural archaeology, and the ethical implications of data persistence in modern archival systems.
                             </p>
                             <div class="flex gap-4">
-                                <a href="#" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">View Academic Profile</a>
+                                <a href="board/elena-volkov.html" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">
+                                    View Academic Profile
+                                </a>
                             </div>
                         </div>
                     </div>
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
-                        <div class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden">
-                            <div class="w-full h-full flex items-center justify-center bg-gray-100">
-                                <span class="material-symbols-outlined text-4xl text-gray-300">person</span>
+                        <a href="board/marcus-thorne.html" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant relative overflow-hidden block">
+                            <div class="w-full h-full flex items-center justify-center bg-gray-100 transition-all duration-700 group-hover:bg-gray-200">
+                                <span class="material-symbols-outlined text-4xl text-gray-400">person</span>
                             </div>
-                        </div>
+                        </a>
                         <div class="flex-grow">
-                            <h4 class="text-2xl font-bold text-black mb-2 group-hover:underline decoration-2 underline-offset-4">Marcus Thorne</h4>
+                            <a href="board/marcus-thorne.html" class="block">
+                                <h4 class="text-2xl font-bold text-black mb-2 group-hover:underline decoration-2 underline-offset-4">Marcus Thorne</h4>
+                            </a>
                             <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">Institute for Advanced Study</p>
                             <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed">
                                 Expert in public administration and policy analysis, with a focus on institutional governance and digital forensics in state structures.
                             </p>
                             <div class="flex gap-4">
-                                <a href="#" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">View Academic Profile</a>
+                                <a href="board/marcus-thorne.html" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors">
+                                    View Academic Profile
+                                </a>
                             </div>
                         </div>
                     </div>
@@ -185,7 +201,7 @@
     </footer>
 
     <script>
-        // 本地编委数据 (后期可扩展)
+        // 本地编委数据配置区
         const editorialData = [
             {
                 name: "Chengwen Song",
@@ -197,13 +213,13 @@
                 name: "Elena Volkov",
                 affiliation: "University of the West",
                 keywords: ["Neural Archeology", "Pattern Recognition", "Digital Humanities"],
-                url: "#"
+                url: "board/elena-volkov.html"
             },
             {
                 name: "Marcus Thorne",
                 affiliation: "Institute for Advanced Study",
                 keywords: ["Digital Forensics", "Data Ethics", "Public Administration"],
-                url: "#"
+                url: "board/marcus-thorne.html"
             }
         ];
 
