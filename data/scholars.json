@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Chengwen Song",
+    "affiliation": "Kookmin University",
+    "bio": "Research focuses on organizational administration, the digital transformation of SMEs, and developing cognitive-psychological models within human-AI interaction frameworks.",
+    "profileLink": "board/chengwen-song.html",
+    "imagePath": "assets/images/chengwen-song.jpg",
+    "keywords": ["Organizational Administration", "Digital Transformation", "Social Cognition"]
+  },
+  {
+    "name": "Elena Volkov",
+    "affiliation": "University of the West",
+    "bio": "Specializes in digital humanities, neural archaeology, and the ethical implications of data persistence in modern archival systems.",
+    "profileLink": "board/elena-volkov.html",
+    "imagePath": "assets/images/elena-volkov.jpg",
+    "keywords": ["Neural Archeology", "Digital Humanities"]
+  },
+  {
+    "name": "Marcus Thorne",
+    "affiliation": "Institute for Advanced Study",
+    "bio": "Expert in public administration and policy analysis, with a focus on institutional governance and digital forensics in state structures.",
+    "profileLink": "board/marcus-thorne.html",
+    "imagePath": "assets/images/marcus-thorne.jpg",
+    "keywords": ["Public Administration", "Digital Forensics"]
+  }
+]
