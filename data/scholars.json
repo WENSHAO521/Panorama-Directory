@@ -38,5 +38,13 @@
     "profileLink": "board/xuzhuo-zhang.html",
     "imagePath": "assets/images/xuzhuo-zhang.jpg",
     "keywords": ["Digital Forensics", "Cybersecurity", "Federated Learning", "AI Ethics", "Computer Science"]
+  },
+  {
+    "name": "Qin Shi",
+    "affiliation": "Kangwon National University",
+    "bio": "Editorial Board Member for GRHAS. Award-winning choreographer and researcher focusing on the cultural inheritance, pedagogy, and digital preservation of Chinese ethnic and folk dances.",
+    "profileLink": "board/qin-shi.html",
+    "imagePath": "assets/images/qin-shi.jpg",
+    "keywords": ["Dance Education", "Ethnic Folk Dance", "Choreography", "Cultural Heritage", "Arts"]
   }
 ]
