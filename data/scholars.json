@@ -30,5 +30,13 @@
     "profileLink": "board/qilun-hu.html",
     "imagePath": "assets/images/qilun-hu.jpg",
     "keywords": ["Political Communication", "AIGC", "New Media", "Journalism", "Editor-in-Chief"]
+  },
+  {
+    "name": "Xuzhuo Zhang",
+    "affiliation": "Universiti Malaya",
+    "bio": "Editorial Board Member for AI & Future Society. Researcher focusing on digital forensics, federated learning, deep learning frameworks, and ethical parameters in AI-driven investigations.",
+    "profileLink": "board/xuzhuo-zhang.html",
+    "imagePath": "assets/images/xuzhuo-zhang.jpg",
+    "keywords": ["Digital Forensics", "Cybersecurity", "Federated Learning", "AI Ethics", "Computer Science"]
   }
 ]
