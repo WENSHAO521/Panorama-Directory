@@ -38,6 +38,9 @@
           box-shadow: none !important;
           text-decoration: none !important;
       }
+      /* Custom scrollbar for A-Z bar on mobile */
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen">
@@ -61,8 +64,13 @@
         <section class="max-w-5xl mx-auto px-8 py-12">
             <div class="mb-12">
                 <p class="text-gray-500 font-bold tracking-widest text-[10px] uppercase mb-4">Academic Network</p>
-                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tighter leading-none mb-8 text-black">Editorial Directory</h1>
+                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tighter leading-none mb-12 text-black">Editorial Directory</h1>
                 
+                <div class="mb-8 border-b border-outline-variant pb-4 overflow-x-auto no-scrollbar">
+                    <div class="flex items-center gap-1 min-w-max" id="alphabet-filter">
+                        </div>
+                </div>
+
                 <div class="bg-surface-variant border border-black p-6 relative max-w-2xl">
                     <div class="flex items-center bg-white border-b border-black pb-1">
                         <span class="material-symbols-outlined text-black mx-3 text-2xl">search</span>
@@ -70,7 +78,6 @@
                                class="w-full bg-transparent border-none text-lg text-black placeholder-gray-400 font-light px-0 py-2 focus:ring-0 outline-none" 
                                placeholder="Filter by name, institution, or keywords...">
                     </div>
-                    <div id="search-results" class="absolute w-full left-0 top-full mt-[-1px] border border-black bg-white hidden z-40 shadow-2xl max-h-80 overflow-y-auto"></div>
                 </div>
             </div>
 
@@ -103,27 +110,93 @@
         const loadMoreBtn = document.getElementById('load-more-btn');
         const searchInput = document.getElementById('directory-search');
         const resultCountLabel = document.getElementById('result-count');
+        const alphabetContainer = document.getElementById('alphabet-filter');
         
-        let editorialData = []; 
+        let originalData = []; 
+        let currentDisplayData = [];
         let currentlyShown = 0;
-        const itemsToLoad = 5; // Loading 5 at a time for the dedicated directory page
+        const itemsToLoad = 5; 
 
+        // 1. Initialize A-Z Buttons
+        function initAlphabetBar() {
+            const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
+            let html = `<button class="alpha-btn text-xs font-bold px-3 py-2 border-b-2 border-black text-black outline-none transition-colors" data-letter="ALL">ALL</button>`;
+            
+            letters.forEach(l => {
+                html += `<button class="alpha-btn text-xs font-bold px-3 py-2 border-b-2 border-transparent text-gray-400 hover:text-black hover:border-black outline-none transition-colors" data-letter="${l}">${l}</button>`;
+            });
+            alphabetContainer.innerHTML = html;
+
+            // Bind click events
+            document.querySelectorAll('.alpha-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    // Reset styling
+                    document.querySelectorAll('.alpha-btn').forEach(b => {
+                        b.classList.remove('border-black', 'text-black');
+                        b.classList.add('border-transparent', 'text-gray-400');
+                    });
+                    // Active styling
+                    e.target.classList.remove('border-transparent', 'text-gray-400');
+                    e.target.classList.add('border-black', 'text-black');
+
+                    // Filter Logic
+                    const selectedLetter = e.target.getAttribute('data-letter');
+                    searchInput.value = ''; // Clear search bar if using A-Z
+                    filterByLetter(selectedLetter);
+                });
+            });
+        }
+
+        // 2. Load Data and Sort Alphabetically
         fetch('data/scholars.json')
             .then(res => res.json())
             .then(data => {
-                editorialData = data;
-                resultCountLabel.innerText = `${data.length} total editorial members found`;
-                renderCards(itemsToLoad);
+                // Sort array alphabetically by name
+                originalData = data.sort((a, b) => a.name.localeCompare(b.name));
+                currentDisplayData = [...originalData];
+                
+                initAlphabetBar();
+                updateUI(true);
                 initSearch();
             })
             .catch(err => {
                 scholarListContainer.innerHTML = '<p class="text-sm italic text-gray-500">Error connecting to directory data.</p>';
             });
 
-        function renderCards(countToLoad) {
-            const limit = Math.min(currentlyShown + countToLoad, editorialData.length);
+        // 3. Filter by Letter
+        function filterByLetter(letter) {
+            if (letter === 'ALL') {
+                currentDisplayData = [...originalData];
+            } else {
+                currentDisplayData = originalData.filter(scholar => {
+                    const nameParts = scholar.name.toUpperCase().split(' ');
+                    // Match if first name or last name starts with the letter
+                    const matchesFirst = nameParts[0].startsWith(letter);
+                    const matchesLast = nameParts.length > 1 ? nameParts[nameParts.length - 1].startsWith(letter) : false;
+                    return matchesFirst || matchesLast;
+                });
+            }
+            updateUI(true);
+        }
+
+        // 4. Update UI Framework
+        function updateUI(reset = false) {
+            if (reset) {
+                scholarListContainer.innerHTML = '';
+                currentlyShown = 0;
+            }
+
+            const limit = Math.min(currentlyShown + itemsToLoad, currentDisplayData.length);
+            
+            if (currentDisplayData.length === 0) {
+                scholarListContainer.innerHTML = '<div class="py-12 text-center text-gray-500 italic border border-outline-variant bg-surface-variant">No editorial members found matching this criteria.</div>';
+                resultCountLabel.innerText = `0 members found`;
+                loadMoreBtn.style.display = 'none';
+                return;
+            }
+
             for (let i = currentlyShown; i < limit; i++) {
-                const scholar = editorialData[i];
+                const scholar = currentDisplayData[i];
                 const imageHTML = (scholar.imagePath && scholar.imagePath.trim() !== "") 
                     ? `<img alt="${scholar.name}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="${scholar.imagePath}"/>`
                     : `<div class="w-full h-full flex items-center justify-center bg-gray-100 transition-colors group-hover:bg-gray-200"><span class="material-symbols-outlined text-4xl text-gray-400">person</span></div>`;
@@ -142,54 +215,37 @@
                     </div>`;
                 scholarListContainer.insertAdjacentHTML('beforeend', cardHTML);
             }
+            
             currentlyShown = limit;
-            loadMoreBtn.style.display = currentlyShown < editorialData.length ? 'inline-block' : 'none';
+            resultCountLabel.innerText = `Showing ${currentlyShown} of ${currentDisplayData.length} editorial members`;
+            loadMoreBtn.style.display = currentlyShown < currentDisplayData.length ? 'inline-block' : 'none';
         }
 
-        loadMoreBtn.addEventListener('click', () => renderCards(itemsToLoad));
+        loadMoreBtn.addEventListener('click', () => updateUI(false));
 
+        // 5. Search Logic (Overrides A-Z)
         function initSearch() {
             searchInput.addEventListener('input', function() {
                 const query = this.value.toLowerCase().trim();
-                if (query === '') {
-                    scholarListContainer.innerHTML = '';
-                    currentlyShown = 0;
-                    renderCards(itemsToLoad);
-                    resultCountLabel.innerText = `${editorialData.length} total editorial members found`;
-                    return;
-                }
-
-                const filtered = editorialData.filter(ed => 
-                    ed.name.toLowerCase().includes(query) || 
-                    ed.affiliation.toLowerCase().includes(query) || 
-                    (ed.keywords && ed.keywords.some(kw => kw.toLowerCase().includes(query)))
-                );
-
-                scholarListContainer.innerHTML = '';
-                currentlyShown = 0;
-                resultCountLabel.innerText = `${filtered.length} matches found for "${query}"`;
                 
-                filtered.forEach(scholar => {
-                    // Reuse the card logic above or create a simplified view for search results
-                    // Here we show full cards for filtered results
-                    const imageHTML = (scholar.imagePath && scholar.imagePath.trim() !== "") 
-                        ? `<img alt="${scholar.name}" class="w-full h-full object-cover" src="${scholar.imagePath}"/>`
-                        : `<div class="w-full h-full flex items-center justify-center bg-gray-100"><span class="material-symbols-outlined text-4xl text-gray-400">person</span></div>`;
-                    
-                    const cardHTML = `<div class="scholar-card border border-black p-8 flex flex-col md:flex-row gap-8 items-start">
-                        <a href="${scholar.profileLink}" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant overflow-hidden block">
-                            ${imageHTML}
-                        </a>
-                        <div class="flex-grow">
-                            <h4 class="text-2xl font-bold text-black mb-2">${scholar.name}</h4>
-                            <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">${scholar.affiliation}</p>
-                            <p class="text-sm text-gray-600 mb-6 font-light">${scholar.bio}</p>
-                            <a href="${scholar.profileLink}" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1">Full Academic Profile</a>
-                        </div>
-                    </div>`;
-                    scholarListContainer.insertAdjacentHTML('beforeend', cardHTML);
+                // Reset A-Z visually if user types in search
+                document.querySelectorAll('.alpha-btn').forEach(b => {
+                    b.classList.remove('border-black', 'text-black');
+                    b.classList.add('border-transparent', 'text-gray-400');
                 });
-                loadMoreBtn.style.display = 'none';
+                document.querySelector('[data-letter="ALL"]').classList.add('border-black', 'text-black');
+                document.querySelector('[data-letter="ALL"]').classList.remove('border-transparent', 'text-gray-400');
+
+                if (query === '') {
+                    currentDisplayData = [...originalData];
+                } else {
+                    currentDisplayData = originalData.filter(ed => 
+                        ed.name.toLowerCase().includes(query) || 
+                        ed.affiliation.toLowerCase().includes(query) || 
+                        (ed.keywords && ed.keywords.some(kw => kw.toLowerCase().includes(query)))
+                    );
+                }
+                updateUI(true);
             });
         }
     </script>
