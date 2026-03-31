@@ -62,5 +62,13 @@
     "profileLink": "board/xingkai-zhang.html",
     "imagePath": "assets/images/xingkai-zhang.jpg",
     "keywords": ["Clinical Medicine", "Bioinformatics", "High-Altitude Physiology", "Mendelian Randomization", "Diagnostics"]
+  },
+  {
+    "name": "Zhili Zhu",
+    "affiliation": "Xiamen University",
+    "bio": "Assistant Editor and Reviewer for GRHAS. Postgraduate researcher specializing in Marxist spatial theory, Foreign Marxism, urban Marxism, and contemporary radical left-wing thought.",
+    "profileLink": "board/zhili-zhu.html",
+    "imagePath": "assets/images/zhili-zhu.jpg",
+    "keywords": ["Marxist Philosophy", "Spatial Theory", "Urban Marxism", "Biopolitics", "Foreign Marxism"]
   }
 ]
