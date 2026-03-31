@@ -22,5 +22,13 @@
     "profileLink": "board/xinhuan-zeng.html",
     "imagePath": "assets/images/xinhuan-zeng.jpg",
     "keywords": ["AI Motion Analysis", "Digital Interactive Performance", "Dance Education"]
+  },
+  {
+    "name": "Qilun Hu",
+    "affiliation": "Kookmin University & Nanjing Communication University",
+    "bio": "Editor-in-Chief of the Journal of Law, Psychology, and Communication Studies. Researcher focusing on political communication, AIGC, information pollution, and algorithmic recommendation.",
+    "profileLink": "board/qilun-hu.html",
+    "imagePath": "assets/images/qilun-hu.jpg",
+    "keywords": ["Political Communication", "AIGC", "New Media", "Journalism", "Editor-in-Chief"]
   }
 ]
