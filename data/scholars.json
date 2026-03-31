@@ -54,5 +54,13 @@
     "profileLink": "board/qilong-wang.html",
     "imagePath": "assets/images/qilong-wang.jpg",
     "keywords": ["Psychiatric Epidemiology", "Geriatric Psychiatry", "Machine Learning", "Mental Health", "Public Health"]
+  },
+  {
+    "name": "Qiong Xie",
+    "affiliation": "Gannan Normal University",
+    "bio": "Editorial Board Member for AI & Future Society. Faculty member specializing in sustainable development management, corporate finance, and financial derivatives, with a focus on SME innovation.",
+    "profileLink": "board/qiong-xie.html",
+    "imagePath": "assets/images/qiong-xie.jpg",
+    "keywords": ["Sustainable Development", "Finance", "Securities Investment", "SMEs", "Corporate Finance"]
   }
 ]
