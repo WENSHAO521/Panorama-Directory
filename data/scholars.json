@@ -46,5 +46,13 @@
     "profileLink": "board/qin-shi.html",
     "imagePath": "assets/images/qin-shi.jpg",
     "keywords": ["Dance Education", "Ethnic Folk Dance", "Choreography", "Cultural Heritage", "Arts"]
+  },
+  {
+    "name": "Qilong Wang",
+    "affiliation": "Gansu University of Chinese Medicine",
+    "bio": "Editorial Board Member for Silence and Youth Editorial Board Member for Health Nexus. Researcher specializing in psychiatric epidemiology, geriatric psychiatry, and AI predictive modeling in medical research.",
+    "profileLink": "board/qilong-wang.html",
+    "imagePath": "assets/images/qilong-wang.jpg",
+    "keywords": ["Psychiatric Epidemiology", "Geriatric Psychiatry", "Machine Learning", "Mental Health", "Public Health"]
   }
 ]
