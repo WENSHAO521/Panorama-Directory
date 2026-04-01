@@ -79,5 +79,13 @@
     "profileLink": "board/yongxin-chen.html",
     "imagePath": "assets/images/yongxin-chen.jpg",
     "keywords": ["Digital Transformation", "Innovation Management", "Sustainable Development", "Business Management", "Digital Economy"]
+  },
+  {
+    "name": "Siheng Ma",
+    "affiliation": "Xi'an Medical University",
+    "bio": "Researcher specializing in adolescent depression, non-invasive neuromodulation (rTMS), digital mental health, and psychiatric epidemiology using machine learning.",
+    "profileLink": "board/siheng-ma.html",
+    "imagePath": "assets/images/siheng-ma.jpg",
+    "keywords": ["Psychiatry", "Adolescent Depression", "Neuromodulation", "Digital Mental Health", "Machine Learning", "Public Health"]
   }
 ]
