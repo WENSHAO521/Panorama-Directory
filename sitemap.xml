@@ -1,52 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-    
-    <url>
-        <loc>https://profiles.panorama-sg.com/</loc>
-        <changefreq>weekly</changefreq>
-        <priority>1.0</priority>
-    </url>
-    
-    <url>
-        <loc>https://profiles.panorama-sg.com/about.html</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://profiles.panorama-sg.com/board/chengwen-song.html</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    
-    <url>
-        <loc>https://profiles.panorama-sg.com/board/yang-hu.html</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://profiles.panorama-sg.com/board/xinhuan-zeng.html</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://profiles.panorama-sg.com/board/qilun-hu.html</loc>
-        <changefreq>monthly</changefreq>
-        <priority>0.8</priority>
-    </url>
-
-    <url>
-        <loc>https://profiles.panorama-sg.com/directory.html</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    <url>
-        <loc>https://profiles.panorama-sg.com/contact.html</loc>
-        <changefreq>weekly</changefreq>
-        <priority>0.9</priority>
-    </url>
-
-    </urlset>
+<url>
+<loc>https://profiles.panorama-sg.com/</loc>
+<lastmod>2026-03-31T09:49:06+09:00</lastmod>
+</url>
+<url>
+<loc>https://profiles.panorama-sg.com/about.html</loc>
+<lastmod>2026-03-31T09:49:38+09:00</lastmod>
+</url>
+<url>
+<loc>https://profiles.panorama-sg.com/contact.html</loc>
+<lastmod>2026-03-31T09:48:25+09:00</lastmod>
+</url>
+<url>
+<loc>https://profiles.panorama-sg.com/directory.html</loc>
+<lastmod>2026-03-31T09:49:25+09:00</lastmod>
+</url>
+<url>
+<loc>https://profiles.panorama-sg.com/board/chengwen-song.html</loc>
+<lastmod>2026-03-31T18:12:03+09:00</lastmod>
+</url>
+<url>
+<loc>https://profiles.panorama-sg.com/board/emory-tian.html</loc>
+<lastmod>2026-04-01T12:05:54+09:00</lastmod>
+</url>
+<url>
+<loc>https://profiles.panorama-sg.com/board/qilong-wang.html</loc>
+<lastmod>2026-04-01T11:44:19+09:00</lastmod>
+</url>
+<url>
+<loc>https://profiles.panorama-sg.com/board/qilun-hu.html</loc>
+<lastmod>2026-03-31T09:39:01+09:00</lastmod>
+</url>
+<url>
+<loc>https://profiles.panorama-sg.com/board/qin-shi.html</loc>
+<lastmod>2026-04-01T11:43:58+09:00</lastmod>
+</url>
+<url>
+<loc>https://profiles.panorama-sg.com/board/xingkai-zhang.html</loc>
+<lastmod>2026-03-31T20:59:03+09:00</lastmod>
+</url>
+<url>
+<loc>https://profiles.panorama-sg.com/board/xinhuan-zeng.html</loc>
+<lastmod>2026-03-31T11:40:11+09:00</lastmod>
+</url>
+<url>
+<loc>https://profiles.panorama-sg.com/board/xuzhuo-zhang.html</loc>
+<lastmod>2026-03-31T17:26:32+09:00</lastmod>
+</url>
+<url>
+<loc>https://profiles.panorama-sg.com/board/zhili-zhu.html</loc>
+<lastmod>2026-03-31T21:18:01+09:00</lastmod>
+</url>
+</urlset>
