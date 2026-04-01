@@ -71,5 +71,13 @@
     "profileLink": "board/emory-tian.html",
     "imagePath": "assets/images/emory-tian.jpg",
     "keywords": ["AI-Energy Systems", "Machine Learning", "Reinforcement Learning", "Power Market Optimization", "Data Science"]
+  },
+  {
+    "name": "Yongxin Chen",
+    "affiliation": "Civil Aviation Flight University of China",
+    "bio": "Editorial Board Member for AI & Future Society. Lecturer and Research Fellow focusing on corporate digital transformation, innovation management, and sustainable development.",
+    "profileLink": "board/yongxin-chen.html",
+    "imagePath": "assets/images/yongxin-chen.jpg",
+    "keywords": ["Digital Transformation", "Innovation Management", "Sustainable Development", "Business Management", "Digital Economy"]
   }
 ]
