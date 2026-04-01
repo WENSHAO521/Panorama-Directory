@@ -87,5 +87,13 @@
     "profileLink": "board/siheng-ma.html",
     "imagePath": "assets/images/siheng-ma.jpg",
     "keywords": ["Psychiatry", "Adolescent Depression", "Neuromodulation", "Digital Mental Health", "Machine Learning", "Public Health"]
+  }, 
+  {
+    "name": "Wenwen Zhang",
+    "affiliation": "Ningbo University",
+    "bio": "Editorial Board Member for AI & Future Society. Lecturer and researcher exploring the intersection of utopian fiction, artificial intelligence, and technocriticism in literature.",
+    "profileLink": "board/wenwen-zhang.html",
+    "imagePath": "assets/images/wenwen-zhang.jpg",
+    "keywords": ["Utopian Fiction", "Artificial Intelligence", "Technocriticism", "Literature", "Humanities"]
   }
 ]
