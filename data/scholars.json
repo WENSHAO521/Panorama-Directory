@@ -87,7 +87,7 @@
     "profileLink": "board/siheng-ma.html",
     "imagePath": "assets/images/siheng-ma.jpg",
     "keywords": ["Psychiatry", "Adolescent Depression", "Neuromodulation", "Digital Mental Health", "Machine Learning", "Public Health"]
-  }, 
+  },
   {
     "name": "Wenwen Zhang",
     "affiliation": "Ningbo University",
@@ -95,5 +95,13 @@
     "profileLink": "board/wenwen-zhang.html",
     "imagePath": "assets/images/wenwen-zhang.jpg",
     "keywords": ["Utopian Fiction", "Artificial Intelligence", "Technocriticism", "Literature", "Humanities"]
+  },
+  {
+    "name": "Yuhong Wang",
+    "affiliation": "North China Electric Power University",
+    "bio": "Deputy Editor-in-Chief for AI & Future Society. Researcher specializing in psychoanalysis and the philosophy of technology, bridging cutting-edge AI issues with Lacanian theory.",
+    "profileLink": "board/yuhong-wang.html",
+    "imagePath": "assets/images/yuhong-wang.jpg",
+    "keywords": ["Psychoanalysis", "Philosophy of Technology", "Artificial Intelligence", "Lacanian Theory", "Psychiatry"]
   }
 ]
