@@ -46,7 +46,8 @@
     "profileLink": "board/qilong-wang.html",
     "imagePath": "assets/images/qilong-wang.jpg",
     "keywords": ["Psychiatric Epidemiology", "Geriatric Psychiatry", "Machine Learning", "Mental Health", "Public Health"]
-  },
+  },
+
   {
     "name": "Xingkai Zhang",
     "affiliation": "Xinjiang Medical University",
@@ -62,5 +63,13 @@
     "profileLink": "board/zhili-zhu.html",
     "imagePath": "assets/images/zhili-zhu.jpg",
     "keywords": ["Marxist Philosophy", "Spatial Theory", "Urban Marxism", "Biopolitics", "Foreign Marxism"]
+  },
+  {
+    "name": "Emory (Yueqi) Tian",
+    "affiliation": "University of Rochester",
+    "bio": "Youth Editorial Board Member for AI & Future Society. Applied researcher specializing in AI-driven energy systems, power market optimization, and machine learning applications.",
+    "profileLink": "board/emory-tian.html",
+    "imagePath": "assets/images/emory-tian.jpg",
+    "keywords": ["AI-Energy Systems", "Machine Learning", "Reinforcement Learning", "Power Market Optimization", "Data Science"]
   }
 ]
