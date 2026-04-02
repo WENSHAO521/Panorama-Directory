@@ -103,5 +103,13 @@
     "profileLink": "board/yuhong-wang.html",
     "imagePath": "assets/images/yuhong-wang.jpg",
     "keywords": ["Psychoanalysis", "Philosophy of Technology", "Artificial Intelligence", "Lacanian Theory", "Psychiatry"]
+  },
+  {
+    "name": "Sichen Xia",
+    "affiliation": "Nanjing Medical University",
+    "bio": "Editorial Board Member for Silence. Medical researcher focusing on Stomatology, Oral Epidemiology, biostatistics, and population health.",
+    "profileLink": "board/sichen-xia.html",
+    "imagePath": "assets/images/sichen-xia.jpg",
+    "keywords": ["Stomatology", "Oral Epidemiology", "Biostatistics", "Public Health", "Clinical Research"]
   }
 ]
