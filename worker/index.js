@@ -1,5 +1,3 @@
-import scholars from "../data/scholars.json";
-
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -7,6 +5,18 @@ export default {
     const now = new Date().toISOString();
 
     if (url.pathname === "/sitemap.xml") {
+      let scholars = [];
+
+      try {
+        const scholarsReq = new Request(new URL("/data/scholars.json", baseUrl).toString());
+        const scholarsRes = await env.ASSETS.fetch(scholarsReq);
+        if (scholarsRes.ok) {
+          scholars = await scholarsRes.json();
+        }
+      } catch (e) {
+        scholars = [];
+      }
+
       const staticPages = [
         {
           loc: `${baseUrl}/`,
