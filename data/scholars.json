@@ -119,5 +119,13 @@
     "profileLink": "board/yunze-lu.html",
     "imagePath": "assets/images/yunze-lu.jpg",
     "keywords": ["Epidemiology", "Multi-omics", "Biostatistics", "Precision Medicine", "Translational Medicine"]
+  },
+  {
+    "name": "Mengzhou Wu",
+    "affiliation": "International Review of Education & Learning Sciences",
+    "bio": "Editor-in-Chief for the International Review of Education & Learning Sciences. Researcher specializing in Marxist Principles, Chinese Modernization, state ideology, and grassroots governance.",
+    "profileLink": "board/mengzhou-wu.html",
+    "imagePath": "assets/images/mengzhou-wu.jpg",
+    "keywords": ["Marxist Philosophy", "Chinese Modernization", "State Ideology", "Grassroots Governance", "Editor-in-Chief"]
   }
 ]
