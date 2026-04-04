@@ -23,9 +23,6 @@ export default {
       }
 
       // 兼容多种 JSON 结构
-      // 1) [ {...}, {...} ]
-      // 2) { scholars: [ {...}, {...} ] }
-      // 3) { data: [ {...}, {...} ] }
       if (Array.isArray(rawData)) {
         scholars = rawData;
       } else if (rawData && Array.isArray(rawData.scholars)) {
@@ -64,29 +61,42 @@ export default {
         }
       ];
 
-      // 学者页面
+      // 学者页面：优先读取 profileLink
       const scholarPages = scholars
         .map((item) => {
           if (!item || typeof item !== "object") return null;
 
-          // 优先级：
-          // 1. file / filename 直接当文件名用
-          // 2. slug + ".html"
-          let fileName = null;
+          let pagePath = null;
 
-          if (typeof item.file === "string" && item.file.trim()) {
-            fileName = item.file.trim();
-          } else if (typeof item.filename === "string" && item.filename.trim()) {
-            fileName = item.filename.trim();
-          } else if (typeof item.slug === "string" && item.slug.trim()) {
-            fileName = `${item.slug.trim()}.html`;
+          // 1) 你的当前数据格式：profileLink
+          if (typeof item.profileLink === "string" && item.profileLink.trim()) {
+            pagePath = item.profileLink.trim();
+          }
+          // 2) 兼容 file
+          else if (typeof item.file === "string" && item.file.trim()) {
+            pagePath = item.file.trim().startsWith("board/")
+              ? item.file.trim()
+              : `board/${item.file.trim()}`;
+          }
+          // 3) 兼容 filename
+          else if (typeof item.filename === "string" && item.filename.trim()) {
+            pagePath = item.filename.trim().startsWith("board/")
+              ? item.filename.trim()
+              : `board/${item.filename.trim()}`;
+          }
+          // 4) 兼容 slug
+          else if (typeof item.slug === "string" && item.slug.trim()) {
+            pagePath = `board/${item.slug.trim()}.html`;
           }
 
-          if (!fileName) return null;
+          if (!pagePath) return null;
 
-          // 防止重复写 .html.html
-          if (!fileName.endsWith(".html")) {
-            fileName = `${fileName}.html`;
+          // 去掉开头多余的 /
+          pagePath = pagePath.replace(/^\/+/, "");
+
+          // 如果没有 .html，补上
+          if (!pagePath.endsWith(".html")) {
+            pagePath = `${pagePath}.html`;
           }
 
           let lastmod = now;
@@ -98,7 +108,7 @@ export default {
           }
 
           return {
-            loc: `${baseUrl}/board/${fileName}`,
+            loc: `${baseUrl}/${pagePath}`,
             lastmod,
             changefreq: "monthly",
             priority: "0.8"
@@ -154,13 +164,12 @@ Sitemap: ${baseUrl}/sitemap.xml
     }
 
     // =========================
-    // 3. 其余请求走静态资源
+    // 3. 其他请求走静态资源
     // =========================
     return env.ASSETS.fetch(request);
   }
 };
 
-// XML 转义，避免特殊字符导致 XML 结构异常
 function escapeXml(value) {
   return String(value)
     .replace(/&/g, "&amp;")
