@@ -111,5 +111,13 @@
     "profileLink": "board/sichen-xia.html",
     "imagePath": "assets/images/sichen-xia.jpg",
     "keywords": ["Stomatology", "Oral Epidemiology", "Biostatistics", "Public Health", "Clinical Research"]
+  },
+  {
+    "name": "Yunze Lu",
+    "affiliation": "China Pharmaceutical University",
+    "bio": "Editorial Board Member for Silence. Researcher specializing in epidemiology, multi-omics data integration, and biostatistical modeling for precision medicine.",
+    "profileLink": "board/yunze-lu.html",
+    "imagePath": "assets/images/yunze-lu.jpg",
+    "keywords": ["Epidemiology", "Multi-omics", "Biostatistics", "Precision Medicine", "Translational Medicine"]
   }
 ]
