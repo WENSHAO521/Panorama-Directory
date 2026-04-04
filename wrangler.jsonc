@@ -1,12 +1,14 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "profiles-panorama-sg",
-  "compatibility_date": "2025-09-27",
+  "compatibility_date": "2026-04-04",
   "observability": {
     "enabled": true
   },
+  "main": "worker/index.js",
   "assets": {
-    "directory": "."
+    "directory": ".",
+    "binding": "ASSETS"
   },
   "compatibility_flags": [
     "nodejs_compat"
