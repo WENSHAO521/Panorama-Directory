@@ -1,0 +1,42 @@
+name: Daily Journal Metrics Tracker
+
+on:
+  schedule:
+    # 设定为每天的 UTC 时间 00:00 (北京时间上午 08:00) 自动触发
+    - cron: '0 0 * * *'
+  workflow_dispatch: # 允许管理员在 GitHub 网页上手动点击运行
+
+jobs:
+  update-metrics:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # 必须赋予此权限，允许自动化脚本将生成的 JSON 提交到仓库
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    - name: Execute metrics crawler
+      # 将我们在上一步设置的 GitHub Secret 映射为环境变量，传给 Python 脚本
+      env:
+        OPENALEX_EMAIL: ${{ secrets.OPENALEX_EMAIL }}
+      run: python scripts/update_metrics.py
+
+    - name: Commit and push updated JSON
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action Bot"
+        git add all_journals_metrics.json
+        # 如果当天数据与昨天完全一致（无变化），则跳过本次 commit 避免报错中断
+        git commit -m "chore(metrics): auto-update OpenAlex citation data [skip ci]" || exit 0
+        git push
