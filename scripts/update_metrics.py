@@ -5,22 +5,22 @@ from datetime import datetime
 import time
 
 def update_all_journals_metrics():
-    # 核心配置字典：左侧为 OJS 路由标识，右侧为 OpenAlex 检索语法
+    # 核心配置字典：左侧为 OJS 路由标识（需与网址路径一致），右侧为 OpenAlex 检索语法
     journals_config = {
         # --- 已获取高精度 OpenAlex ID 的期刊 ---
-        "afs": "openalex:S5407051439",           
-        "jesa": "openalex:S5407051582",          
-        "files": "openalex:S5407047583",         
-        "HealthNexus": "openalex:S5407052766",    
-        "jlpcs": "openalex:S5407047588",         
-        "pemr": "openalex:S5407051438",          
-        "rggd": "openalex:S5407054085",          
-        "Resonance": "openalex:S5407051440",     
-        "Silence": "openalex:S7407054022",       
-        "tts": "openalex:S5407052764",           
-        "jscc": "openalex:S7407056239",          
+        "afs": "openalex:S5407051439",           # AI & Future Society
+        "jesa": "openalex:S5407051582",          # Journal of Engineering Systems and Applications
+        "files": "openalex:S5407047583",         # Global Review of Humanities, Arts, and Society (GRHAS)
+        "HealthNexus": "openalex:S5407052766",    # Health Nexus
+        "jlpcs": "openalex:S5407047588",         # Journal of Law, Psychology, and Communication Studies
+        "pemr": "openalex:S5407051438",          # PoliEcoM Administration Review
+        "rggd": "openalex:S5407054085",          # Rural Governance and Green Development
+        "Resonance": "openalex:S5407051440",     # Resonance: Journal of Global Music Studies
+        "Silence": "openalex:S7407054022",       # Silence
+        "tts": "openalex:S5407052764",           # Three Teachings Studies
+        "jscc": "openalex:S7407056239",          # Journal of Social Cognition and Communication
         
-        # --- 使用全名检索的期刊（待 OpenAlex 分配 ID） ---
+        # --- 使用全名检索的期刊（待 OpenAlex 进一步索引或分配 ID） ---
         "cprt": "display_name.search:Comparative Philosophy and Religious Traditions",
         "csgs": "display_name.search:Climate Sustainability & Global Systems",
         "cssr": "display_name.search:Computational Social Sciences Review",
@@ -30,7 +30,7 @@ def update_all_journals_metrics():
         "pfr": "display_name.search:Panorama Frontier Review"
     }
     
-    # 从系统环境变量中安全读取邮箱
+    # 从系统环境变量中安全读取邮箱，用于进入 OpenAlex 礼貌池
     developer_email = os.environ.get('OPENALEX_EMAIL', '')
     
     headers = {}
@@ -72,11 +72,13 @@ def update_all_journals_metrics():
         except Exception as e:
             print(f"[异常] {journal_path:<15} 请求失败: {str(e)[:50]}...")
             
+        # 强制休眠 0.5 秒，严格遵守学术开放 API 的速率规范
         time.sleep(0.5)
 
     print("-" * 50)
     
-    # 输出 JSON 文件至仓库根目录
+    # 寻址到仓库根目录，输出 JSON 文件
+    # __file__ 是当前脚本路径，dirname 取父目录
     root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     output_path = os.path.join(root_dir, 'all_journals_metrics.json')
     
