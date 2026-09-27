@@ -2,6 +2,13 @@
   "name": "panorama-directory",
   "private": true,
   "scripts": {
-    "build": "node scripts/build.js"
+    "build:css": "tailwindcss -c tailwind.config.js -i assets/css/tailwind.input.css -o assets/css/site.css --minify",
+    "build:html": "node scripts/build.js",
+    "build": "npm run build:html && npm run build:css"
+  },
+  "devDependencies": {
+    "@tailwindcss/container-queries": "^0.1.1",
+    "@tailwindcss/forms": "^0.5.10",
+    "tailwindcss": "^3.4.17"
   }
 }
