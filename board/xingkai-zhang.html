@@ -13,10 +13,15 @@
       .material-symbols-outlined {
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       }
-      body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #000000; }
       ::selection { background-color: #000000; color: #ffffff; }
 
-      h1 { font-family: 'Fraunces', serif; font-weight: 500; letter-spacing: -0.015em; }
+      /* Element defaults go in Tailwind's base layer so utility classes
+         (e.g. font-extrabold on an h1) still override them; unlayered CSS
+         would beat every Tailwind v4 utility regardless of specificity. */
+      @layer base {
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #000000; }
+        h1 { font-family: 'Fraunces', serif; font-weight: 500; letter-spacing: -0.015em; }
+      }
 
       a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
           outline: 2px solid #000000;
@@ -33,24 +38,24 @@
 </head>
 <body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen">
 
-    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-black">
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-xs border-b border-black">
         <div class="flex flex-col md:flex-row justify-between items-center max-w-5xl mx-auto px-8 h-auto md:h-20 py-4 md:py-0">
-            <a href="../index.html" class="flex items-center gap-3 mb-4 md:mb-0 outline-none">
+            <a href="../index.html" class="flex items-center gap-3 mb-4 md:mb-0 outline-hidden">
                 <img src="../assets/logos/logo.png" alt="Panorama Scholarly Group Editorial Directory" class="h-14 w-auto">
             </a>
             <div class="flex items-center gap-6 md:gap-8 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
-                <a class="text-gray-500 hover:text-black transition-colors font-medium font-inter tracking-tight text-xs uppercase outline-none" href="../index.html">Home</a>
-                <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-xs uppercase outline-none" href="../directory.html">Directory</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-medium font-inter tracking-tight text-xs uppercase outline-none" href="../about.html">About</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-medium font-inter tracking-tight text-xs uppercase outline-none" href="../contact.html">Contact</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-medium font-inter tracking-tight text-xs uppercase outline-hidden" href="../index.html">Home</a>
+                <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-xs uppercase outline-hidden" href="../directory.html">Directory</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-medium font-inter tracking-tight text-xs uppercase outline-hidden" href="../about.html">About</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-medium font-inter tracking-tight text-xs uppercase outline-hidden" href="../contact.html">Contact</a>
             </div>
         </div>
     </nav>
 
-<main class="flex-grow pt-24 md:pt-32">
+<main class="grow pt-24 md:pt-32">
         <section class="max-w-5xl mx-auto px-8 py-16 grid grid-cols-1 md:grid-cols-12 gap-12 items-start" id="profile">
             <div class="md:col-span-4">
-                <div class="aspect-[3/4] bg-surface-variant overflow-hidden border border-outline-variant relative">
+                <div class="aspect-3/4 bg-surface-variant overflow-hidden border border-outline-variant relative">
                     <img alt="Portrait of Xingkai Zhang" class="w-full h-full object-cover" src="../assets/images/xingkai-zhang.jpg" onerror="this.outerHTML='<div class=\\'w-full h-full flex items-center justify-center bg-gray-100\\'><span class=\\'material-symbols-outlined text-6xl text-gray-300\\'>person</span></div>'"/>
                 </div>
                 <div class="mt-6 border border-outline-variant p-6 bg-white space-y-4">
@@ -86,7 +91,7 @@
                 </div>
                 
                 <div class="mt-10 flex gap-4">
-                    <a href="mailto:zxk_515@163.com" class="bg-black text-white px-8 py-4 font-bold uppercase tracking-widest text-[10px] hover:bg-gray-800 transition-colors inline-block text-center outline-none">
+                    <a href="mailto:zxk_515@163.com" class="bg-black text-white px-8 py-4 font-bold uppercase tracking-widest text-[10px] hover:bg-gray-800 transition-colors inline-block text-center outline-hidden">
                         Contact Researcher
                     </a>
                 </div>
@@ -104,96 +109,96 @@
                     
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2026</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     Causal Relationships Between High-Altitude Adaptation, Metabolic Traits, and Tumors: Insights from Mendelian Randomization
                                 </h4>
                                 <p class="text-black text-sm mb-2 font-medium">Zhang, X., et al.</p>
                                 <p class="text-gray-600 text-sm italic mb-2">High Altitude Medicine & Biology (Mar 2026)</p>
-                                <a href="https://doi.org/10.1177/15578682251382795" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-none">DOI: 10.1177/15578682251382795</a>
+                                <a href="https://doi.org/10.1177/15578682251382795" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-hidden">DOI: 10.1177/15578682251382795</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2026</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     Exposure to high altitude: a potential driver of accelerated biological aging
                                 </h4>
                                 <p class="text-black text-sm mb-2 font-medium">Zhang, X., et al.</p>
                                 <p class="text-gray-600 text-sm italic mb-2">MedScience (Feb 2026)</p>
-                                <a href="https://doi.org/10.1007/s11684-025-1195-6" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-none">DOI: 10.1007/s11684-025-1195-6</a>
+                                <a href="https://doi.org/10.1007/s11684-025-1195-6" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-hidden">DOI: 10.1007/s11684-025-1195-6</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2026</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     Association of human plasma and cerebrospinal fluid metabolomes with vascular dementia and its subtypes: A Mendelian randomization study
                                 </h4>
                                 <p class="text-black text-sm mb-2 font-medium">Zhang, X., et al.</p>
                                 <p class="text-gray-600 text-sm italic mb-2">Brain Research (Jan 2026)</p>
-                                <a href="https://doi.org/10.1016/j.brainres.2025.150060" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-none">DOI: 10.1016/j.brainres.2025.150060</a>
+                                <a href="https://doi.org/10.1016/j.brainres.2025.150060" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-hidden">DOI: 10.1016/j.brainres.2025.150060</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2025</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     Correspondence: Associations between post-traumatic stress disorder and neurological disorders: A genetic correlation and Mendelian randomization study
                                 </h4>
                                 <p class="text-black text-sm mb-2 font-medium">Zhang, X., et al.</p>
                                 <p class="text-gray-600 text-sm italic mb-2">Journal of Affective Disorders (Sep 2025)</p>
-                                <a href="https://doi.org/10.1016/j.jad.2025.120239" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-none">DOI: 10.1016/j.jad.2025.120239</a>
+                                <a href="https://doi.org/10.1016/j.jad.2025.120239" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-hidden">DOI: 10.1016/j.jad.2025.120239</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2025</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     DNA methylation in adaptation to high-altitude environments and pathogenesis of related diseases
                                 </h4>
                                 <p class="text-black text-sm mb-2 font-medium">Zhang, X., et al.</p>
                                 <p class="text-gray-600 text-sm italic mb-2">Human Genomics (Aug 2025)</p>
-                                <a href="https://doi.org/10.1186/s40246-025-00794-x" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-none">DOI: 10.1186/s40246-025-00794-x</a>
+                                <a href="https://doi.org/10.1186/s40246-025-00794-x" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-hidden">DOI: 10.1186/s40246-025-00794-x</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2024</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     The plasma lipids with different fatty acid chains are associated with the risk of hemorrhagic stroke: a Mendelian randomization study
                                 </h4>
                                 <p class="text-black text-sm mb-2 font-medium">Zhang, X., et al.</p>
                                 <p class="text-gray-600 text-sm italic mb-2">Frontiers in Neurology (Jul 2024)</p>
-                                <a href="https://doi.org/10.3389/fneur.2024.1432878" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-none">DOI: 10.3389/fneur.2024.1432878</a>
+                                <a href="https://doi.org/10.3389/fneur.2024.1432878" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-hidden">DOI: 10.3389/fneur.2024.1432878</a>
                             </div>
                         </div>
                     </div>

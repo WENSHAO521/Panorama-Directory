@@ -13,10 +13,15 @@
       .material-symbols-outlined {
         font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
       }
-      body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #000000; }
       ::selection { background-color: #000000; color: #ffffff; }
 
-      h1 { font-family: 'Fraunces', serif; font-weight: 500; letter-spacing: -0.015em; }
+      /* Element defaults go in Tailwind's base layer so utility classes
+         (e.g. font-extrabold on an h1) still override them; unlayered CSS
+         would beat every Tailwind v4 utility regardless of specificity. */
+      @layer base {
+        body { font-family: 'Inter', sans-serif; background-color: #ffffff; color: #000000; }
+        h1 { font-family: 'Fraunces', serif; font-weight: 500; letter-spacing: -0.015em; }
+      }
 
       a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
           outline: 2px solid #000000;
@@ -33,24 +38,24 @@
 </head>
 <body class="bg-surface text-on-surface antialiased flex flex-col min-h-screen">
 
-    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-sm border-b border-black">
+    <nav class="fixed top-0 w-full z-50 bg-white/95 backdrop-blur-xs border-b border-black">
         <div class="flex flex-col md:flex-row justify-between items-center max-w-5xl mx-auto px-8 h-auto md:h-20 py-4 md:py-0">
-            <a href="../index.html" class="flex items-center gap-3 mb-4 md:mb-0 outline-none">
+            <a href="../index.html" class="flex items-center gap-3 mb-4 md:mb-0 outline-hidden">
                 <img src="../assets/logos/logo.png" alt="Panorama Scholarly Group Editorial Directory" class="h-14 w-auto">
             </a>
             <div class="flex items-center gap-6 md:gap-8 overflow-x-auto w-full md:w-auto pb-2 md:pb-0">
-                <a class="text-gray-500 hover:text-black transition-colors font-medium font-inter tracking-tight text-xs uppercase outline-none" href="../index.html">Home</a>
-                <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-xs uppercase outline-none" href="../directory.html">Directory</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-medium font-inter tracking-tight text-xs uppercase outline-none" href="../about.html">About</a>
-                <a class="text-gray-500 hover:text-black transition-colors font-medium font-inter tracking-tight text-xs uppercase outline-none" href="../contact.html">Contact</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-medium font-inter tracking-tight text-xs uppercase outline-hidden" href="../index.html">Home</a>
+                <a class="text-black font-bold border-b-2 border-black pb-1 font-inter tracking-tight text-xs uppercase outline-hidden" href="../directory.html">Directory</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-medium font-inter tracking-tight text-xs uppercase outline-hidden" href="../about.html">About</a>
+                <a class="text-gray-500 hover:text-black transition-colors font-medium font-inter tracking-tight text-xs uppercase outline-hidden" href="../contact.html">Contact</a>
             </div>
         </div>
     </nav>
 
-<main class="flex-grow pt-24 md:pt-32">
+<main class="grow pt-24 md:pt-32">
         <section class="max-w-5xl mx-auto px-8 py-16 grid grid-cols-1 md:grid-cols-12 gap-12 items-start" id="profile">
             <div class="md:col-span-4">
-                <div class="aspect-[3/4] bg-surface-variant overflow-hidden border border-outline-variant relative">
+                <div class="aspect-3/4 bg-surface-variant overflow-hidden border border-outline-variant relative">
                     <img alt="Portrait of Qilong Wang" class="w-full h-full object-cover" src="../assets/images/qilong-wang.jpg" onerror="this.outerHTML='<div class=\\'w-full h-full flex items-center justify-center bg-gray-100\\'><span class=\\'material-symbols-outlined text-6xl text-gray-300\\'>person</span></div>'"/>
                 </div>
                 <div class="mt-6 border border-outline-variant p-6 bg-white space-y-4">
@@ -86,7 +91,7 @@
                 </div>
                 
                 <div class="mt-10 flex gap-4">
-                    <a href="mailto:Wade200023@outlook.com" class="bg-black text-white px-8 py-4 font-bold uppercase tracking-widest text-[10px] hover:bg-gray-800 transition-colors inline-block text-center outline-none">
+                    <a href="mailto:Wade200023@outlook.com" class="bg-black text-white px-8 py-4 font-bold uppercase tracking-widest text-[10px] hover:bg-gray-800 transition-colors inline-block text-center outline-hidden">
                         Contact Researcher
                     </a>
                 </div>
@@ -123,74 +128,74 @@
                     
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2026</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     Association of table salt use with sleep patterns and depressive symptoms: population-based analysis with external clinical replication
                                 </h4>
                                 <p class="text-black text-sm mb-2 font-medium">Wang, Q., et al.</p>
                                 <p class="text-gray-600 text-sm italic mb-2">Frontiers in Nutrition (Mar 2026)</p>
-                                <a href="https://doi.org/10.3389/FNUT.2026.1773531" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-none">DOI: 10.3389/FNUT.2026.1773531</a>
+                                <a href="https://doi.org/10.3389/FNUT.2026.1773531" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-hidden">DOI: 10.3389/FNUT.2026.1773531</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2026</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     Detection of major depressive disorder in adolescents based on textual and acoustic features
                                 </h4>
                                 <p class="text-black text-sm mb-2 font-medium">Wang, Q., et al.</p>
                                 <p class="text-gray-600 text-sm italic mb-2">Journal of Affective Disorders (Mar 2026)</p>
-                                <a href="https://doi.org/10.1016/J.JAD.2025.120795" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-none">DOI: 10.1016/J.JAD.2025.120795</a>
+                                <a href="https://doi.org/10.1016/J.JAD.2025.120795" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-hidden">DOI: 10.1016/J.JAD.2025.120795</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2026</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     Video in Chinese short video sharing platforms as a source of information on sleep disorders: A cross-sectional content analysis study
                                 </h4>
                                 <p class="text-black text-sm mb-2 font-medium">Wang, Q., et al.</p>
                                 <p class="text-gray-600 text-sm italic mb-2">Digital Health (Jan 2026)</p>
-                                <a href="https://doi.org/10.1177/20552076261415944" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-none">DOI: 10.1177/20552076261415944</a>
+                                <a href="https://doi.org/10.1177/20552076261415944" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-hidden">DOI: 10.1177/20552076261415944</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2025</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     Association between weekend catch-up sleep and specific depressive symptoms: a real world research
                                 </h4>
                                 <p class="text-black text-sm mb-2 font-medium">Wang, Q., et al.</p>
                                 <p class="text-gray-600 text-sm italic mb-2">Frontiers in Psychiatry (Dec 2025)</p>
-                                <a href="https://doi.org/10.3389/FPSYT.2025.1698743" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-none">DOI: 10.3389/FPSYT.2025.1698743</a>
+                                <a href="https://doi.org/10.3389/FPSYT.2025.1698743" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-hidden">DOI: 10.3389/FPSYT.2025.1698743</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2025</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     Synergistic Effects of Diabetes and Depressive Symptoms on Cognitive Impairment in Older Adults
                                 </h4>
@@ -202,32 +207,32 @@
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2025</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     Videos in short video sharing platforms as a source of information on bipolar disorder: a cross-sectional content analysis study
                                 </h4>
                                 <p class="text-black text-sm mb-2 font-medium">Wang, Q., et al.</p>
                                 <p class="text-gray-600 text-sm italic mb-2">Frontiers in Public Health (Oct 2025)</p>
-                                <a href="https://doi.org/10.3389/FPUBH.2025.1627885" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-none">DOI: 10.3389/FPUBH.2025.1627885</a>
+                                <a href="https://doi.org/10.3389/FPUBH.2025.1627885" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-hidden">DOI: 10.3389/FPUBH.2025.1627885</a>
                             </div>
                         </div>
                     </div>
 
                     <div class="border border-outline-variant p-8 hover:border-black transition-colors group">
                         <div class="flex flex-col md:flex-row gap-6 md:gap-12 items-start">
-                            <div class="w-full md:w-24 flex-shrink-0 pt-1">
+                            <div class="w-full md:w-24 shrink-0 pt-1">
                                 <span class="text-xs font-bold text-black uppercase tracking-widest">2025</span>
                             </div>
-                            <div class="flex-grow">
+                            <div class="grow">
                                 <h4 class="text-lg font-bold text-black mb-3 leading-tight group-hover:underline decoration-2 underline-offset-4">
                                     Telangiectatic osteosarcoma of the thoracic vertebra: a case report and literature review
                                 </h4>
                                 <p class="text-black text-sm mb-2 font-medium">Wang, Q., et al.</p>
                                 <p class="text-gray-600 text-sm italic mb-2">Frontiers in Oncology (Apr 2025)</p>
-                                <a href="https://doi.org/10.3389/FONC.2025.1537611" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-none">DOI: 10.3389/FONC.2025.1537611</a>
+                                <a href="https://doi.org/10.3389/FONC.2025.1537611" target="_blank" class="text-xs font-mono text-gray-500 hover:text-black transition-colors outline-hidden">DOI: 10.3389/FONC.2025.1537611</a>
                             </div>
                         </div>
                     </div>
