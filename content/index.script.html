@@ -29,10 +29,10 @@
 
                 const cardHTML = `
                     <div class="scholar-card border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
-                        <a href="${scholar.profileLink}" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant overflow-hidden block">
+                        <a href="${scholar.profileLink}" class="w-32 h-40 bg-surface-variant shrink-0 border border-outline-variant overflow-hidden block">
                             ${imageHTML}
                         </a>
-                        <div class="flex-grow">
+                        <div class="grow">
                             <a href="${scholar.profileLink}" class="block"><h4 class="text-2xl font-bold text-black mb-2">${scholar.name}</h4></a>
                             <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">${scholar.affiliation}</p>
                             <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed font-light">${scholar.bio}</p>

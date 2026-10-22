@@ -13,10 +13,10 @@
         // 1. Initialize A-Z Buttons
         function initAlphabetBar() {
             const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split('');
-            let html = `<button class="alpha-btn text-xs font-bold px-3 py-2 border-b-2 border-black text-black outline-none transition-colors" data-letter="ALL">ALL</button>`;
+            let html = `<button class="alpha-btn text-xs font-bold px-3 py-2 border-b-2 border-black text-black outline-hidden transition-colors" data-letter="ALL">ALL</button>`;
             
             letters.forEach(l => {
-                html += `<button class="alpha-btn text-xs font-bold px-3 py-2 border-b-2 border-transparent text-gray-400 hover:text-black hover:border-black outline-none transition-colors" data-letter="${l}">${l}</button>`;
+                html += `<button class="alpha-btn text-xs font-bold px-3 py-2 border-b-2 border-transparent text-gray-400 hover:text-black hover:border-black outline-hidden transition-colors" data-letter="${l}">${l}</button>`;
             });
             alphabetContainer.innerHTML = html;
 
@@ -96,14 +96,14 @@
 
                 const cardHTML = `
                     <div class="scholar-card border border-outline-variant p-8 hover:border-black transition-colors flex flex-col md:flex-row gap-8 items-start group">
-                        <a href="${scholar.profileLink}" class="w-32 h-40 bg-surface-variant flex-shrink-0 border border-outline-variant overflow-hidden block outline-none">
+                        <a href="${scholar.profileLink}" class="w-32 h-40 bg-surface-variant shrink-0 border border-outline-variant overflow-hidden block outline-hidden">
                             ${imageHTML}
                         </a>
-                        <div class="flex-grow">
-                            <a href="${scholar.profileLink}" class="block outline-none"><h4 class="text-2xl font-bold text-black mb-2">${scholar.name}</h4></a>
+                        <div class="grow">
+                            <a href="${scholar.profileLink}" class="block outline-hidden"><h4 class="text-2xl font-bold text-black mb-2">${scholar.name}</h4></a>
                             <p class="text-xs uppercase tracking-widest text-gray-500 font-bold mb-4">${scholar.affiliation}</p>
                             <p class="text-sm text-gray-600 mb-6 max-w-2xl leading-relaxed font-light">${scholar.bio}</p>
-                            <a href="${scholar.profileLink}" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-none">Full Academic Profile</a>
+                            <a href="${scholar.profileLink}" class="text-[10px] font-bold uppercase tracking-widest border-b border-black pb-1 hover:text-gray-500 transition-colors outline-hidden">Full Academic Profile</a>
                         </div>
                     </div>`;
                 scholarListContainer.insertAdjacentHTML('beforeend', cardHTML);
