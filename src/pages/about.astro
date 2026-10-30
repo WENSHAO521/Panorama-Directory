@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+
+const facts = [
+  { label: "Type", value: "Independent Academic Publishing Initiative" },
+  { label: "Model", value: "Open Access" },
+  { label: "Focus", value: "Editorial Transparency & Scholarly Communication" },
+];
+---
+
+<BaseLayout
+  title="About Us"
+  description="Panorama Scholarly Group is an independent academic publishing initiative supporting open scholarly communication through transparent editorial practice."
+  active="about"
+>
+  <section class="mx-auto grid max-w-6xl gap-14 px-5 py-20 md:grid-cols-12 md:gap-16 md:px-8 md:py-32">
+    <div class="md:col-span-5">
+      <p class="eyebrow mb-6">About Us</p>
+      <h1 class="display mb-10 text-4xl text-balance md:text-6xl">Panorama Scholarly Group Editorial Directory</h1>
+      <dl class="divide-y divide-rule border-y border-ink">
+        {
+          facts.map((f) => (
+            <div class="grid grid-cols-[5.5rem_1fr] gap-4 py-4">
+              <dt class="eyebrow pt-0.5 text-ink">{f.label}</dt>
+              <dd class="text-sm text-muted">{f.value}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+
+    <div class="space-y-7 text-lg leading-relaxed font-light text-ink/80 md:col-span-7 md:pt-14">
+      <p class="display text-2xl leading-snug text-ink md:text-3xl">
+        Panorama Scholarly Group (PSG) is an independent academic publishing initiative dedicated to supporting open scholarly communication through transparent editorial practice, responsible peer review, and distributed digital publishing workflows.
+      </p>
+      <p>
+        Our journal portfolio includes titles such as <em>Global Review of Humanities, Arts, and Society</em> (GRHAS), <em>Health Nexus</em>, <em>Silence</em>, and <em>Journal of Social Cognition and Communication</em>, alongside other publications in the humanities, social sciences, governance, interdisciplinary medical research, and emerging cross-disciplinary fields.
+      </p>
+      <p>
+        This directory presents the international network of editors, academic advisers, and scholarly contributors associated with our publishing activities. We regard transparent editorial governance, research integrity, and broad intellectual exchange as central elements of sustainable scholarly publishing.
+      </p>
+      <p>
+        PSG supports open access dissemination and maintains publication policies relating to peer review, publication ethics, correction practices, and editorial accountability. Selected journals within the group hold ISSNs assigned through the German ISSN Centre, while administrative and operational functions are coordinated through Hong Kong.
+      </p>
+      <div class="pt-6">
+        <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="btn-ghost">
+          Visit Official Publishing Platform
+          <Icon name="open_in_new" class="text-base!" />
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

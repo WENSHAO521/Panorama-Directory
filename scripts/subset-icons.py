@@ -1,8 +1,9 @@
 """Build a tiny self-hosted Material Symbols Outlined font.
 
 The full icon font is ~4 MB, so this keeps only the icons the site actually
-uses (scanned from templates/ and content/), pinned at the axis values set in
-assets/css/tailwind.input.css (FILL 0, wght 400, GRAD 0, opsz 24).
+uses (scanned from src/: <Icon name="..."> in components/pages and `icon:` in
+scholar content), pinned at the axis values set in src/styles/global.css
+(FILL 0, wght 400, GRAD 0, opsz 24).
 
 Re-run after adding a new icon name anywhere in the markup:
     pip install fonttools brotli
@@ -18,16 +19,21 @@ from fontTools import subset
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "node_modules/material-symbols/material-symbols-outlined.woff2"
-OUT = ROOT / "assets/fonts/material-symbols-outlined-subset.woff2"
+OUT = ROOT / "public/assets/fonts/material-symbols-outlined-subset.woff2"
 
-ICON_RE = re.compile(r'material-symbols-outlined[^>]*>\s*([a-z0-9_]+)\s*<')
+ICON_RES = [
+    re.compile(r'<Icon\s+name="([a-z0-9_]+)"'),  # .astro markup
+    re.compile(r'^\s*icon:\s*([a-z0-9_]+)\s*$', re.M),  # scholar frontmatter
+]
 
 
 def used_icons():
     names = set()
-    for folder in ("templates", "content"):
-        for path in (ROOT / folder).rglob("*.html"):
-            names.update(ICON_RE.findall(path.read_text(encoding="utf-8")))
+    for path in (ROOT / "src").rglob("*"):
+        if path.suffix in (".astro", ".md"):
+            text = path.read_text(encoding="utf-8")
+            for pattern in ICON_RES:
+                names.update(pattern.findall(text))
     return sorted(names)
 
 

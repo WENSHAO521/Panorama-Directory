@@ -1,0 +1,35 @@
+---
+import { Image } from "astro:assets";
+import { profileUrl, type Scholar } from "../lib/scholars";
+
+interface Props {
+  scholar: Scholar;
+}
+const { scholar } = Astro.props;
+const { name, affiliation, role, photo, summary, keywords } = scholar.data;
+const href = profileUrl(scholar);
+---
+
+<article class="group relative flex flex-col gap-6 border border-rule bg-paper p-6 transition-colors duration-300 hover:border-ink sm:flex-row md:p-8">
+  <div class="aspect-[4/5] w-28 shrink-0 overflow-hidden border border-rule bg-mist md:w-32">
+    <Image
+      src={photo}
+      alt={`Portrait of ${name}`}
+      widths={[160, 320]}
+      sizes="128px"
+      class="h-full w-full object-cover grayscale-[35%] transition duration-700 ease-editorial group-hover:scale-[1.03] group-hover:grayscale-0"
+      style={`view-transition-name: portrait-${scholar.id}`}
+    />
+  </div>
+  <div class="grow">
+    <p class="eyebrow mb-2">{role}</p>
+    <h3 class="display mb-1 text-2xl md:text-3xl">
+      <a href={href} class="after:absolute after:inset-0">{name}</a>
+    </h3>
+    <p class="mb-4 text-xs font-semibold uppercase tracking-[0.12em] text-muted">{affiliation}</p>
+    <p class="mb-5 max-w-2xl text-sm leading-relaxed font-light text-ink/80">{summary}</p>
+    <ul class="flex flex-wrap gap-2">
+      {keywords.map((k) => <li class="border border-rule px-2.5 py-1 text-[11px] text-muted">{k}</li>)}
+    </ul>
+  </div>
+</article>

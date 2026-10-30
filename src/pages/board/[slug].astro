@@ -1,0 +1,137 @@
+---
+import { Image, getImage } from "astro:assets";
+import { render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProfileSection from "../../components/ProfileSection.astro";
+import ScholarCard from "../../components/ScholarCard.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import Icon from "../../components/Icon.astro";
+import { getFeatured, type Scholar } from "../../lib/scholars";
+
+export async function getStaticPaths() {
+  const all = await getFeatured(Infinity);
+  return all.map((scholar, i) => ({
+    params: { slug: scholar.id },
+    // "More from the board": the next three scholars in featured order.
+    props: { scholar, more: [1, 2, 3].map((n) => all[(i + n) % all.length]) },
+  }));
+}
+
+interface Props {
+  scholar: Scholar;
+  more: Scholar[];
+}
+
+const { scholar, more } = Astro.props;
+const d = scholar.data;
+const { Content } = await render(scholar);
+const og = await getImage({ src: d.photo, width: 800, format: "jpg" });
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: d.name,
+  ...(d.nativeName && { alternateName: d.nativeName }),
+  jobTitle: d.role,
+  affiliation: { "@type": "Organization", name: d.affiliation },
+  description: d.summary,
+  image: new URL(og.src, Astro.site).href,
+  url: new URL(`/board/${scholar.id}`, Astro.site).href,
+  knowsAbout: d.keywords,
+  sameAs: d.identifiers?.map((i) => i.href),
+  memberOf: { "@type": "Organization", name: "Panorama Scholarly Group" },
+};
+---
+
+<BaseLayout title={`${d.name} | Academic Profile`} description={d.summary} active="directory" image={og.src} type="profile">
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+  <div class="mx-auto max-w-6xl px-5 pt-8 md:px-8 md:pt-10">
+    <a href="/directory" class="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted transition-colors hover:text-ink">
+      <Icon name="arrow_back" class="text-base!" /> Directory
+    </a>
+  </div>
+
+  <section class="mx-auto grid max-w-6xl gap-10 px-5 pt-8 pb-20 md:grid-cols-12 md:gap-14 md:px-8 md:pt-12 md:pb-28">
+    <aside class="md:col-span-4">
+      <div class="md:sticky md:top-28">
+        <div class="aspect-[3/4] overflow-hidden border border-rule bg-mist">
+          <Image
+            src={d.photo}
+            alt={`Portrait of ${d.name}`}
+            widths={[360, 540, 800]}
+            sizes="(min-width: 768px) 360px, 90vw"
+            class="h-full w-full object-cover"
+            style={`view-transition-name: portrait-${scholar.id}`}
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+
+        {
+          d.identifiers && (
+            <dl class="mt-5 divide-y divide-rule border border-rule">
+              {d.identifiers.map((id) => (
+                <div class="px-5 py-4">
+                  <dt class="eyebrow mb-1">{id.label}</dt>
+                  <dd>
+                    <a href={id.href} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-mono text-sm transition-colors hover:text-muted">
+                      {id.value}
+                      <Icon name="north_east" class="text-sm!" />
+                    </a>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          )
+        }
+
+        {
+          d.email && (
+            <a href={`mailto:${d.email}`} class="btn-solid mt-5 w-full">
+              <Icon name="mail" class="text-base!" /> Contact researcher
+            </a>
+          )
+        }
+      </div>
+    </aside>
+
+    <div class="md:col-span-8">
+      <p class="eyebrow mb-5">{d.role}</p>
+      <h1 class="display mb-3 text-5xl text-balance md:text-7xl">{d.name}</h1>
+      {d.nativeName && <p class="mb-3 text-2xl font-light text-muted" lang="zh">{d.nativeName}</p>}
+      <p class="mb-10 border-l-2 border-ink pl-4 text-lg font-medium text-ink/80 md:text-xl">{d.headline ?? d.affiliation}</p>
+
+      <div class="prose-bio max-w-2xl text-base leading-[1.75] font-light text-ink/80 md:text-[17px]">
+        <Content />
+      </div>
+
+      <ul class="mt-10 flex flex-wrap gap-2" aria-label="Research fields">
+        {d.keywords.map((k) => <li class="border border-rule px-3 py-1.5 text-xs text-muted">{k}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  {
+    d.sections.length > 0 && (
+      <div class="border-t border-rule">
+        <div class="mx-auto max-w-6xl space-y-20 px-5 py-20 md:space-y-28 md:px-8 md:py-28">
+          {d.sections.map((section) => (
+            <ProfileSection section={section} />
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  <section class="border-t border-ink bg-mist">
+    <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-24">
+      <SectionHeading eyebrow="Editorial Network" title="More from the board">
+        <a href="/directory" class="btn-ghost shrink-0">Full directory</a>
+      </SectionHeading>
+      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
+        {more.map((s) => <ScholarCard scholar={s} />)}
+      </div>
+    </div>
+  </section>
+</BaseLayout>

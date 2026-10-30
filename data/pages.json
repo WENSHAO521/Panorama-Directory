@@ -1,6 +1,0 @@
-[
-  { "path": "index.html", "title": "Global Editorial Directory", "active": "home" },
-  { "path": "directory.html", "title": "Editorial Directory", "active": "directory" },
-  { "path": "about.html", "title": "About Us", "active": "about" },
-  { "path": "contact.html", "title": "Contact Us", "active": "contact" }
-]

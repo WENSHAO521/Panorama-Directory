@@ -1,0 +1,36 @@
+---
+import { Image } from "astro:assets";
+import mark from "../assets/mark.png";
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-auto border-t border-ink bg-paper">
+  <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-12 md:px-8">
+    <div class="md:col-span-6">
+      <Image src={mark} alt="" class="mb-5 h-6 w-auto" height={48} />
+      <p class="max-w-sm text-sm leading-relaxed font-light text-muted">
+        The international network of editors, advisers and scholarly contributors of Panorama Scholarly Group.
+      </p>
+    </div>
+    <div class="md:col-span-3">
+      <p class="eyebrow mb-4">Directory</p>
+      <ul class="space-y-2 text-sm">
+        <li><a class="hover:text-muted" href="/directory">All members</a></li>
+        <li><a class="hover:text-muted" href="/about">About</a></li>
+        <li><a class="hover:text-muted" href="/contact">Contact</a></li>
+      </ul>
+    </div>
+    <div class="md:col-span-3">
+      <p class="eyebrow mb-4">Publisher</p>
+      <ul class="space-y-2 text-sm">
+        <li><a class="hover:text-muted" href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer">panorama-sg.com</a></li>
+        <li><a class="hover:text-muted" href="mailto:directory.admin@panorama-sg.com">directory.admin@panorama-sg.com</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-rule">
+    <p class="mx-auto max-w-6xl px-5 py-6 text-[11px] uppercase tracking-[0.16em] text-faint md:px-8">
+      © {year} Panorama Scholarly Group Editorial Directory
+    </p>
+  </div>
+</footer>

@@ -1,0 +1,164 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ScholarCard from "../components/ScholarCard.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import SearchIndex from "../components/SearchIndex.astro";
+import Icon from "../components/Icon.astro";
+import { getScholars, getFeatured, publicationCount } from "../lib/scholars";
+
+const scholars = await getScholars();
+const featured = await getFeatured(3);
+const fields = new Set(scholars.flatMap((s) => s.data.keywords.map((k) => k.toLowerCase())));
+const stats = [
+  { value: scholars.length, label: "Members" },
+  { value: fields.size, label: "Research fields" },
+  { value: scholars.reduce((n, s) => n + publicationCount(s), 0), label: "Publications" },
+];
+---
+
+<BaseLayout
+  title="Global Editorial Directory"
+  description="Discover the international network of scholars, principal investigators and editorial board members of Panorama Scholarly Group."
+  active="home"
+>
+  <section class="mx-auto max-w-6xl px-5 pt-20 pb-16 md:px-8 md:pt-32 md:pb-24">
+    <p class="eyebrow mb-6">Official Researcher Database</p>
+    <h1 class="display mb-8 max-w-4xl text-5xl text-balance md:text-8xl">Global Editorial Directory.</h1>
+    <p class="mb-14 max-w-2xl border-l-2 border-ink pl-6 text-lg leading-relaxed font-light text-ink/75 md:text-xl">
+      Discover the international network of scholars, principal investigators, and editorial board members driving rigorous peer review across our publishing group.
+    </p>
+
+    <div class="relative max-w-3xl" id="home-search">
+      <label for="global-search" class="eyebrow mb-3 block text-ink">Search scholars by name, affiliation, domain or publication</label>
+      <div class="flex items-center border border-ink bg-paper focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-ink">
+        <Icon name="search" class="mx-4 text-2xl! md:mx-5 md:text-3xl!" />
+        <input
+          type="search"
+          id="global-search"
+          autocomplete="off"
+          role="combobox"
+          aria-expanded="false"
+          aria-controls="search-results"
+          aria-autocomplete="list"
+          class="w-full border-0 bg-transparent px-0 py-4 text-lg font-light placeholder:text-faint focus:ring-0 focus:outline-none md:py-5 md:text-2xl"
+          placeholder="e.g. Chengwen Song, Kookmin, Social Cognition"
+        />
+        <kbd class="mr-4 hidden border border-rule px-2 py-1 font-mono text-[11px] text-faint md:block">/</kbd>
+      </div>
+      <ul
+        id="search-results"
+        role="listbox"
+        class="absolute top-full right-0 left-0 z-40 -mt-px hidden max-h-[26rem] overflow-y-auto border border-ink bg-paper shadow-[0_24px_48px_-24px_rgba(0,0,0,0.35)]"
+      >
+      </ul>
+    </div>
+  </section>
+
+  <section class="border-y border-ink">
+    <dl class="mx-auto grid max-w-6xl grid-cols-3 divide-x divide-rule px-5 md:px-8">
+      {
+        stats.map((s) => (
+          <div class="flex flex-col-reverse gap-2 py-8 pr-4 not-first:pl-4 md:py-10 md:not-first:pl-8">
+            <dt class="eyebrow">{s.label}</dt>
+            <dd class="display text-4xl md:text-6xl">{s.value}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </section>
+
+  <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
+    <SectionHeading eyebrow="Board Members" title="Featured Scholars">
+      <a href="/directory" class="btn-ghost shrink-0">View full directory</a>
+    </SectionHeading>
+    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
+      {featured.map((s) => <ScholarCard scholar={s} />)}
+    </div>
+  </section>
+
+  <section class="border-t border-rule bg-mist">
+    <div class="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-12 md:px-8 md:py-24">
+      <div class="md:col-span-7">
+        <Icon name="account_balance" class="mb-6 text-4xl!" />
+        <h2 class="display mb-5 text-3xl md:text-4xl">Join the editorial network</h2>
+        <p class="max-w-xl text-base leading-relaxed font-light text-muted">
+          If you are an academic interested in joining our editorial board or have inquiries regarding our scholarly network, please contact the directory administration.
+        </p>
+      </div>
+      <div class="flex flex-col items-start justify-end gap-4 md:col-span-5 md:items-end">
+        <a href="mailto:directory.admin@panorama-sg.com" class="btn-solid">
+          directory.admin@panorama-sg.com
+        </a>
+        <a href="/contact" class="link-underline text-[11px] font-semibold uppercase tracking-[0.16em]">All contact options</a>
+      </div>
+    </div>
+  </section>
+
+  <SearchIndex />
+</BaseLayout>
+
+<script>
+  import { loadIndex, search, escapeHtml } from "../lib/search";
+
+  const input = document.getElementById("global-search") as HTMLInputElement;
+  const results = document.getElementById("search-results") as HTMLUListElement;
+  const index = loadIndex();
+  let active = -1;
+
+  const open = (show: boolean) => {
+    results.classList.toggle("hidden", !show);
+    input.setAttribute("aria-expanded", String(show));
+    if (!show) active = -1;
+  };
+
+  const highlight = (text: string, q: string) => {
+    const safe = escapeHtml(text);
+    const words = q.trim().split(/\s+/).filter(Boolean).map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    return words.length ? safe.replace(new RegExp(`(${words.join("|")})`, "gi"), '<mark class="bg-ink text-paper">$1</mark>') : safe;
+  };
+
+  const render = () => {
+    const q = input.value.trim();
+    if (!q) return open(false);
+    const matches = search(index, q);
+    results.innerHTML = matches.length
+      ? matches
+          .map(
+            (m, i) => `<li role="option" id="opt-${i}"><a href="${m.url}" class="block border-b border-rule px-6 py-4 transition-colors hover:bg-mist">
+              <span class="block text-lg font-semibold">${highlight(m.name, q)}</span>
+              <span class="mt-1 block text-[11px] uppercase tracking-[0.14em] text-muted">${highlight(m.affiliation, q)}</span></a></li>`,
+          )
+          .join("") +
+        `<li><a href="/directory?q=${encodeURIComponent(q)}" class="block px-6 py-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted hover:text-ink">Open in directory →</a></li>`
+      : `<li class="px-6 py-5 text-sm text-muted italic">No matches found. Try the <a class="underline" href="/directory">full directory</a>.</li>`;
+    active = -1;
+    open(true);
+  };
+
+  const options = () => [...results.querySelectorAll<HTMLElement>("[role=option]")];
+  const move = (dir: number) => {
+    const opts = options();
+    if (!opts.length) return;
+    active = (active + dir + opts.length) % opts.length;
+    opts.forEach((o, i) => o.firstElementChild!.classList.toggle("bg-mist", i === active));
+    input.setAttribute("aria-activedescendant", opts[active].id);
+    opts[active].scrollIntoView({ block: "nearest" });
+  };
+
+  input.addEventListener("input", render);
+  input.addEventListener("focus", render);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") (e.preventDefault(), move(1));
+    else if (e.key === "ArrowUp") (e.preventDefault(), move(-1));
+    else if (e.key === "Enter") {
+      const target = options()[active]?.querySelector("a") ?? results.querySelector("a");
+      if (target) location.href = target.getAttribute("href")!;
+    } else if (e.key === "Escape") open(false);
+  });
+  document.addEventListener("click", (e) => {
+    if (!document.getElementById("home-search")!.contains(e.target as Node)) open(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "/" && document.activeElement !== input) (e.preventDefault(), input.focus());
+  });
+</script>
