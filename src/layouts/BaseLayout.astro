@@ -28,7 +28,6 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     <link rel="icon" href="/assets/logos/favicon.png" type="image/png" />
     <link rel="sitemap" href="/sitemap.xml" />
     <link rel="preload" href="/assets/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin />
-    <link rel="preload" href="/assets/fonts/fraunces-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/assets/fonts/material-symbols-outlined-subset.woff2" as="font" type="font/woff2" crossorigin />
     <meta name="theme-color" content="#ffffff" />
     <meta property="og:site_name" content="Panorama Scholarly Group Editorial Directory" />
@@ -39,28 +38,9 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta name="twitter:card" content={ogImage ? "summary_large_image" : "summary"} />
     <slot name="head" />
-    <script is:inline>
-      if ("IntersectionObserver" in window && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        document.documentElement.classList.add("js-reveal");
-        addEventListener("DOMContentLoaded", () => {
-          const io = new IntersectionObserver(
-            (entries) => {
-              for (const e of entries) {
-                if (e.isIntersecting) {
-                  e.target.classList.add("is-visible");
-                  io.unobserve(e.target);
-                }
-              }
-            },
-            { rootMargin: "0px 0px -8% 0px" },
-          );
-          document.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
-        });
-      }
-    </script>
   </head>
   <body class="flex min-h-screen flex-col">
-    <a href="#main" class="sr-only z-[60] bg-ink px-4 py-3 text-xs text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3">
+    <a href="#main" class="sr-only z-[60] bg-signal px-4 py-3 text-sm text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3">
       Skip to content
     </a>
     <Nav active={active} />

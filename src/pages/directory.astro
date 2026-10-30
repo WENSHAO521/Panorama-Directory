@@ -16,71 +16,79 @@ const available = new Set(scholars.flatMap((s) => nameInitials(s.data.name)));
   description="Browse every editor, adviser and editorial board member of Panorama Scholarly Group, searchable by name, institution and research field."
   active="directory"
 >
-  <section class="mx-auto max-w-6xl px-5 pt-16 pb-10 md:px-8 md:pt-24">
-    <p class="eyebrow mb-5">Academic Network</p>
-    <h1 class="display mb-12 text-5xl md:text-7xl">Editorial Directory</h1>
+  <section class="wrap grid-12 gap-y-6 pt-14 pb-10 md:pt-24 md:pb-14">
+    <p class="label col-span-4 md:col-span-3 md:pt-3">Academic network</p>
+    <h1 class="headline col-span-4 text-[clamp(3rem,8vw,6.5rem)] md:col-span-9">Editorial Directory<span class="text-signal">.</span></h1>
+  </section>
 
-    <div class="grid gap-6 border-b border-ink pb-6 md:grid-cols-[1fr_auto] md:items-stretch">
-      <div class="flex items-center border border-ink bg-paper focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-ink">
-        <Icon name="search" class="mx-4 text-2xl!" />
-        <label for="directory-search" class="sr-only">Filter members</label>
+  <section class="wrap">
+    <div class="grid-12 gap-y-4 border-t-2 border-ink pt-4">
+      <label for="directory-search" class="label col-span-4 md:col-span-3 md:pt-3">Filter</label>
+      <div class="col-span-4 flex items-center border-b-2 border-ink focus-within:border-signal md:col-span-6">
+        <Icon name="search" class="mr-3 text-2xl!" />
         <input
           type="search"
           id="directory-search"
           autocomplete="off"
-          class="w-full border-0 bg-transparent px-0 py-3.5 text-lg font-light placeholder:text-faint focus:ring-0 focus:outline-none"
-          placeholder="Filter by name, institution, keyword or publication"
+          class="w-full border-0 bg-transparent px-0 py-2.5 text-lg placeholder:text-faint focus:ring-0 focus:outline-none md:text-xl"
+          placeholder="Name, institution, field or publication"
         />
       </div>
-      <div class="flex items-center gap-2" role="group" aria-label="Layout">
-        <button type="button" data-view="grid" aria-pressed="true" class="view-btn flex h-12 w-14 items-center md:h-full justify-center border border-ink transition-colors aria-pressed:bg-ink aria-pressed:text-paper" title="Grid view">
-          <Icon name="grid_view" /><span class="sr-only">Grid view</span>
-        </button>
-        <button type="button" data-view="list" aria-pressed="false" class="view-btn flex h-12 w-14 items-center md:h-full justify-center border border-ink transition-colors aria-pressed:bg-ink aria-pressed:text-paper" title="List view">
-          <Icon name="view_list" /><span class="sr-only">List view</span>
-        </button>
+      <div class="col-span-4 flex md:col-span-3 md:justify-end" role="group" aria-label="Layout">
+        <button type="button" data-view="list" aria-pressed="true" class="view-btn border border-ink px-4 py-2 text-sm font-medium aria-pressed:bg-ink aria-pressed:text-paper">Index</button>
+        <button type="button" data-view="grid" aria-pressed="false" class="view-btn -ml-px border border-ink px-4 py-2 text-sm font-medium aria-pressed:bg-ink aria-pressed:text-paper">Portraits</button>
       </div>
     </div>
 
-    <div class="no-scrollbar -mx-5 overflow-x-auto px-5 md:mx-0 md:px-0" role="group" aria-label="Filter by initial">
-      <div class="flex min-w-max items-center gap-0.5 py-4" id="alphabet-filter">
-        <button type="button" data-letter="ALL" aria-pressed="true" class="alpha-btn px-3 py-2 text-xs font-semibold">All</button>
-        {
-          letters.map((l) => (
-            <button type="button" data-letter={l} aria-pressed="false" disabled={!available.has(l)} class="alpha-btn px-2.5 py-2 text-xs font-semibold">
-              {l}
-            </button>
-          ))
-        }
+    <div class="grid-12 mt-6 gap-y-2">
+      <p class="label col-span-4 md:col-span-3 md:pt-1.5">Initial</p>
+      <div class="col-span-4 -mx-5 overflow-x-auto px-5 md:col-span-9 md:mx-0 md:px-0 no-scrollbar" role="group" aria-label="Filter by initial">
+        <div class="flex min-w-max" id="alphabet-filter">
+          <button type="button" data-letter="ALL" aria-pressed="true" class="alpha-btn h-8 px-2.5 text-sm font-medium">All</button>
+          {
+            letters.map((l) => (
+              <button type="button" data-letter={l} aria-pressed="false" disabled={!available.has(l)} class="alpha-btn h-8 w-8 text-sm font-medium">
+                {l}
+              </button>
+            ))
+          }
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="mx-auto max-w-6xl px-5 pb-24 md:px-8">
-    <p id="result-count" class="eyebrow tabular mb-8" aria-live="polite">{scholars.length} editorial members</p>
+  <section class="wrap pt-12 pb-24 md:pb-32">
+    <p id="result-count" class="label tabular mb-3" aria-live="polite">{scholars.length} members</p>
 
-    <div id="view-grid" class="grid gap-x-5 border-b border-ink sm:grid-cols-2 sm:gap-y-5 sm:border-b-0 lg:grid-cols-3 xl:grid-cols-4">
+    <div id="view-list" class="flex flex-col border-t-2 border-ink">
+      <div class="hidden border-b border-ink py-2 text-xs font-medium text-muted md:grid md:grid-cols-12 md:gap-x-6" aria-hidden="true">
+        <span class="col-span-2">No.</span>
+        <span class="col-span-3">Name</span>
+        <span class="col-span-2">Role</span>
+        <span class="col-span-3">Institution</span>
+        <span class="col-span-2">Fields</span>
+      </div>
       {
         scholars.map((s, i) => (
-          <div data-id={s.id} data-initials={nameInitials(s.data.name).join("")} data-reveal style={`--reveal-i: ${i % 4}`}>
+          <div data-id={s.id} data-initials={nameInitials(s.data.name).join("")}>
+            <ScholarRow scholar={s} index={i + 1} />
+          </div>
+        ))
+      }
+    </div>
+    <div id="view-grid" class="grid border-b border-ink sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:border-b-0 sm:border-t-2 sm:border-ink sm:pt-6 lg:grid-cols-4" hidden>
+      {
+        scholars.map((s, i) => (
+          <div data-id={s.id} data-initials={nameInitials(s.data.name).join("")}>
             <ScholarCard scholar={s} eager={i < 4} />
           </div>
         ))
       }
     </div>
-    <div id="view-list" class="flex flex-col gap-5" hidden>
-      {
-        scholars.map((s) => (
-          <div data-id={s.id} data-initials={nameInitials(s.data.name).join("")}>
-            <ScholarRow scholar={s} />
-          </div>
-        ))
-      }
-    </div>
 
-    <div id="empty-state" hidden class="border border-rule bg-mist px-6 py-16 text-center">
-      <p class="display mb-3 text-2xl">No members found</p>
-      <button type="button" id="reset-filters" class="link-underline text-[11px] font-semibold uppercase tracking-[0.16em]">Clear filters</button>
+    <div id="empty-state" hidden class="border-b border-rule py-16">
+      <p class="headline mb-4 text-3xl">No members found.</p>
+      <button type="button" id="reset-filters" class="link text-sm font-medium">Clear filters</button>
     </div>
   </section>
 
@@ -89,14 +97,15 @@ const available = new Set(scholars.flatMap((s) => nameInitials(s.data.name)));
 
 <style>
   .alpha-btn {
-    border-bottom: 2px solid transparent;
-    color: var(--color-muted);
-    transition: color 150ms, border-color 150ms;
-  }
-  .alpha-btn:hover:not(:disabled),
-  .alpha-btn[aria-pressed="true"] {
     color: var(--color-ink);
-    border-color: var(--color-ink);
+    transition: color 120ms, background-color 120ms;
+  }
+  .alpha-btn:hover:not(:disabled) {
+    color: var(--color-signal);
+  }
+  .alpha-btn[aria-pressed="true"] {
+    background: var(--color-ink);
+    color: var(--color-paper);
   }
   .alpha-btn:disabled {
     color: var(--color-rule);
@@ -141,17 +150,17 @@ const available = new Set(scholars.flatMap((s) => nameInitials(s.data.name)));
     const rank = new Map(ranked.map((id, i) => [id, i]));
     let shown = 0;
     for (const container of Object.values(views)) {
-      const items = [...container.children] as HTMLElement[];
+      const items = [...container.querySelectorAll<HTMLElement>(":scope > [data-id]")];
       for (const el of items) {
         const ok = rank.has(el.dataset.id!) && (letter === "ALL" || el.dataset.initials!.includes(letter));
         el.hidden = !ok;
         // While searching, best matches first; otherwise alphabetical.
         el.style.order = q ? String(rank.get(el.dataset.id!) ?? 0) : "";
-        if (ok && container === views.grid) shown++;
+        if (ok && container === views.list) shown++;
       }
     }
     empty.hidden = shown > 0;
-    count.textContent = shown === total ? `${total} editorial members` : `Showing ${shown} of ${total} editorial members`;
+    count.textContent = shown === total ? `${total} members` : `${shown} of ${total} members`;
 
     const url = new URL(location.href);
     q ? url.searchParams.set("q", q) : url.searchParams.delete("q");
@@ -173,7 +182,7 @@ const available = new Set(scholars.flatMap((s) => nameInitials(s.data.name)));
   });
 
   try {
-    if (localStorage.getItem("directory-view") === "list") setView("list");
+    if (localStorage.getItem("directory-view") === "grid") setView("grid");
   } catch {}
   apply();
 </script>

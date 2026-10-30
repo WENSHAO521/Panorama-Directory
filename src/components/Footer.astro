@@ -1,36 +1,32 @@
 ---
-import { Image } from "astro:assets";
-import mark from "../assets/mark.png";
 const year = new Date().getFullYear();
 ---
 
-<footer class="mt-auto border-t border-ink bg-paper">
-  <div class="mx-auto grid max-w-6xl gap-10 px-5 py-14 md:grid-cols-12 md:px-8">
-    <div class="md:col-span-6">
-      <Image src={mark} alt="" class="mb-5 h-6 w-auto" height={48} />
-      <p class="max-w-sm text-sm leading-relaxed font-light text-muted">
-        The international network of editors, advisers and scholarly contributors of Panorama Scholarly Group.
-      </p>
+<footer class="mt-auto bg-ink text-paper">
+  <div class="wrap grid-12 gap-y-10 py-14 md:py-20">
+    <div class="col-span-4 md:col-span-6">
+      <p class="headline text-3xl md:text-5xl">Panorama Scholarly Group<br />Editorial Directory</p>
     </div>
-    <div class="md:col-span-3">
-      <p class="eyebrow mb-4">Directory</p>
+    <div class="col-span-2 md:col-span-3">
+      <p class="mb-4 text-sm text-paper/50">Directory</p>
       <ul class="space-y-2 text-sm">
-        <li><a class="hover:text-muted" href="/directory">All members</a></li>
-        <li><a class="hover:text-muted" href="/about">About</a></li>
-        <li><a class="hover:text-muted" href="/contact">Contact</a></li>
+        <li><a class="hover:text-signal" href="/directory">All members</a></li>
+        <li><a class="hover:text-signal" href="/about">About</a></li>
+        <li><a class="hover:text-signal" href="/contact">Contact</a></li>
       </ul>
     </div>
-    <div class="md:col-span-3">
-      <p class="eyebrow mb-4">Publisher</p>
-      <ul class="space-y-2 text-sm">
-        <li><a class="hover:text-muted" href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer">panorama-sg.com</a></li>
-        <li><a class="hover:text-muted" href="mailto:directory.admin@panorama-sg.com">directory.admin@panorama-sg.com</a></li>
+    <div class="col-span-2 md:col-span-3">
+      <p class="mb-4 text-sm text-paper/50">Publisher</p>
+      <ul class="space-y-2 text-sm break-words">
+        <li><a class="hover:text-signal" href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer">panorama-sg.com ↗</a></li>
+        <li><a class="hover:text-signal" href="mailto:directory.admin@panorama-sg.com">directory.admin@<wbr />panorama-sg.com</a></li>
       </ul>
     </div>
   </div>
-  <div class="border-t border-rule">
-    <p class="mx-auto max-w-6xl px-5 py-6 text-[11px] uppercase tracking-[0.16em] text-faint md:px-8">
-      © {year} Panorama Scholarly Group Editorial Directory
-    </p>
+  <div class="border-t border-paper/15">
+    <div class="wrap flex justify-between py-5 text-xs text-paper/50">
+      <span>© {year} Panorama Scholarly Group Editorial Directory</span>
+      <span class="hidden md:inline">Hong Kong</span>
+    </div>
   </div>
 </footer>

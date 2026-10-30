@@ -1,8 +1,7 @@
 """Build a tiny self-hosted Material Symbols Outlined font.
 
 The full icon font is ~4 MB, so this keeps only the icons the site actually
-uses (scanned from src/: <Icon name="..."> in components/pages and `icon:` in
-scholar content), pinned at the axis values set in src/styles/global.css
+uses (scanned from src/: <Icon name="..."> in components and pages), pinned at the axis values set in src/styles/global.css
 (FILL 0, wght 300, GRAD 0, opsz 24).
 
 Re-run after adding a new icon name anywhere in the markup:
@@ -21,19 +20,13 @@ ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "node_modules/material-symbols/material-symbols-outlined.woff2"
 OUT = ROOT / "public/assets/fonts/material-symbols-outlined-subset.woff2"
 
-ICON_RES = [
-    re.compile(r'<Icon\s+name="([a-z0-9_]+)"'),  # .astro markup
-    re.compile(r'^\s*icon:\s*([a-z0-9_]+)\s*$', re.M),  # scholar frontmatter
-]
+ICON_RE = re.compile(r'<Icon\s+name="([a-z0-9_]+)"')
 
 
 def used_icons():
     names = set()
-    for path in (ROOT / "src").rglob("*"):
-        if path.suffix in (".astro", ".md"):
-            text = path.read_text(encoding="utf-8")
-            for pattern in ICON_RES:
-                names.update(pattern.findall(text))
+    for path in (ROOT / "src").rglob("*.astro"):
+        names.update(ICON_RE.findall(path.read_text(encoding="utf-8")))
     return sorted(names)
 
 

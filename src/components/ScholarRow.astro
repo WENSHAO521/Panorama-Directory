@@ -4,32 +4,25 @@ import { profileUrl, type Scholar } from "../lib/scholars";
 
 interface Props {
   scholar: Scholar;
+  index: number;
 }
-const { scholar } = Astro.props;
-const { name, affiliation, role, photo, summary, keywords } = scholar.data;
+const { scholar, index } = Astro.props;
+const { name, affiliation, role, photo, keywords } = scholar.data;
 const href = profileUrl(scholar);
 ---
 
-<article class="card-lift group relative flex flex-col gap-6 border border-rule bg-paper p-6 hover:border-ink sm:flex-row md:p-8">
-  <div class="aspect-[4/5] w-28 shrink-0 overflow-hidden border border-rule bg-mist md:w-32">
-    <Image
-      src={photo}
-      alt={`Portrait of ${name}`}
-      widths={[160, 320]}
-      sizes="128px"
-      class="h-full w-full object-cover grayscale-[35%] transition duration-700 ease-editorial group-hover:scale-[1.03] group-hover:grayscale-0"
-      style={`view-transition-name: portrait-${scholar.id}`}
-    />
+<!-- One row of the index table: No. / portrait / name / role / institution / fields. -->
+<article class="group relative flex items-start gap-4 border-b border-rule py-4 transition-colors hover:bg-mist md:grid md:grid-cols-12 md:gap-x-6">
+  <span class="tabular label hidden pt-0.5 md:col-span-1 md:block">{String(index).padStart(2, "0")}</span>
+  <div class="aspect-[4/5] w-12 shrink-0 overflow-hidden bg-mist md:col-span-1">
+    <Image src={photo} alt="" widths={[96]} sizes="48px" class="h-full w-full object-cover" />
   </div>
-  <div class="grow">
-    <p class="eyebrow mb-2">{role}</p>
-    <h3 class="display mb-1 text-2xl md:text-3xl">
-      <a href={href} class="after:absolute after:inset-0">{name}</a>
+  <div class="min-w-0 md:contents">
+    <h3 class="font-bold tracking-tight md:col-span-3">
+      <a href={href} class="after:absolute after:inset-0 group-hover:text-signal">{name}</a>
     </h3>
-    <p class="mb-4 text-xs font-semibold uppercase tracking-[0.12em] text-muted">{affiliation}</p>
-    <p class="mb-5 max-w-2xl text-sm leading-relaxed font-light text-ink/80">{summary}</p>
-    <ul class="flex flex-wrap gap-2">
-      {keywords.map((k) => <li class="border border-rule px-2.5 py-1 text-[11px] text-muted">{k}</li>)}
-    </ul>
+    <p class="text-sm md:col-span-2">{role}</p>
+    <p class="text-sm text-muted md:col-span-3">{affiliation}</p>
+    <p class="hidden text-sm text-muted md:col-span-2 md:block">{keywords.slice(0, 2).join(", ")}</p>
   </div>
 </article>

@@ -35,12 +35,20 @@ profile is published at `/board/<slug>`.
   featured); the directory itself is alphabetical.
 
 Section `layout: list` renders `type: publication` rows; `layout: grid`
-renders `type: card` items (appointments, honours, expertise).
+renders `type: card` items (appointments, honours, expertise). A card's
+`icon` field is kept in the data but not drawn by the current design.
+
+## Design
+
+Functional German/Swiss typographic style, defined in `src/styles/global.css`:
+one grotesk typeface (Inter), a 12-column grid (`wrap` + `grid-12`), black on
+white with hairline rules, and signal red (`--color-signal`) only for
+emphasis and state. Section headers are numbered (`SectionHeading`).
 
 ## Icons
 
 Icons use a self-hosted subset of Material Symbols. After using a new icon
-name (in `<Icon name="...">` or an `icon:` field), regenerate the subset:
+name in `<Icon name="...">`, regenerate the subset:
 
 ```sh
 pip install fonttools brotli

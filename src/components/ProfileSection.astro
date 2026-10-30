@@ -2,39 +2,34 @@
 import type { Scholar } from "../lib/scholars";
 import { inline } from "../lib/scholars";
 import SectionHeading from "./SectionHeading.astro";
-import Icon from "./Icon.astro";
 
 interface Props {
   section: Scholar["data"]["sections"][number];
+  index: string;
 }
-const { section } = Astro.props;
+const { section, index } = Astro.props;
 const { layout, columns = 2, compact } = section;
-const gridCols = columns === 3 ? "md:grid-cols-3" : "md:grid-cols-2";
 ---
 
-<div>
-  {(section.eyebrow || section.title) && <SectionHeading eyebrow={section.eyebrow} title={section.title} />}
+<section>
+  <SectionHeading index={index} label={section.eyebrow ?? "Focus"} title={section.title ?? (compact ? "Research focus" : undefined)} />
 
   {
     layout === "list" ? (
-      <ol class="divide-y divide-rule border-y border-rule">
+      <ol class="border-t border-ink">
         {section.items.map((item) =>
           item.type === "publication" ? (
-            <li class="grid gap-3 py-7 md:grid-cols-[7rem_1fr] md:gap-10" data-reveal>
-              <span class="tabular pt-1 font-mono text-xs font-semibold tracking-[0.12em] uppercase">{item.label}</span>
-              <div>
-                <h3 class="mb-3 text-lg leading-snug font-semibold text-balance">{item.title}</h3>
-                {item.authors && <p class="mb-1 text-sm" set:html={inline(item.authors)} />}
+            <li class="grid-12 gap-y-2 border-b border-rule py-6">
+              <span class="tabular col-span-4 text-sm font-medium md:col-span-3">{item.label}</span>
+              <div class="col-span-4 md:col-span-7">
+                <h3 class="mb-2 text-lg leading-snug font-bold tracking-tight">{item.title}</h3>
+                {item.authors && <p class="text-sm" set:html={inline(item.authors)} />}
                 {item.venue && <p class="text-sm text-muted italic" set:html={inline(item.venue)} />}
+              </div>
+              <div class="col-span-4 md:col-span-2 md:text-right">
                 {item.link && (
-                  <a
-                    href={item.link.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="mt-3 inline-flex items-center gap-1 font-mono text-xs text-muted transition-colors hover:text-ink"
-                  >
-                    {item.link.text}
-                    <Icon name="north_east" class="text-sm!" />
+                  <a href={item.link.href} target="_blank" rel="noopener noreferrer" class="link font-mono text-xs break-all text-muted">
+                    {item.link.text} ↗
                   </a>
                 )}
               </div>
@@ -43,37 +38,26 @@ const gridCols = columns === 3 ? "md:grid-cols-3" : "md:grid-cols-2";
         )}
       </ol>
     ) : (
-      <div class:list={["grid grid-cols-1 gap-5 md:gap-6", gridCols]}>
-        {section.items.map((item, i) =>
+      <div class:list={["grid gap-x-6 gap-y-10 border-t border-ink pt-6 md:grid-cols-12"]}>
+        {section.items.map((item) =>
           item.type === "card" ? (
-            <div
-              data-reveal
-              style={`--reveal-i: ${i % 3}`}
-              class:list={[
-                "flex flex-col border-t-2 border-ink bg-mist",
-                compact ? "p-6" : "p-7 md:p-8",
-                item.centered && "items-center text-center",
-              ]}
-            >
-              {item.icon && <Icon name={item.icon} class:list={[compact ? "mb-3 text-3xl!" : "mb-5 text-4xl!"]} />}
-              <h3 class:list={["font-semibold", compact ? "mb-2 text-sm" : "mb-3 text-xl leading-snug"]}>{item.title}</h3>
+            <div class:list={["md:col-span-4", columns === 2 && !compact && "md:col-span-6"]}>
+              <h3 class:list={["mb-3 font-bold tracking-tight", compact ? "text-base" : "text-xl leading-snug"]}>{item.title}</h3>
               {item.entries && (
-                <dl class="mt-3 divide-y divide-ink/10">
+                <dl class="border-t border-rule">
                   {item.entries.map((e) => (
-                    <div class="py-3 first:pt-0 last:pb-0">
-                      <dt class="text-sm font-semibold">{e.title}</dt>
-                      <dd class="eyebrow mt-1">{e.meta}</dd>
+                    <div class="border-b border-rule py-3">
+                      <dt class="text-sm font-medium">{e.title}</dt>
+                      <dd class="text-sm text-muted">{e.meta}</dd>
                     </div>
                   ))}
                 </dl>
               )}
-              {item.meta?.map((m) => <p class="eyebrow" set:html={inline(m)} />)}
-              {item.text?.map((t) => (
-                <p class:list={["font-light text-muted", compact ? "text-xs leading-relaxed" : "mt-1 text-sm leading-relaxed"]} set:html={inline(t)} />
-              ))}
+              {item.meta?.map((m) => <p class="text-sm text-muted" set:html={inline(m)} />)}
+              {item.text?.map((t) => <p class="mt-1 text-sm leading-relaxed text-muted" set:html={inline(t)} />)}
               {item.list && (
-                <ul class="mt-1 list-disc space-y-3 pl-4 text-sm font-light text-muted marker:text-faint">
-                  {item.list.map((l) => <li set:html={inline(l)} />)}
+                <ul class="border-t border-rule">
+                  {item.list.map((l) => <li class="border-b border-rule py-3 text-sm leading-relaxed" set:html={inline(l)} />)}
                 </ul>
               )}
             </div>
@@ -82,4 +66,4 @@ const gridCols = columns === 3 ? "md:grid-cols-3" : "md:grid-cols-2";
       </div>
     )
   }
-</div>
+</section>

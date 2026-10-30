@@ -5,7 +5,6 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProfileSection from "../../components/ProfileSection.astro";
 import ScholarCard from "../../components/ScholarCard.astro";
 import SectionHeading from "../../components/SectionHeading.astro";
-import Icon from "../../components/Icon.astro";
 import { getFeatured, type Scholar } from "../../lib/scholars";
 
 export async function getStaticPaths() {
@@ -46,29 +45,30 @@ const jsonLd = {
 <BaseLayout title={`${d.name} | Academic Profile`} description={d.summary} active="directory" image={og.src} type="profile">
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-  <div class="mx-auto max-w-6xl px-5 pt-8 md:px-8 md:pt-10">
-    <a href="/directory" class="inline-flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-muted transition-colors hover:text-ink">
-      <Icon name="arrow_back" class="text-base!" /> Directory
-    </a>
-  </div>
+  <nav class="wrap pt-6 md:pt-8" aria-label="Breadcrumb">
+    <ol class="label flex gap-2">
+      <li><a href="/directory" class="link">Directory</a></li>
+      <li aria-hidden="true">/</li>
+      <li class="text-ink" aria-current="page">{d.name}</li>
+    </ol>
+  </nav>
 
-  <section class="mx-auto grid max-w-6xl gap-x-14 gap-y-10 px-5 pt-8 pb-20 md:grid-cols-12 md:px-8 md:pt-12 md:pb-28">
-    <!-- On phones the name comes first, then the portrait, then the bio. -->
-    <header class="md:col-span-8 md:col-start-5 md:row-start-1">
-      <p class="eyebrow mb-5">{d.role}</p>
-      <h1 class="display mb-3 text-5xl md:text-7xl">{d.name}</h1>
-      {d.nativeName && <p class="mb-3 text-2xl font-light text-muted" lang="zh">{d.nativeName}</p>}
-      <p class="border-l-2 border-ink pl-4 text-lg font-medium text-ink/80 md:text-xl">{d.headline ?? d.affiliation}</p>
+  <section class="wrap grid-12 gap-y-10 pt-10 pb-20 md:pt-16 md:pb-28">
+    <header class="col-span-4 md:col-span-9 md:col-start-4 md:row-start-1">
+      <p class="label mb-4 text-ink">{d.role}</p>
+      <h1 class="headline mb-4 text-[clamp(2.75rem,7vw,6rem)]">{d.name}</h1>
+      {d.nativeName && <p class="mb-4 text-2xl text-muted" lang="zh">{d.nativeName}</p>}
+      <p class="text-xl md:text-2xl">{d.headline ?? d.affiliation}</p>
     </header>
 
-    <aside class="md:col-span-4 md:col-start-1 md:row-span-2 md:row-start-1">
-      <div class="md:sticky md:top-28">
-        <div class="mx-auto aspect-[3/4] max-w-xs overflow-hidden bg-mist md:max-w-none">
+    <aside class="col-span-4 md:col-span-3 md:col-start-1 md:row-span-2 md:row-start-1">
+      <div class="md:sticky md:top-24">
+        <div class="aspect-[4/5] max-w-[16rem] overflow-hidden bg-mist md:max-w-none">
           <Image
             src={d.photo}
             alt={`Portrait of ${d.name}`}
-            widths={[360, 540, 800]}
-            sizes="(min-width: 768px) 360px, 90vw"
+            widths={[320, 480, 640]}
+            sizes="(min-width: 768px) 300px, 256px"
             class="h-full w-full object-cover"
             style={`view-transition-name: portrait-${scholar.id}`}
             loading="eager"
@@ -76,70 +76,77 @@ const jsonLd = {
           />
         </div>
 
-        {
-          d.identifiers && (
-            <dl class="mt-5 divide-y divide-rule border-y border-ink">
-              {d.identifiers.map((id) => (
-                <div class="py-4">
-                  <dt class="eyebrow mb-1">{id.label}</dt>
-                  <dd>
-                    <a href={id.href} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-mono text-sm transition-colors hover:text-muted">
-                      {id.value}
-                      <Icon name="north_east" class="text-sm!" />
-                    </a>
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          )
-        }
-
+        <dl class="mt-6 border-t-2 border-ink text-sm">
+          <div class="border-b border-rule py-3">
+            <dt class="label">Affiliation</dt>
+            <dd>{d.affiliation}</dd>
+          </div>
+          {
+            d.identifiers?.map((id) => (
+              <div class="border-b border-rule py-3">
+                <dt class="label">{id.label}</dt>
+                <dd>
+                  <a href={id.href} target="_blank" rel="noopener noreferrer" class="link tabular font-mono text-[0.8125rem]">
+                    {id.value} ↗
+                  </a>
+                </dd>
+              </div>
+            ))
+          }
+          {
+            d.email && (
+              <div class="border-b border-rule py-3">
+                <dt class="label">Email</dt>
+                <dd class="break-all">
+                  <a href={`mailto:${d.email}`} class="link">{d.email}</a>
+                </dd>
+              </div>
+            )
+          }
+        </dl>
         {
           d.email && (
-            <a href={`mailto:${d.email}`} class="btn-solid mt-5 w-full">
-              <Icon name="mail" class="text-base!" /> Contact researcher
+            <a href={`mailto:${d.email}`} class="btn-solid mt-4 w-full">
+              Contact researcher <span aria-hidden="true">→</span>
             </a>
           )
         }
       </div>
     </aside>
 
-    <div class="md:col-span-8 md:col-start-5">
-      <div class="prose-bio max-w-2xl text-base leading-[1.75] font-light text-ink/80 md:text-[17px]">
-        <Content />
+    <div class="col-span-4 md:col-span-9 md:col-start-4">
+      <div class="grid gap-y-3 border-t-2 border-ink pt-4 md:grid-cols-9 md:gap-x-6 md:gap-y-8">
+        <p class="label text-ink md:col-span-2">Biography</p>
+        <div class="prose-bio max-w-[42rem] text-[1.0625rem] leading-relaxed md:col-span-7">
+          <Content />
+        </div>
+        <p class="label mt-6 text-ink md:col-span-2 md:mt-0">Research fields</p>
+        <ul class="flex flex-wrap gap-x-1 gap-y-2 md:col-span-7" aria-label="Research fields">
+          {d.keywords.map((k, i) => <li class="text-sm">{k}{i < d.keywords.length - 1 && <span class="text-faint"> ·</span>}</li>)}
+        </ul>
       </div>
-
-      <ul class="mt-10 flex flex-wrap gap-2" aria-label="Research fields">
-        {d.keywords.map((k) => <li class="border border-rule px-3 py-1.5 text-xs text-muted">{k}</li>)}
-      </ul>
     </div>
   </section>
 
   {
     d.sections.length > 0 && (
-      <div class="border-t border-rule">
-        <div class="mx-auto max-w-6xl space-y-20 px-5 py-20 md:space-y-28 md:px-8 md:py-28">
-          {d.sections.map((section) => (
-            <ProfileSection section={section} />
-          ))}
-        </div>
+      <div class="wrap space-y-20 pb-20 md:space-y-28 md:pb-28">
+        {d.sections.map((section, i) => (
+          <ProfileSection section={section} index={String(i + 1).padStart(2, "0")} />
+        ))}
       </div>
     )
   }
 
-  <section class="border-t border-ink bg-mist">
-    <div class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-24">
-      <SectionHeading eyebrow="Editorial Network" title="More from the board">
-        <a href="/directory" class="btn-ghost shrink-0">Full directory</a>
+  <section class="bg-mist">
+    <div class="wrap py-20 md:py-28">
+      <SectionHeading label="Editorial network" title="More from the board">
+        <a href="/directory" class="link shrink-0 text-sm font-medium">All members →</a>
       </SectionHeading>
-      <div class="grid border-b border-ink max-sm:-mt-10 max-sm:[&>:first-child_article]:border-t-0 sm:grid-cols-2 sm:gap-5 sm:border-b-0 md:gap-6 lg:grid-cols-3">
-        {
-          more.map((s, i) => (
-            <div data-reveal style={`--reveal-i: ${i}`}>
-              <ScholarCard scholar={s} />
-            </div>
-          ))
-        }
+      <div class="grid-12">
+        <div class="col-span-4 grid border-b border-ink sm:grid-cols-3 sm:gap-6 sm:border-b-0 md:col-span-9 md:col-start-4">
+          {more.map((s) => <ScholarCard scholar={s} />)}
+        </div>
       </div>
     </div>
   </section>
