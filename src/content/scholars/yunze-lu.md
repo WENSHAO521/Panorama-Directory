@@ -4,6 +4,7 @@ order: 15
 role: Editorial Board Member
 affiliation: China Pharmaceutical University
 photo: ../../assets/scholars/yunze-lu.jpg
+photoCrop: { x: 0.2575, y: 0.2789, width: 0.4421 }
 summary: Editorial Board Member for Silence. Researcher specializing in epidemiology, multi-omics data integration, and biostatistical modeling for precision medicine.
 keywords:
   - Epidemiology

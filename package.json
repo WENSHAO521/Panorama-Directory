@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "build:icons": "python3 scripts/subset-icons.py",
+    "build:crops": "python3 scripts/portrait-crops.py",
     "build": "astro build",
     "dev": "astro dev",
     "preview": "wrangler dev",

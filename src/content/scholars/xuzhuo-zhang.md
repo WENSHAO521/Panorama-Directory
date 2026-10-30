@@ -4,6 +4,7 @@ order: 4
 role: Editorial Board Member
 affiliation: Universiti Malaya
 photo: ../../assets/scholars/xuzhuo-zhang.jpg
+photoCrop: { x: 0.0, y: 0.0, width: 1.0 }
 summary: Editorial Board Member for AI & Future Society. Researcher focusing on digital forensics, federated learning, deep learning frameworks, and ethical parameters in AI-driven investigations.
 keywords:
   - Digital Forensics

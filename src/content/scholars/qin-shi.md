@@ -4,6 +4,7 @@ order: 5
 role: Editorial Board Member
 affiliation: Panorama Scholarly Group
 photo: ../../assets/scholars/qin-shi.jpg
+photoCrop: { x: 0.0, y: 0.0639, width: 1.0 }
 summary: Editorial Board Member for GRHAS. Award-winning choreographer and researcher focusing on the cultural inheritance, pedagogy, and digital preservation of Chinese ethnic and folk dances.
 keywords:
   - Dance Education

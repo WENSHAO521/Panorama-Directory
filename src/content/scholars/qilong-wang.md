@@ -4,6 +4,7 @@ order: 6
 role: Editorial Board Member
 affiliation: Gansu University of Chinese Medicine
 photo: ../../assets/scholars/qilong-wang.jpg
+photoCrop: { x: 0.0, y: 0.0555, width: 1.0 }
 summary: Editorial Board Member for Silence and Youth Editorial Board Member for Health Nexus. Researcher specializing in psychiatric epidemiology, geriatric psychiatry, and AI predictive modeling in medical research.
 keywords:
   - Psychiatric Epidemiology

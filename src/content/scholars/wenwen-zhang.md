@@ -4,6 +4,7 @@ order: 12
 role: Editorial Board Member
 affiliation: Ningbo University
 photo: ../../assets/scholars/wenwen-zhang.jpg
+photoCrop: { x: 0.0966, y: 0.0191, width: 0.8198 }
 summary: Editorial Board Member for AI & Future Society. Lecturer and researcher exploring the intersection of utopian fiction, artificial intelligence, and technocriticism in literature.
 keywords:
   - Utopian Fiction

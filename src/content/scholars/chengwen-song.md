@@ -4,6 +4,7 @@ order: 1
 role: Executive Editorial Board Member
 affiliation: Kookmin University
 photo: ../../assets/scholars/chengwen-song.jpg
+photoCrop: { x: 0.0, y: 0.0697, width: 1.0 }
 summary: Editor-in-Chief of PoliEcoM Administration Review and Executive Editorial Board Member. Ph.D. candidate in Public Administration, focusing on central government governance, higher education institutions, and psychological mechanisms in organizational behavior.
 keywords:
   - Public Administration

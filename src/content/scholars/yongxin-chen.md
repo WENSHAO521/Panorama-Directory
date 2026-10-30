@@ -4,6 +4,7 @@ order: 10
 role: Editorial Board Member
 affiliation: Civil Aviation Flight University of China
 photo: ../../assets/scholars/yongxin-chen.jpg
+photoCrop: { x: 0.1681, y: 0.1098, width: 0.6324 }
 summary: Editorial Board Member for AI & Future Society. Lecturer and Research Fellow focusing on corporate digital transformation, innovation management, and sustainable development.
 keywords:
   - Digital Transformation

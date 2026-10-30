@@ -1,5 +1,6 @@
 ---
-import { Image, getImage } from "astro:assets";
+import { getImage } from "astro:assets";
+import Portrait from "../../components/Portrait.astro";
 import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProfileSection from "../../components/ProfileSection.astro";
@@ -65,18 +66,14 @@ const jsonLd = {
 
   <section class="border-b border-rule">
     <div class="wrap flex flex-col gap-6 py-8 sm:flex-row sm:gap-8 md:py-12">
-      <div class="aspect-[4/5] w-36 shrink-0 overflow-hidden rounded-lg bg-surface md:w-48">
-        <Image
-          src={d.photo}
-          alt={`Portrait of ${d.name}`}
-          widths={[288, 384, 576]}
-          sizes="(min-width: 768px) 192px, 144px"
-          class="h-full w-full object-cover"
-          style={`view-transition-name: portrait-${scholar.id}`}
-          loading="eager"
-          fetchpriority="high"
-        />
-      </div>
+      <Portrait
+        scholar={scholar}
+        widths={[288, 384, 576]}
+        sizes="(min-width: 768px) 192px, 144px"
+        class="w-36 rounded-lg md:w-48"
+        loading="eager"
+        fetchpriority="high"
+      />
       <div class="min-w-0">
         <p class="kicker mb-2">{d.role}</p>
         <h1 class="mb-1 text-3xl font-semibold tracking-tight md:text-[2.75rem] md:leading-tight">

@@ -1,21 +1,19 @@
 ---
 // One member in a publisher-style editorial board listing.
-import { Image } from "astro:assets";
 import { profileUrl, type Scholar } from "../lib/scholars";
 import IdBadges from "./IdBadges.astro";
+import Portrait from "./Portrait.astro";
 
 interface Props {
   scholar: Scholar;
 }
 const { scholar } = Astro.props;
-const { name, nativeName, affiliation, role, photo, keywords } = scholar.data;
+const { name, nativeName, affiliation, role, keywords } = scholar.data;
 const href = profileUrl(scholar);
 ---
 
 <article class="group relative flex gap-4 py-5 md:gap-5">
-  <div class="aspect-[4/5] w-16 shrink-0 overflow-hidden rounded-md bg-surface md:w-[4.5rem]">
-    <Image src={photo} alt={`Portrait of ${name}`} widths={[96, 144]} sizes="72px" class="h-full w-full object-cover" style={`view-transition-name: portrait-${scholar.id}`} />
-  </div>
+  <Portrait scholar={scholar} widths={[96, 144]} sizes="72px" class="w-16 self-start rounded-md md:w-[4.5rem]" />
   <div class="min-w-0 grow">
     <h3 class="font-semibold tracking-tight md:text-[1.0625rem]">
       <a href={href} class="after:absolute after:inset-0 group-hover:text-brand-600 group-hover:underline">{name}</a>

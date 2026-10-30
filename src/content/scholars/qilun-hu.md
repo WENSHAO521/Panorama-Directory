@@ -4,6 +4,7 @@ order: 3
 role: Editor-in-Chief
 affiliation: Kookmin University & Nanjing Communication University
 photo: ../../assets/scholars/qilun-hu.jpg
+photoCrop: { x: 0.0347, y: 0.0, width: 0.9653 }
 summary: Editor-in-Chief of the Journal of Law, Psychology, and Communication Studies. Researcher focusing on political communication, AIGC, information pollution, and algorithmic recommendation.
 keywords:
   - Political Communication

@@ -48,6 +48,8 @@ const scholars = defineCollection({
       // Shown under the name on the profile when it differs from affiliation.
       headline: z.string().optional(),
       photo: image(),
+      // 4:5 window of the photo (fractions of its size), from scripts/portrait-crops.py.
+      photoCrop: z.object({ x: z.number(), y: z.number(), width: z.number() }).optional(),
       summary: z.string(),
       keywords: z.array(z.string()),
       email: z.email().optional(),
