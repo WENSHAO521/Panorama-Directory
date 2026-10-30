@@ -2,34 +2,35 @@
 import type { Scholar } from "../lib/scholars";
 import { inline } from "../lib/scholars";
 import SectionHeading from "./SectionHeading.astro";
+import Icon from "./Icon.astro";
 
 interface Props {
   section: Scholar["data"]["sections"][number];
-  index: string;
+  id: string;
 }
-const { section, index } = Astro.props;
+const { section, id } = Astro.props;
 const { layout, columns = 2, compact } = section;
+const count = layout === "list" ? section.items.length : undefined;
 ---
 
-<section>
-  <SectionHeading index={index} label={section.eyebrow ?? "Focus"} title={section.title ?? (compact ? "Research focus" : undefined)} />
+<section id={id} class="scroll-mt-28">
+  <SectionHeading kicker={section.eyebrow ?? "Research Focus"} title={section.title ?? "Areas of Expertise"} count={count} />
 
   {
     layout === "list" ? (
-      <ol class="border-t border-ink">
+      <ol class="divide-y divide-rule">
         {section.items.map((item) =>
           item.type === "publication" ? (
-            <li class="grid-12 gap-y-2 border-b border-rule py-6">
-              <span class="tabular col-span-4 text-sm font-medium md:col-span-3">{item.label}</span>
-              <div class="col-span-4 md:col-span-7">
-                <h3 class="mb-2 text-lg leading-snug font-bold tracking-tight">{item.title}</h3>
+            <li class="flex gap-4 py-5 first:pt-0">
+              <span class="tabular mt-0.5 w-16 shrink-0 text-sm font-semibold text-brand">{item.label}</span>
+              <div class="min-w-0">
+                <h3 class="mb-1.5 leading-snug font-semibold">{item.title}</h3>
                 {item.authors && <p class="text-sm" set:html={inline(item.authors)} />}
                 {item.venue && <p class="text-sm text-muted italic" set:html={inline(item.venue)} />}
-              </div>
-              <div class="col-span-4 md:col-span-2 md:text-right">
                 {item.link && (
-                  <a href={item.link.href} target="_blank" rel="noopener noreferrer" class="link font-mono text-xs break-all text-muted">
-                    {item.link.text} ↗
+                  <a href={item.link.href} target="_blank" rel="noopener noreferrer" class="link mt-1.5 inline-flex items-center gap-1 text-sm break-all">
+                    {item.link.text}
+                    <Icon name="open_in_new" class="text-sm!" />
                   </a>
                 )}
               </div>
@@ -38,26 +39,26 @@ const { layout, columns = 2, compact } = section;
         )}
       </ol>
     ) : (
-      <div class:list={["grid gap-x-6 gap-y-10 border-t border-ink pt-6 md:grid-cols-12"]}>
+      <div class:list={["grid gap-4", columns === 3 || compact ? "md:grid-cols-3" : "md:grid-cols-2"]}>
         {section.items.map((item) =>
           item.type === "card" ? (
-            <div class:list={["md:col-span-4", columns === 2 && !compact && "md:col-span-6"]}>
-              <h3 class:list={["mb-3 font-bold tracking-tight", compact ? "text-base" : "text-xl leading-snug"]}>{item.title}</h3>
+            <div class:list={["rounded-lg border border-rule p-5", item.centered && "text-center"]}>
+              <h3 class="mb-2 leading-snug font-semibold">{item.title}</h3>
               {item.entries && (
-                <dl class="border-t border-rule">
+                <dl class="divide-y divide-rule">
                   {item.entries.map((e) => (
-                    <div class="border-b border-rule py-3">
+                    <div class="py-2.5 first:pt-0 last:pb-0">
                       <dt class="text-sm font-medium">{e.title}</dt>
                       <dd class="text-sm text-muted">{e.meta}</dd>
                     </div>
                   ))}
                 </dl>
               )}
-              {item.meta?.map((m) => <p class="text-sm text-muted" set:html={inline(m)} />)}
+              {item.meta?.map((m) => <p class="text-sm text-brand-600" set:html={inline(m)} />)}
               {item.text?.map((t) => <p class="mt-1 text-sm leading-relaxed text-muted" set:html={inline(t)} />)}
               {item.list && (
-                <ul class="border-t border-rule">
-                  {item.list.map((l) => <li class="border-b border-rule py-3 text-sm leading-relaxed" set:html={inline(l)} />)}
+                <ul class="list-disc space-y-2 pl-4 text-sm leading-relaxed text-muted marker:text-faint">
+                  {item.list.map((l) => <li set:html={inline(l)} />)}
                 </ul>
               )}
             </div>

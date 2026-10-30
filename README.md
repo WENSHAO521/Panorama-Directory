@@ -40,10 +40,13 @@ renders `type: card` items (appointments, honours, expertise). A card's
 
 ## Design
 
-Functional German/Swiss typographic style, defined in `src/styles/global.css`:
-one grotesk typeface (Inter), a 12-column grid (`wrap` + `grid-12`), black on
-white with hairline rules, and signal red (`--color-signal`) only for
-emphasis and state. Section headers are numbered (`SectionHeading`).
+Publisher editorial-board style (in the manner of Springer Nature or De Gruyter
+board pages), defined in `src/styles/global.css`: Inter, navy brand colour
+(`--color-brand`) on white and light grey surfaces, small radii, and thin rules.
+The board is grouped by role tier (`TIERS` in `src/lib/scholars.ts`: a member's
+`role` text decides the tier). Identifiers render as badges (`IdBadges`: green
+ORCID iD, letter badges for others) and publications as citations
+(`ProfileSection`).
 
 ## Icons
 

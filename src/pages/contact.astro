@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
 
 const channels = [
   {
@@ -25,51 +26,49 @@ const channels = [
   description="Contact the Panorama Scholarly Group directory administration, partnerships team or general office."
   active="contact"
 >
-  <section class="wrap grid-12 gap-y-6 pt-14 pb-14 md:pt-24 md:pb-20">
-    <p class="label col-span-4 md:col-span-3 md:pt-3">Administration & support</p>
-    <div class="col-span-4 md:col-span-9">
-      <h1 class="headline mb-8 text-[clamp(3rem,8vw,6.5rem)]">Contact Us<span class="text-signal">.</span></h1>
-      <p class="max-w-2xl text-lg leading-snug md:text-2xl">
+  <section class="border-b border-rule bg-surface">
+    <div class="wrap py-10 md:py-14">
+      <p class="kicker mb-2">Administration & support</p>
+      <h1 class="mb-3 text-3xl font-semibold tracking-tight md:text-[2.75rem]">Contact Us</h1>
+      <p class="max-w-2xl text-muted">
         Whether you are a researcher with directory inquiries, an academic interested in editorial participation, or an institution seeking publishing or collaboration information, we welcome your correspondence.
       </p>
     </div>
   </section>
 
-  <section class="wrap pb-20 md:pb-28">
-    <ol class="border-t-2 border-ink">
+  <div class="wrap grid gap-10 py-10 md:py-14 lg:grid-cols-12">
+    <div class="grid gap-4 md:grid-cols-3 lg:col-span-12">
       {
-        channels.map((c, i) => (
-          <li class="grid-12 gap-y-3 border-b border-rule py-8">
-            <span class="label tabular col-span-4 text-signal md:col-span-3">0{i + 1}</span>
-            <div class="col-span-4 md:col-span-5">
-              <h2 class="mb-2 text-xl font-bold tracking-tight">{c.title}</h2>
-              <p class="text-sm leading-relaxed text-muted">{c.text}</p>
-            </div>
-            <div class="col-span-4 md:col-span-4 md:text-right">
-              <a href={`mailto:${c.email}`} class="link text-lg font-medium break-all md:text-xl">{c.email}</a>
-            </div>
-          </li>
+        channels.map((c) => (
+          <div class="flex flex-col rounded-lg border border-rule p-5">
+            <h2 class="mb-2 text-base font-semibold">{c.title}</h2>
+            <p class="mb-5 flex-1 text-sm leading-relaxed text-muted">{c.text}</p>
+            <a href={`mailto:${c.email}`} class="link inline-flex items-center gap-1.5 text-sm font-medium break-all">
+              <Icon name="mail" class="text-base! no-underline" />
+              {c.email}
+            </a>
+          </div>
         ))
       }
-    </ol>
-  </section>
+    </div>
 
-  <section class="bg-mist">
-    <div class="wrap grid-12 gap-y-8 py-20 md:py-28">
-      <p class="label col-span-4 text-ink md:col-span-3">Administrative and operational contact</p>
-      <address class="col-span-4 text-xl leading-snug not-italic md:col-span-5 md:text-2xl">
-        Panorama Scholarly Group<br />
-        Room 1508, 15/F., Office Tower Two, Grand Plaza,<br />
-        625 Nathan Road, Kowloon, Hong Kong
-      </address>
-      <div class="col-span-4 flex flex-col justify-between gap-6 md:col-span-4">
+    <div class="rounded-lg border border-rule bg-surface p-6 md:p-8 lg:col-span-12 lg:grid lg:grid-cols-12 lg:gap-8">
+      <div class="lg:col-span-5">
+        <h2 class="kicker mb-3">Administrative and operational contact</h2>
+        <address class="text-lg leading-snug not-italic">
+          Panorama Scholarly Group<br />
+          Room 1508, 15/F., Office Tower Two, Grand Plaza,<br />
+          625 Nathan Road, Kowloon, Hong Kong
+        </address>
+      </div>
+      <div class="mt-6 flex flex-col items-start gap-5 lg:col-span-7 lg:mt-0">
         <p class="text-sm leading-relaxed text-muted">
           Selected journals within the group hold ISSNs assigned through the German ISSN Centre. Administrative and operational correspondence is coordinated through the contact information listed on this page.
         </p>
-        <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="btn-line w-full">
-          Visit Official Publishing Platform <span aria-hidden="true">↗</span>
+        <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          Visit Official Publishing Platform <Icon name="open_in_new" class="text-base!" />
         </a>
       </div>
     </div>
-  </section>
+  </div>
 </BaseLayout>

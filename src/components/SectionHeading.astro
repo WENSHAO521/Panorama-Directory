@@ -1,22 +1,24 @@
 ---
-// Swiss-style section header: a heavy rule, the section number and label in
-// the left three columns, the title across the remaining nine.
 interface Props {
-  index?: string;
-  label?: string;
+  kicker?: string;
   title?: string;
+  count?: number;
   as?: "h2" | "h3";
 }
-const { index, label, title, as: Tag = "h2" } = Astro.props;
+const { kicker, title, count, as: Tag = "h2" } = Astro.props;
 ---
 
-<div class="grid-12 mb-10 gap-y-3 border-t-2 border-ink pt-4 md:mb-14">
-  <p class="label col-span-4 flex gap-3 md:col-span-3">
-    {index && <span class="tabular text-signal">{index}</span>}
-    {label && <span class="text-ink">{label}</span>}
-  </p>
-  <div class="col-span-4 flex flex-col gap-5 md:col-span-9 md:flex-row md:items-end md:justify-between">
-    {title && <Tag class="headline text-3xl md:text-5xl">{title}</Tag>}
-    <slot />
+<div class="mb-6 flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b border-rule pb-4 md:mb-8">
+  <div>
+    {kicker && <p class="kicker mb-1.5">{kicker}</p>}
+    {
+      title && (
+        <Tag class="text-2xl font-semibold tracking-tight md:text-[1.75rem]">
+          {title}
+          {count !== undefined && <span class="tabular ml-2 text-base font-normal text-faint">({count})</span>}
+        </Tag>
+      )
+    }
   </div>
+  <slot />
 </div>

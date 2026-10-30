@@ -40,7 +40,7 @@ const ogImage = image ? new URL(image, Astro.site) : undefined;
     <slot name="head" />
   </head>
   <body class="flex min-h-screen flex-col">
-    <a href="#main" class="sr-only z-[60] bg-signal px-4 py-3 text-sm text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3">
+    <a href="#main" class="sr-only z-[60] bg-brand px-4 py-3 text-sm text-paper focus:not-sr-only focus:fixed focus:top-3 focus:left-3">
       Skip to content
     </a>
     <Nav active={active} />

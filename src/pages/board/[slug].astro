@@ -5,6 +5,8 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProfileSection from "../../components/ProfileSection.astro";
 import ScholarCard from "../../components/ScholarCard.astro";
 import SectionHeading from "../../components/SectionHeading.astro";
+import IdBadges from "../../components/IdBadges.astro";
+import Icon from "../../components/Icon.astro";
 import { getFeatured, type Scholar } from "../../lib/scholars";
 
 export async function getStaticPaths() {
@@ -24,6 +26,10 @@ interface Props {
 const { scholar, more } = Astro.props;
 const d = scholar.data;
 const { Content } = await render(scholar);
+const anchors = [
+  { id: "biography", title: "Biography" },
+  ...d.sections.map((sec, i) => ({ id: `section-${i + 1}`, title: sec.title ?? "Areas of Expertise" })),
+];
 const og = await getImage({ src: d.photo, width: 800, format: "jpg" });
 
 const jsonLd = {
@@ -45,109 +51,144 @@ const jsonLd = {
 <BaseLayout title={`${d.name} | Academic Profile`} description={d.summary} active="directory" image={og.src} type="profile">
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-  <nav class="wrap pt-6 md:pt-8" aria-label="Breadcrumb">
-    <ol class="label flex gap-2">
-      <li><a href="/directory" class="link">Directory</a></li>
-      <li aria-hidden="true">/</li>
-      <li class="text-ink" aria-current="page">{d.name}</li>
-    </ol>
-  </nav>
+  <div class="border-b border-rule bg-surface">
+    <nav class="wrap py-3" aria-label="Breadcrumb">
+      <ol class="flex flex-wrap items-center gap-1 text-sm text-muted">
+        <li><a href="/" class="hover:text-brand-600">Home</a></li>
+        <li aria-hidden="true"><Icon name="chevron_right" class="text-base!" /></li>
+        <li><a href="/directory" class="hover:text-brand-600">Editorial Board</a></li>
+        <li aria-hidden="true"><Icon name="chevron_right" class="text-base!" /></li>
+        <li class="text-ink" aria-current="page">{d.name}</li>
+      </ol>
+    </nav>
+  </div>
 
-  <section class="wrap grid-12 gap-y-10 pt-10 pb-20 md:pt-16 md:pb-28">
-    <header class="col-span-4 md:col-span-9 md:col-start-4 md:row-start-1">
-      <p class="label mb-4 text-ink">{d.role}</p>
-      <h1 class="headline mb-4 text-[clamp(2.75rem,7vw,6rem)]">{d.name}</h1>
-      {d.nativeName && <p class="mb-4 text-2xl text-muted" lang="zh">{d.nativeName}</p>}
-      <p class="text-xl md:text-2xl">{d.headline ?? d.affiliation}</p>
-    </header>
-
-    <aside class="col-span-4 md:col-span-3 md:col-start-1 md:row-span-2 md:row-start-1">
-      <div class="md:sticky md:top-24">
-        <div class="aspect-[4/5] max-w-[16rem] overflow-hidden bg-mist md:max-w-none">
-          <Image
-            src={d.photo}
-            alt={`Portrait of ${d.name}`}
-            widths={[320, 480, 640]}
-            sizes="(min-width: 768px) 300px, 256px"
-            class="h-full w-full object-cover"
-            style={`view-transition-name: portrait-${scholar.id}`}
-            loading="eager"
-            fetchpriority="high"
-          />
-        </div>
-
-        <dl class="mt-6 border-t-2 border-ink text-sm">
-          <div class="border-b border-rule py-3">
-            <dt class="label">Affiliation</dt>
-            <dd>{d.affiliation}</dd>
-          </div>
-          {
-            d.identifiers?.map((id) => (
-              <div class="border-b border-rule py-3">
-                <dt class="label">{id.label}</dt>
-                <dd>
-                  <a href={id.href} target="_blank" rel="noopener noreferrer" class="link tabular font-mono text-[0.8125rem]">
-                    {id.value} ↗
-                  </a>
-                </dd>
-              </div>
-            ))
-          }
-          {
-            d.email && (
-              <div class="border-b border-rule py-3">
-                <dt class="label">Email</dt>
-                <dd class="break-all">
-                  <a href={`mailto:${d.email}`} class="link">{d.email}</a>
-                </dd>
-              </div>
-            )
-          }
-        </dl>
+  <section class="border-b border-rule">
+    <div class="wrap flex flex-col gap-6 py-8 sm:flex-row sm:gap-8 md:py-12">
+      <div class="aspect-[4/5] w-36 shrink-0 overflow-hidden rounded-lg bg-surface md:w-48">
+        <Image
+          src={d.photo}
+          alt={`Portrait of ${d.name}`}
+          widths={[288, 384, 576]}
+          sizes="(min-width: 768px) 192px, 144px"
+          class="h-full w-full object-cover"
+          style={`view-transition-name: portrait-${scholar.id}`}
+          loading="eager"
+          fetchpriority="high"
+        />
+      </div>
+      <div class="min-w-0">
+        <p class="kicker mb-2">{d.role}</p>
+        <h1 class="mb-1 text-3xl font-semibold tracking-tight md:text-[2.75rem] md:leading-tight">
+          {d.name}
+          {d.nativeName && <span class="ml-2 text-2xl font-normal text-muted md:text-3xl" lang="zh">{d.nativeName}</span>}
+        </h1>
+        <p class="mb-4 text-lg text-muted">{d.headline ?? d.affiliation}</p>
+        <div class="mb-5"><IdBadges scholar={scholar} size="md" email={false} /></div>
+        <ul class="mb-6 flex flex-wrap gap-1.5" aria-label="Research fields">
+          {d.keywords.map((k) => <li class="tag">{k}</li>)}
+        </ul>
         {
           d.email && (
-            <a href={`mailto:${d.email}`} class="btn-solid mt-4 w-full">
-              Contact researcher <span aria-hidden="true">→</span>
+            <a href={`mailto:${d.email}`} class="btn-primary">
+              <Icon name="mail" /> Contact researcher
             </a>
           )
         }
       </div>
-    </aside>
-
-    <div class="col-span-4 md:col-span-9 md:col-start-4">
-      <div class="grid gap-y-3 border-t-2 border-ink pt-4 md:grid-cols-9 md:gap-x-6 md:gap-y-8">
-        <p class="label text-ink md:col-span-2">Biography</p>
-        <div class="prose-bio max-w-[42rem] text-[1.0625rem] leading-relaxed md:col-span-7">
-          <Content />
-        </div>
-        <p class="label mt-6 text-ink md:col-span-2 md:mt-0">Research fields</p>
-        <ul class="flex flex-wrap gap-x-1 gap-y-2 md:col-span-7" aria-label="Research fields">
-          {d.keywords.map((k, i) => <li class="text-sm">{k}{i < d.keywords.length - 1 && <span class="text-faint"> ·</span>}</li>)}
-        </ul>
-      </div>
     </div>
   </section>
 
-  {
-    d.sections.length > 0 && (
-      <div class="wrap space-y-20 pb-20 md:space-y-28 md:pb-28">
-        {d.sections.map((section, i) => (
-          <ProfileSection section={section} index={String(i + 1).padStart(2, "0")} />
-        ))}
-      </div>
-    )
-  }
+  <nav class="sticky top-16 z-40 border-b border-rule bg-paper/95 backdrop-blur md:top-[4.5rem]" aria-label="On this page">
+    <ul class="wrap no-scrollbar flex gap-6 overflow-x-auto text-sm">
+      {
+        anchors.map((a) => (
+          <li class="shrink-0">
+            <a href={`#${a.id}`} class="block border-b-2 border-transparent py-3 text-muted transition-colors hover:border-brand-600 hover:text-brand-600">
+              {a.title}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
 
-  <section class="bg-mist">
-    <div class="wrap py-20 md:py-28">
-      <SectionHeading label="Editorial network" title="More from the board">
-        <a href="/directory" class="link shrink-0 text-sm font-medium">All members →</a>
-      </SectionHeading>
-      <div class="grid-12">
-        <div class="col-span-4 grid border-b border-ink sm:grid-cols-3 sm:gap-6 sm:border-b-0 md:col-span-9 md:col-start-4">
-          {more.map((s) => <ScholarCard scholar={s} />)}
+  <div class="wrap grid gap-12 py-10 md:py-14 lg:grid-cols-12">
+    <div class="space-y-14 lg:col-span-8">
+      <section id="biography" class="scroll-mt-28">
+        <SectionHeading kicker="Profile" title="Biography" />
+        <div class="prose-bio max-w-[44rem] text-[1.0625rem] leading-relaxed text-ink/90">
+          <Content />
         </div>
+      </section>
+      {d.sections.map((section, i) => <ProfileSection section={section} id={`section-${i + 1}`} />)}
+    </div>
+
+    <aside class="lg:col-span-4">
+      <div class="space-y-5 lg:sticky lg:top-36">
+        <div class="rounded-lg border border-rule">
+          <p class="border-b border-rule bg-surface px-5 py-3 text-sm font-semibold">Editorial role</p>
+          <dl class="space-y-3 px-5 py-4 text-sm">
+            <div>
+              <dt class="label">Position</dt>
+              <dd>{d.role}</dd>
+            </div>
+            <div>
+              <dt class="label">Affiliation</dt>
+              <dd>{d.affiliation}</dd>
+            </div>
+            <div>
+              <dt class="label">Publisher</dt>
+              <dd>Panorama Scholarly Group</dd>
+            </div>
+          </dl>
+        </div>
+        {
+          (d.identifiers || d.email) && (
+            <div class="rounded-lg border border-rule">
+              <p class="border-b border-rule bg-surface px-5 py-3 text-sm font-semibold">Identifiers &amp; contact</p>
+              <dl class="space-y-3 px-5 py-4 text-sm">
+                {d.identifiers?.map((id) => (
+                  <div>
+                    <dt class="label">{id.label}</dt>
+                    <dd>
+                      <a href={id.href} target="_blank" rel="noopener noreferrer" class="link tabular font-mono text-[0.8125rem]">{id.value}</a>
+                    </dd>
+                  </div>
+                ))}
+                {d.email && (
+                  <div>
+                    <dt class="label">Email</dt>
+                    <dd class="break-all">
+                      <a href={`mailto:${d.email}`} class="link">{d.email}</a>
+                    </dd>
+                  </div>
+                )}
+              </dl>
+            </div>
+          )
+        }
+      </div>
+    </aside>
+  </div>
+
+  <section class="border-t border-rule bg-surface">
+    <div class="wrap py-12 md:py-16">
+      <SectionHeading kicker="Editorial network" title="More from the board">
+        <a href="/directory" class="link text-sm font-medium">View full editorial board</a>
+      </SectionHeading>
+      <div class="grid gap-4 sm:grid-cols-3 md:gap-6">
+        {more.map((s) => <ScholarCard scholar={s} />)}
       </div>
     </div>
   </section>
 </BaseLayout>
+
+<style>
+  .no-scrollbar {
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+</style>

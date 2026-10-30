@@ -9,37 +9,42 @@ interface Props {
 const { active } = Astro.props;
 const links = [
   { key: "home", label: "Home", href: "/" },
-  { key: "directory", label: "Directory", href: "/directory" },
+  { key: "directory", label: "Editorial Board", href: "/directory" },
   { key: "about", label: "About", href: "/about" },
   { key: "contact", label: "Contact", href: "/contact" },
 ] as const;
 ---
 
-<header class="sticky top-0 z-50 border-b border-ink bg-paper">
-  <nav class="wrap grid-12 h-16 items-center md:h-[4.5rem]" aria-label="Main">
-    <a href="/" class="col-span-2 flex items-center md:col-span-3" aria-label="Panorama Scholarly Group Editorial Directory, home">
+<div class="bg-brand text-paper/80">
+  <div class="wrap flex h-9 items-center justify-between text-xs">
+    <span class="truncate">Panorama Scholarly Group · Open Access Publishing</span>
+    <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="hidden shrink-0 items-center gap-1 hover:text-paper sm:inline-flex">
+      Journals &amp; publishing platform <Icon name="open_in_new" class="text-sm!" />
+    </a>
+  </div>
+</div>
+
+<header class="sticky top-0 z-50 border-b border-rule bg-paper/95 backdrop-blur">
+  <nav class="wrap flex h-16 items-center justify-between gap-6 md:h-[4.5rem]" aria-label="Main">
+    <a href="/" class="flex shrink-0 items-center gap-3" aria-label="Panorama Scholarly Group Editorial Directory, home">
       <Image src={logo} alt="" class="h-11 w-auto md:h-12" height={96} loading="eager" />
+      <span class="hidden border-l border-rule pl-3 text-sm leading-tight font-semibold text-brand lg:block">
+        Editorial<br />Directory
+      </span>
     </a>
 
-    <ul class="col-span-9 col-start-4 hidden h-full items-stretch md:flex">
+    <ul class="hidden h-full items-stretch gap-1 md:flex">
       {
         links.map((l) => (
-          <li class="flex-1 border-l border-rule last:border-r">
+          <li class="flex">
             <a
               href={l.href}
               aria-current={active === l.key ? "page" : undefined}
               class:list={[
-                "group flex h-full items-center gap-2 px-4 text-sm font-medium transition-colors",
-                active === l.key ? "text-ink" : "text-muted hover:text-ink",
+                "flex items-center border-b-2 px-3 text-sm font-medium transition-colors",
+                active === l.key ? "border-brand text-brand" : "border-transparent text-muted hover:text-brand",
               ]}
             >
-              <span
-                class:list={[
-                  "size-2 transition-colors",
-                  active === l.key ? "bg-signal" : "bg-transparent group-hover:bg-ink",
-                ]}
-                aria-hidden="true"
-              />
               {l.label}
             </a>
           </li>
@@ -47,24 +52,26 @@ const links = [
       }
     </ul>
 
-    <details class="group col-span-2 col-start-3 justify-self-end md:hidden">
-      <summary class="flex h-10 cursor-pointer list-none items-center gap-2 text-sm font-medium [&::-webkit-details-marker]:hidden">
-        <span class="group-open:hidden">Menu</span>
-        <span class="hidden group-open:inline">Close</span>
+    <a href="/directory" class="btn-secondary hidden lg:inline-flex" aria-label="Search the editorial board">
+      <Icon name="search" /> Search members
+    </a>
+
+    <details class="group md:hidden">
+      <summary class="flex size-10 cursor-pointer list-none items-center justify-center rounded-md border border-rule [&::-webkit-details-marker]:hidden" aria-label="Menu">
         <Icon name="menu" class="group-open:hidden" />
         <Icon name="close" class="hidden group-open:inline-block" />
       </summary>
-      <ul class="absolute inset-x-0 top-full border-b border-ink bg-paper">
+      <ul class="absolute inset-x-0 top-full border-b border-rule bg-paper px-5 py-2 shadow-lg">
         {
-          links.map((l, i) => (
-            <li class="border-t border-rule">
+          links.map((l) => (
+            <li class="border-b border-rule last:border-0">
               <a
                 href={l.href}
                 aria-current={active === l.key ? "page" : undefined}
-                class="flex items-baseline gap-4 px-5 py-4 text-2xl font-bold tracking-tight"
+                class:list={["flex items-center justify-between py-3.5 font-medium", active === l.key ? "text-brand" : "text-ink"]}
               >
-                <span class:list={["tabular text-sm font-medium", active === l.key ? "text-signal" : "text-faint"]}>0{i + 1}</span>
                 {l.label}
+                <Icon name="chevron_right" class="text-faint" />
               </a>
             </li>
           ))

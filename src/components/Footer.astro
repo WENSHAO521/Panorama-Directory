@@ -2,31 +2,32 @@
 const year = new Date().getFullYear();
 ---
 
-<footer class="mt-auto bg-ink text-paper">
-  <div class="wrap grid-12 gap-y-10 py-14 md:py-20">
-    <div class="col-span-4 md:col-span-6">
-      <p class="headline text-3xl md:text-5xl">Panorama Scholarly Group<br />Editorial Directory</p>
+<footer class="mt-auto bg-brand text-paper/75">
+  <div class="wrap grid gap-10 py-14 md:grid-cols-12">
+    <div class="md:col-span-5">
+      <p class="mb-3 text-lg font-semibold text-paper">Panorama Scholarly Group Editorial Directory</p>
+      <p class="max-w-sm text-sm leading-relaxed">
+        The international network of editors, academic advisers and scholarly contributors of Panorama Scholarly Group.
+      </p>
     </div>
-    <div class="col-span-2 md:col-span-3">
-      <p class="mb-4 text-sm text-paper/50">Directory</p>
+    <div class="md:col-span-2 md:col-start-7">
+      <p class="mb-3 text-xs font-semibold tracking-wider text-paper uppercase">Directory</p>
       <ul class="space-y-2 text-sm">
-        <li><a class="hover:text-signal" href="/directory">All members</a></li>
-        <li><a class="hover:text-signal" href="/about">About</a></li>
-        <li><a class="hover:text-signal" href="/contact">Contact</a></li>
+        <li><a class="hover:text-paper" href="/directory">Editorial Board</a></li>
+        <li><a class="hover:text-paper" href="/about">About</a></li>
+        <li><a class="hover:text-paper" href="/contact">Contact</a></li>
       </ul>
     </div>
-    <div class="col-span-2 md:col-span-3">
-      <p class="mb-4 text-sm text-paper/50">Publisher</p>
-      <ul class="space-y-2 text-sm break-words">
-        <li><a class="hover:text-signal" href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer">panorama-sg.com ↗</a></li>
-        <li><a class="hover:text-signal" href="mailto:directory.admin@panorama-sg.com">directory.admin@<wbr />panorama-sg.com</a></li>
+    <div class="md:col-span-4">
+      <p class="mb-3 text-xs font-semibold tracking-wider text-paper uppercase">Publisher</p>
+      <ul class="space-y-2 text-sm">
+        <li><a class="hover:text-paper" href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer">panorama-sg.com</a></li>
+        <li><a class="hover:text-paper" href="mailto:directory.admin@panorama-sg.com">directory.admin@panorama-sg.com</a></li>
+        <li>Room 1508, 15/F., Office Tower Two, Grand Plaza, 625 Nathan Road, Kowloon, Hong Kong</li>
       </ul>
     </div>
   </div>
-  <div class="border-t border-paper/15">
-    <div class="wrap flex justify-between py-5 text-xs text-paper/50">
-      <span>© {year} Panorama Scholarly Group Editorial Directory</span>
-      <span class="hidden md:inline">Hong Kong</span>
-    </div>
+  <div class="border-t border-paper/10">
+    <p class="wrap py-5 text-xs text-paper/60">© {year} Panorama Scholarly Group Editorial Directory. All rights reserved.</p>
   </div>
 </footer>

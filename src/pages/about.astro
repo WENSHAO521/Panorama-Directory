@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
 
 const facts = [
   { label: "Type", value: "Independent Academic Publishing Initiative" },
@@ -13,28 +14,21 @@ const facts = [
   description="Panorama Scholarly Group is an independent academic publishing initiative supporting open scholarly communication through transparent editorial practice."
   active="about"
 >
-  <section class="wrap grid-12 gap-y-6 pt-14 pb-14 md:pt-24 md:pb-20">
-    <p class="label col-span-4 md:col-span-3 md:pt-3">About us</p>
-    <h1 class="headline col-span-4 text-[clamp(2.75rem,7vw,6rem)] md:col-span-9">Panorama Scholarly Group Editorial Directory<span class="text-signal">.</span></h1>
+  <section class="border-b border-rule bg-surface">
+    <div class="wrap py-10 md:py-14">
+      <p class="kicker mb-2">About us</p>
+      <h1 class="max-w-3xl text-3xl font-semibold tracking-tight md:text-[2.75rem] md:leading-tight">
+        Panorama Scholarly Group Editorial Directory
+      </h1>
+    </div>
   </section>
 
-  <section class="wrap grid-12 gap-y-12 pb-24 md:pb-32">
-    <dl class="col-span-4 self-start border-t-2 border-ink text-sm md:col-span-3">
-      {
-        facts.map((f) => (
-          <div class="border-b border-rule py-3">
-            <dt class="label">{f.label}</dt>
-            <dd>{f.value}</dd>
-          </div>
-        ))
-      }
-    </dl>
-
-    <div class="col-span-4 border-t-2 border-ink pt-4 md:col-span-9">
-      <p class="mb-10 max-w-4xl text-2xl leading-snug font-medium tracking-tight md:text-3xl">
+  <div class="wrap grid gap-10 py-10 md:py-14 lg:grid-cols-12">
+    <div class="lg:col-span-8">
+      <p class="mb-8 text-xl leading-relaxed text-ink md:text-[1.375rem]">
         Panorama Scholarly Group (PSG) is an independent academic publishing initiative dedicated to supporting open scholarly communication through transparent editorial practice, responsible peer review, and distributed digital publishing workflows.
       </p>
-      <div class="grid gap-x-6 gap-y-6 text-[1.0625rem] leading-relaxed md:grid-cols-2">
+      <div class="prose-bio space-y-4 text-[1.0625rem] leading-relaxed text-ink/90">
         <p>
           Our journal portfolio includes titles such as <em>Global Review of Humanities, Arts, and Society</em> (GRHAS), <em>Health Nexus</em>, <em>Silence</em>, and <em>Journal of Social Cognition and Communication</em>, alongside other publications in the humanities, social sciences, governance, interdisciplinary medical research, and emerging cross-disciplinary fields.
         </p>
@@ -44,12 +38,29 @@ const facts = [
         <p>
           PSG supports open access dissemination and maintains publication policies relating to peer review, publication ethics, correction practices, and editorial accountability. Selected journals within the group hold ISSNs assigned through the German ISSN Centre, while administrative and operational functions are coordinated through Hong Kong.
         </p>
-        <div class="self-end">
-          <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="btn-line w-full">
-            Visit Official Publishing Platform <span aria-hidden="true">↗</span>
-          </a>
-        </div>
       </div>
     </div>
-  </section>
+
+    <aside class="space-y-6 lg:col-span-4">
+      <div class="rounded-lg border border-rule">
+        <h2 class="border-b border-rule bg-surface px-5 py-3 text-sm font-semibold">At a glance</h2>
+        <dl class="divide-y divide-rule text-sm">
+          {
+            facts.map((f) => (
+              <div class="px-5 py-3">
+                <dt class="label mb-0.5">{f.label}</dt>
+                <dd>{f.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+      <div class="flex flex-col gap-3">
+        <a href="/directory" class="btn-primary">Browse the editorial board</a>
+        <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          Visit Official Publishing Platform <Icon name="open_in_new" class="text-base!" />
+        </a>
+      </div>
+    </aside>
+  </div>
 </BaseLayout>

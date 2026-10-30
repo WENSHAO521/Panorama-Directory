@@ -2,42 +2,38 @@
 
 @plugin "@tailwindcss/forms";
 
-/* Design system: functional German / Swiss typographic style.
-   One grotesk typeface, a strict 12-column grid, black on white with hairline
-   rules, and a single signal red used sparingly for emphasis and state.
+/* Design system: academic publisher editorial board.
+   Calm institutional palette (deep navy brand colour on white and cool grey
+   surfaces), one sans typeface, small radii, dense but well-spaced listings.
    Change the look here rather than in individual components. */
 @theme {
-  --color-ink: #111111;
+  --color-ink: #1b1f24;
   --color-paper: #ffffff;
-  --color-mist: #f3f3f1;
-  --color-rule: #d8d8d4;
-  --color-muted: #6b6b68;
-  --color-faint: #a3a3a0;
-  --color-signal: #e2001a;
+  --color-surface: #f4f5f7;
+  --color-rule: #e1e4e8;
+  --color-muted: #5b6470;
+  --color-faint: #8a929c;
+  --color-brand: #0e2a47;
+  --color-brand-600: #1d4a78;
+  --color-brand-50: #eef3f8;
+  --color-orcid: #a6ce39;
 
   --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 
-  --radius-xs: 0px;
-  --radius-sm: 0px;
-  --radius-md: 0px;
-  --radius-lg: 0px;
-  --radius-xl: 0px;
-  --radius-2xl: 0px;
-  --radius-3xl: 0px;
-  --radius-full: 0px;
-
-  --ease-out: cubic-bezier(0.2, 0.7, 0.1, 1);
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
 }
 
 @layer base {
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 6rem;
   }
   body {
     @apply bg-paper text-ink font-sans antialiased;
-    font-feature-settings: "cv11", "ss01", "ss03";
+    font-feature-settings: "cv11", "ss01";
   }
   *,
   ::after,
@@ -47,11 +43,11 @@
     border-color: var(--color-rule);
   }
   ::selection {
-    background: var(--color-signal);
-    color: var(--color-paper);
+    background: var(--color-brand-50);
+    color: var(--color-brand);
   }
   :focus-visible {
-    outline: 2px solid var(--color-signal);
+    outline: 2px solid var(--color-brand-600);
     outline-offset: 2px;
   }
   h1,
@@ -66,42 +62,44 @@
   }
 }
 
-/* Page container shared by every section, so all content sits on one grid. */
+/* Page container shared by every section. */
 @utility wrap {
-  @apply mx-auto w-full max-w-[84rem] px-5 md:px-10;
+  @apply mx-auto w-full max-w-[75rem] px-5 md:px-8;
 }
-/* 12-column grid with the house gutter. */
-@utility grid-12 {
-  @apply grid grid-cols-4 gap-x-5 md:grid-cols-12 md:gap-x-6;
-}
-/* Small functional label: sentence case, medium weight, muted. */
+/* Small grey label above values (Affiliation, ORCID, ...). */
 @utility label {
-  font-size: 0.8125rem;
-  line-height: 1.35;
+  font-size: 0.75rem;
+  line-height: 1.4;
   font-weight: 500;
+  letter-spacing: 0.02em;
   color: var(--color-muted);
 }
-/* Large display headline: bold grotesk, tight tracking, flush left. */
-@utility headline {
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 0.98;
+/* Section kicker: small brand-coloured caps above a heading. */
+@utility kicker {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-brand-600);
 }
 @utility tabular {
   font-variant-numeric: tabular-nums lining-nums;
 }
-/* Text link with an underline that turns signal red on hover. */
 @utility link {
-  @apply underline decoration-ink/25 decoration-1 underline-offset-[0.2em] transition-colors hover:decoration-signal hover:text-ink;
+  @apply text-brand-600 underline decoration-brand-600/30 underline-offset-2 transition-colors hover:decoration-brand-600;
 }
 @utility btn {
-  @apply inline-flex items-center justify-between gap-6 px-5 py-3.5 text-sm font-medium transition-[color,background-color] duration-150;
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-colors duration-150;
 }
-@utility btn-solid {
-  @apply btn bg-ink text-paper hover:bg-signal;
+@utility btn-primary {
+  @apply btn bg-brand text-paper hover:bg-brand-600;
 }
-@utility btn-line {
-  @apply btn border border-ink text-ink hover:bg-ink hover:text-paper;
+@utility btn-secondary {
+  @apply btn border border-rule bg-paper text-ink hover:border-brand-600 hover:text-brand-600;
+}
+/* Small bordered tag (research fields, index labels). */
+@utility tag {
+  @apply inline-flex items-center rounded-sm border border-rule bg-paper px-2 py-0.5 text-xs text-muted;
 }
 
 @layer components {
@@ -115,7 +113,7 @@
     font-family: "Material Symbols Outlined";
     font-weight: normal;
     font-style: normal;
-    font-size: 24px;
+    font-size: 20px;
     line-height: 1;
     letter-spacing: normal;
     text-transform: none;
@@ -127,16 +125,16 @@
     -webkit-font-smoothing: antialiased;
     font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
     user-select: none;
+    vertical-align: middle;
   }
 }
 
-/* Cross-document view transitions; browsers without support just navigate. */
 @view-transition {
   navigation: auto;
 }
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 180ms;
+  animation-duration: 160ms;
 }
 
 @media (prefers-reduced-motion: reduce) {

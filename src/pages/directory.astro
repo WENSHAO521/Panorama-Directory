@@ -1,121 +1,132 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import ScholarCard from "../components/ScholarCard.astro";
-import ScholarRow from "../components/ScholarRow.astro";
+import MemberEntry from "../components/MemberEntry.astro";
 import SearchIndex from "../components/SearchIndex.astro";
 import Icon from "../components/Icon.astro";
-import { getScholars, nameInitials } from "../lib/scholars";
+import { getBoard, getScholars, nameInitials } from "../lib/scholars";
 
-const scholars = await getScholars();
+const board = await getBoard();
+const total = (await getScholars()).length;
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
-const available = new Set(scholars.flatMap((s) => nameInitials(s.data.name)));
+const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInitials(s.data.name))));
 ---
 
 <BaseLayout
-  title="Editorial Directory"
-  description="Browse every editor, adviser and editorial board member of Panorama Scholarly Group, searchable by name, institution and research field."
+  title="Editorial Board"
+  description="The editorial board of Panorama Scholarly Group: editors-in-chief, executive and editorial board members, searchable by name, institution and research field."
   active="directory"
 >
-  <section class="wrap grid-12 gap-y-6 pt-14 pb-10 md:pt-24 md:pb-14">
-    <p class="label col-span-4 md:col-span-3 md:pt-3">Academic network</p>
-    <h1 class="headline col-span-4 text-[clamp(3rem,8vw,6.5rem)] md:col-span-9">Editorial Directory<span class="text-signal">.</span></h1>
+  <section class="border-b border-rule bg-surface">
+    <div class="wrap py-10 md:py-14">
+      <p class="kicker mb-2">Editorial Directory</p>
+      <h1 class="mb-3 text-3xl font-semibold tracking-tight md:text-[2.75rem]">Editorial Board</h1>
+      <p class="max-w-2xl text-muted">
+        Editors, board members and editorial staff of Panorama Scholarly Group journals, listed by editorial role.
+      </p>
+    </div>
   </section>
 
-  <section class="wrap">
-    <div class="grid-12 gap-y-4 border-t-2 border-ink pt-4">
-      <label for="directory-search" class="label col-span-4 md:col-span-3 md:pt-3">Filter</label>
-      <div class="col-span-4 flex items-center border-b-2 border-ink focus-within:border-signal md:col-span-6">
-        <Icon name="search" class="mr-3 text-2xl!" />
-        <input
-          type="search"
-          id="directory-search"
-          autocomplete="off"
-          class="w-full border-0 bg-transparent px-0 py-2.5 text-lg placeholder:text-faint focus:ring-0 focus:outline-none md:text-xl"
-          placeholder="Name, institution, field or publication"
-        />
-      </div>
-      <div class="col-span-4 flex md:col-span-3 md:justify-end" role="group" aria-label="Layout">
-        <button type="button" data-view="list" aria-pressed="true" class="view-btn border border-ink px-4 py-2 text-sm font-medium aria-pressed:bg-ink aria-pressed:text-paper">Index</button>
-        <button type="button" data-view="grid" aria-pressed="false" class="view-btn -ml-px border border-ink px-4 py-2 text-sm font-medium aria-pressed:bg-ink aria-pressed:text-paper">Portraits</button>
-      </div>
-    </div>
-
-    <div class="grid-12 mt-6 gap-y-2">
-      <p class="label col-span-4 md:col-span-3 md:pt-1.5">Initial</p>
-      <div class="col-span-4 -mx-5 overflow-x-auto px-5 md:col-span-9 md:mx-0 md:px-0 no-scrollbar" role="group" aria-label="Filter by initial">
-        <div class="flex min-w-max" id="alphabet-filter">
-          <button type="button" data-letter="ALL" aria-pressed="true" class="alpha-btn h-8 px-2.5 text-sm font-medium">All</button>
-          {
-            letters.map((l) => (
-              <button type="button" data-letter={l} aria-pressed="false" disabled={!available.has(l)} class="alpha-btn h-8 w-8 text-sm font-medium">
-                {l}
-              </button>
-            ))
-          }
+  <div class="wrap grid gap-10 py-10 md:py-12 lg:grid-cols-12">
+    <aside class="lg:col-span-3">
+      <div class="space-y-6 lg:sticky lg:top-28">
+        <div>
+          <label for="directory-search" class="mb-2 block text-sm font-semibold">Search members</label>
+          <div class="flex items-center rounded-md border border-rule bg-paper px-3 focus-within:border-brand-600 focus-within:ring-2 focus-within:ring-brand-600/15">
+            <Icon name="search" class="text-faint" />
+            <input
+              type="search"
+              id="directory-search"
+              autocomplete="off"
+              class="w-full border-0 bg-transparent px-2 py-2.5 text-sm placeholder:text-faint focus:ring-0 focus:outline-none"
+              placeholder="Name, institution, field…"
+            />
+          </div>
         </div>
+
+        <fieldset>
+          <legend class="mb-2 text-sm font-semibold">Editorial role</legend>
+          <ul class="space-y-1.5 text-sm">
+            {
+              board.map((g) => (
+                <li>
+                  <label class="flex cursor-pointer items-center gap-2.5">
+                    <input type="checkbox" class="tier-box size-4 rounded-sm border-rule text-brand focus:ring-brand-600/30" value={g.key} checked />
+                    <span class="grow">{g.title}</span>
+                    <span class="tabular text-faint">{g.members.length}</span>
+                  </label>
+                </li>
+              ))
+            }
+          </ul>
+        </fieldset>
+
+        <fieldset>
+          <legend class="mb-2 text-sm font-semibold">Name starts with</legend>
+          <div class="grid grid-cols-7 gap-1" id="alphabet-filter">
+            <button type="button" data-letter="ALL" aria-pressed="true" class="alpha-btn col-span-2 h-8 rounded-sm text-xs font-medium">All</button>
+            {
+              letters.map((l) => (
+                <button type="button" data-letter={l} aria-pressed="false" disabled={!available.has(l)} class="alpha-btn h-8 rounded-sm text-xs font-medium">
+                  {l}
+                </button>
+              ))
+            }
+          </div>
+        </fieldset>
+      </div>
+    </aside>
+
+    <div class="lg:col-span-9">
+      <p id="result-count" class="tabular mb-6 text-sm text-muted" aria-live="polite">Showing all {total} members</p>
+
+      <div class="space-y-12">
+        {
+          board.map((g) => (
+            <section class="tier" data-tier={g.key} aria-labelledby={`tier-${g.key}`}>
+              <h2 id={`tier-${g.key}`} class="flex items-baseline gap-2 border-b-2 border-brand pb-2 text-lg font-semibold text-brand">
+                {g.title}
+                <span class="tier-count tabular text-sm font-normal text-faint">({g.members.length})</span>
+              </h2>
+              <div class="tier-list grid divide-y divide-rule md:grid-cols-2 md:gap-x-10 md:divide-y-0">
+                {g.members.map((s) => (
+                  <div class="member md:border-b md:border-rule" data-id={s.id} data-initials={nameInitials(s.data.name).join("")}>
+                    <MemberEntry scholar={s} />
+                  </div>
+                ))}
+              </div>
+            </section>
+          ))
+        }
+      </div>
+
+      <div id="empty-state" hidden class="rounded-lg border border-dashed border-rule px-6 py-14 text-center">
+        <p class="mb-2 font-semibold">No members match these filters.</p>
+        <button type="button" id="reset-filters" class="link text-sm">Clear all filters</button>
       </div>
     </div>
-  </section>
-
-  <section class="wrap pt-12 pb-24 md:pb-32">
-    <p id="result-count" class="label tabular mb-3" aria-live="polite">{scholars.length} members</p>
-
-    <div id="view-list" class="flex flex-col border-t-2 border-ink">
-      <div class="hidden border-b border-ink py-2 text-xs font-medium text-muted md:grid md:grid-cols-12 md:gap-x-6" aria-hidden="true">
-        <span class="col-span-2">No.</span>
-        <span class="col-span-3">Name</span>
-        <span class="col-span-2">Role</span>
-        <span class="col-span-3">Institution</span>
-        <span class="col-span-2">Fields</span>
-      </div>
-      {
-        scholars.map((s, i) => (
-          <div data-id={s.id} data-initials={nameInitials(s.data.name).join("")}>
-            <ScholarRow scholar={s} index={i + 1} />
-          </div>
-        ))
-      }
-    </div>
-    <div id="view-grid" class="grid border-b border-ink sm:grid-cols-2 sm:gap-x-6 sm:gap-y-12 sm:border-b-0 sm:border-t-2 sm:border-ink sm:pt-6 lg:grid-cols-4" hidden>
-      {
-        scholars.map((s, i) => (
-          <div data-id={s.id} data-initials={nameInitials(s.data.name).join("")}>
-            <ScholarCard scholar={s} eager={i < 4} />
-          </div>
-        ))
-      }
-    </div>
-
-    <div id="empty-state" hidden class="border-b border-rule py-16">
-      <p class="headline mb-4 text-3xl">No members found.</p>
-      <button type="button" id="reset-filters" class="link text-sm font-medium">Clear filters</button>
-    </div>
-  </section>
+  </div>
 
   <SearchIndex />
 </BaseLayout>
 
 <style>
   .alpha-btn {
+    border: 1px solid var(--color-rule);
     color: var(--color-ink);
-    transition: color 120ms, background-color 120ms;
+    transition: border-color 120ms, background-color 120ms, color 120ms;
   }
   .alpha-btn:hover:not(:disabled) {
-    color: var(--color-signal);
+    border-color: var(--color-brand-600);
+    color: var(--color-brand-600);
   }
   .alpha-btn[aria-pressed="true"] {
-    background: var(--color-ink);
+    background: var(--color-brand);
+    border-color: var(--color-brand);
     color: var(--color-paper);
   }
   .alpha-btn:disabled {
     color: var(--color-rule);
     cursor: default;
-  }
-  .no-scrollbar {
-    scrollbar-width: none;
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
   }
 </style>
 
@@ -125,42 +136,39 @@ const available = new Set(scholars.flatMap((s) => nameInitials(s.data.name)));
   const input = document.getElementById("directory-search") as HTMLInputElement;
   const count = document.getElementById("result-count")!;
   const empty = document.getElementById("empty-state")!;
-  const views = { grid: document.getElementById("view-grid")!, list: document.getElementById("view-list")! };
+  const tiers = [...document.querySelectorAll<HTMLElement>(".tier")];
+  const tierBoxes = [...document.querySelectorAll<HTMLInputElement>(".tier-box")];
   const letterBtns = [...document.querySelectorAll<HTMLButtonElement>(".alpha-btn")];
-  const viewBtns = [...document.querySelectorAll<HTMLButtonElement>(".view-btn")];
   const index = loadIndex();
   const total = index.length;
   let letter = "ALL";
 
-  const params = new URLSearchParams(location.search);
-  input.value = params.get("q") ?? "";
-
-  function setView(view: "grid" | "list") {
-    views.grid.hidden = view !== "grid";
-    views.list.hidden = view !== "list";
-    viewBtns.forEach((b) => b.setAttribute("aria-pressed", String(b.dataset.view === view)));
-    try {
-      localStorage.setItem("directory-view", view);
-    } catch {}
-  }
+  input.value = new URLSearchParams(location.search).get("q") ?? "";
 
   function apply() {
     const q = input.value.trim();
     const ranked = search(index, q).map((e) => e.id);
     const rank = new Map(ranked.map((id, i) => [id, i]));
+    const activeTiers = new Set(tierBoxes.filter((b) => b.checked).map((b) => b.value));
     let shown = 0;
-    for (const container of Object.values(views)) {
-      const items = [...container.querySelectorAll<HTMLElement>(":scope > [data-id]")];
-      for (const el of items) {
-        const ok = rank.has(el.dataset.id!) && (letter === "ALL" || el.dataset.initials!.includes(letter));
+    for (const tier of tiers) {
+      let inTier = 0;
+      for (const el of tier.querySelectorAll<HTMLElement>(".member")) {
+        const ok =
+          activeTiers.has(tier.dataset.tier!) &&
+          rank.has(el.dataset.id!) &&
+          (letter === "ALL" || el.dataset.initials!.includes(letter));
         el.hidden = !ok;
-        // While searching, best matches first; otherwise alphabetical.
+        // While searching, best matches first within each role group.
         el.style.order = q ? String(rank.get(el.dataset.id!) ?? 0) : "";
-        if (ok && container === views.list) shown++;
+        if (ok) inTier++;
       }
+      tier.hidden = inTier === 0;
+      tier.querySelector(".tier-count")!.textContent = `(${inTier})`;
+      shown += inTier;
     }
     empty.hidden = shown > 0;
-    count.textContent = shown === total ? `${total} members` : `${shown} of ${total} members`;
+    count.textContent = shown === total ? `Showing all ${total} members` : `Showing ${shown} of ${total} members`;
 
     const url = new URL(location.href);
     q ? url.searchParams.set("q", q) : url.searchParams.delete("q");
@@ -174,15 +182,13 @@ const available = new Set(scholars.flatMap((s) => nameInitials(s.data.name)));
       apply();
     }),
   );
-  viewBtns.forEach((b) => b.addEventListener("click", () => setView(b.dataset.view as "grid" | "list")));
+  tierBoxes.forEach((b) => b.addEventListener("change", apply));
   input.addEventListener("input", apply);
   document.getElementById("reset-filters")!.addEventListener("click", () => {
     input.value = "";
+    tierBoxes.forEach((b) => (b.checked = true));
     letterBtns[0].click();
   });
 
-  try {
-    if (localStorage.getItem("directory-view") === "grid") setView("grid");
-  } catch {}
   apply();
 </script>
