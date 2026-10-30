@@ -43,10 +43,17 @@ renders `type: card` items (appointments, honours, expertise). A card's
 
 Non-technical editors can use the form-based editor at
 <https://profiles.panorama-sg.com/admin/> ([Decap CMS](https://decapcms.org)).
-They sign in with a GitHub account that has write access to this repository;
-every save is a commit to `main`, which triggers the normal rebuild and
-redeploy (about a minute or two). If a save ever breaks validation, the build
-fails and the previous version of the site stays live.
+They sign in with a GitHub account that is both listed in
+`ALLOWED_GITHUB_USERS` (`wrangler.jsonc`) and has write access to this
+repository. Saves are drafts: each one becomes a branch and pull request, shown
+on the editor's “工作流” board, and only goes live when someone with merge
+rights presses Publish, which merges it into `main` and triggers the normal
+rebuild and redeploy (about a minute or two). If a change ever breaks
+validation, the build fails and the previous version of the site stays live.
+
+To add an editor: invite their GitHub account as a collaborator (Settings →
+Collaborators) and add their login to `ALLOWED_GITHUB_USERS`. To remove one,
+do both in reverse.
 
 - Editor config: `public/admin/config.yml`. Its fields mirror the schema in
   `src/content.config.ts`; when you add a field to one, add it to the other.
@@ -54,7 +61,12 @@ fails and the previous version of the site stays live.
   `worker/index.ts` (Workers) and `functions/oauth/[[path]].ts` (Pages). It
   needs a GitHub OAuth App with callback URL
   `https://profiles.panorama-sg.com/oauth/callback`, and two secrets on the
-  Cloudflare project: `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`.
+  Cloudflare project: `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`. Accounts
+  not in `ALLOWED_GITHUB_USERS` are refused there and their token is revoked
+  (on Pages, set that variable in the dashboard instead; if it is missing,
+  only the repository owner can sign in).
+- `public/_headers` stops other sites framing `/admin` and keeps it out of
+  search engines; `public/admin/index.html` pins the Decap script by hash.
 - To try the editor locally without signing in, run `npx decap-server` next to
   `npm run dev` and open <http://localhost:4321/admin/index.html>; saves go to
   your local files.

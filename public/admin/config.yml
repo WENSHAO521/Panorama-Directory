@@ -1,5 +1,7 @@
 # Decap CMS: the form-based editor at /admin.
-# Every save is a commit to `main`, which triggers a rebuild and redeploy.
+# Edits are saved as drafts (a branch + pull request); nothing reaches the
+# live site until someone with merge rights presses Publish, which merges
+# into `main` and triggers a rebuild and redeploy.
 # Field names mirror the schema in src/content.config.ts; keep the two in sync.
 
 backend:
@@ -9,12 +11,16 @@ backend:
   # GitHub sign-in is handled by worker/oauth.ts on the site itself.
   base_url: https://profiles.panorama-sg.com
   auth_endpoint: oauth/auth
+  # The repo is public, so ask GitHub for the narrower public_repo scope.
+  auth_scope: public_repo
   commit_messages:
     create: "Add scholar: {{slug}}"
     update: "Update scholar: {{slug}}"
     delete: "Remove scholar: {{slug}}"
     uploadMedia: "Upload photo: {{path}}"
     deleteMedia: "Delete photo: {{path}}"
+
+publish_mode: editorial_workflow
 
 # `npx decap-server` + `npm run dev` lets you try the editor on localhost
 # against your local files, without signing in.

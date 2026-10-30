@@ -1,0 +1,12 @@
+# The editor holds a GitHub token, so it must not be framed by other sites
+# or indexed by search engines.
+/admin
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+  X-Robots-Tag: noindex, nofollow
+  Referrer-Policy: no-referrer
+/admin/*
+  X-Frame-Options: DENY
+  Content-Security-Policy: frame-ancestors 'none'
+  X-Robots-Tag: noindex, nofollow
+  Referrer-Policy: no-referrer
