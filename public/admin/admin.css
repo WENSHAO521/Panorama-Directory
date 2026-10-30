@@ -1,11 +1,12 @@
 /*
   Theme for the Decap editor at /admin.
 
-  Direction: a quiet, document-style workspace. Warm off-white canvas, white
-  surfaces separated by hairlines rather than floating cards, charcoal for
-  primary actions, colour only where it carries meaning (status, errors).
-  Type is Geist (self-hosted next to this file) with the system CJK face for
-  Chinese.
+  Direction: the editorial office of the publisher whose site this is. A navy
+  bar across the top, the site's cool greys and hairlines, near-square
+  corners, Inter. Scholars show as 4:5 photo cards like the Editorial Board
+  page; the editor puts the form on the left and a live profile preview
+  (preview.js / preview.css) on the right. Status colours: green published,
+  amber draft, blue awaiting publish.
 
   How it hooks in: Decap styles itself with Emotion, whose class names look
   like `css-<hash>-<ComponentName>`. The hash changes between Decap versions
@@ -14,49 +15,47 @@
   Decap, open /admin and check that these still apply.
 */
 
+/* Inter is already served for the public site. */
 @font-face {
-  font-family: "Geist";
+  font-family: "Inter";
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url("/admin/fonts/geist.woff2") format("woff2");
-}
-@font-face {
-  font-family: "Geist Mono";
-  font-style: normal;
-  font-weight: 100 900;
-  font-display: swap;
-  src: url("/admin/fonts/geist-mono.woff2") format("woff2");
+  src: url("/assets/fonts/inter-latin-wght-normal.woff2") format("woff2");
 }
 
 :root {
-  --canvas: #fbfbfa;
+  --canvas: #f4f5f7;
   --paper: #ffffff;
-  --hover: #f4f3ef;
-  --ink: #191919;
-  --text: #2f3437;
-  --muted: #787774;
-  --faint: #a5a39d;
-  --rule: #eaeaea;
-  --rule-strong: #dcdad5;
-  --focus-ring: 0 0 0 3px rgba(25, 25, 25, 0.07);
+  --hover: #eef3f8;
+  --ink: #1b1f24;
+  --text: #2a2f36;
+  --muted: #5b6470;
+  --faint: #8a929c;
+  --rule: #e1e4e8;
+  --rule-strong: #cdd2d8;
 
-  --red: #9f2f2d;
-  --red-bg: #fdebec;
-  --green: #346538;
-  --green-bg: #edf3ec;
-  --yellow: #956400;
-  --yellow-bg: #fbf3db;
-  --blue: #1f6c9f;
-  --blue-bg: #e1f3fe;
+  --navy: #0e2a47;
+  --navy-600: #1d4a78;
+  --navy-line: #2b4868;
+  --navy-text: #c4d2e1;
+  --navy-50: #eef3f8;
+  --focus-ring: 0 0 0 3px #dbe6f1;
 
-  --r-sm: 5px;
-  --r: 8px;
+  --red: #a8322d;
+  --red-bg: #fbeceb;
+  --green: #2e7d4f;
+  --green-bg: #e9f4ee;
+  --amber: #8a5a00;
+  --amber-bg: #fff4dc;
+
+  --r-sm: 3px;
+  --r: 4px;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
-  --font: "Geist", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
     "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
-  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 /* ---------- Base ---------- */
@@ -67,7 +66,6 @@ body {
   color: var(--text);
   font-family: var(--font) !important;
   -webkit-font-smoothing: antialiased;
-  text-rendering: optimizeLegibility;
 }
 #nc-root,
 #nc-root button,
@@ -77,55 +75,65 @@ body {
   font-family: var(--font) !important;
 }
 #nc-root ::selection {
-  background: #e8e6df;
+  background: #dbe6f1;
 }
 #nc-root a,
 #nc-root button,
 #nc-root [role="button"] {
-  transition: background-color 0.18s var(--ease), color 0.18s var(--ease), border-color 0.18s var(--ease),
-    transform 0.12s var(--ease);
-}
-#nc-root button:active,
-#nc-root [role="button"]:active {
-  transform: scale(0.98);
+  transition: background-color 0.15s var(--ease), color 0.15s var(--ease), border-color 0.15s var(--ease);
 }
 #nc-root :focus-visible {
-  outline: 2px solid var(--ink) !important;
+  outline: 2px solid var(--navy-600) !important;
   outline-offset: 2px;
 }
 
-/* ---------- Sign-in ---------- */
+/* ---------- Sign-in: navy panel on the left, the button on the right ---------- */
 
 [class*="-StyledAuthenticationPage"] {
-  background: var(--canvas) !important;
+  position: relative;
+  min-height: 100vh;
+  background: linear-gradient(90deg, var(--navy) 0 44%, var(--paper) 44%) !important;
   justify-content: center !important;
+  align-items: flex-start !important;
   gap: 0 !important;
-  padding: 0 16px 72px;
+  padding: 0 0 40px calc(44% + 96px) !important;
+  box-sizing: border-box;
 }
 [class*="-StyledAuthenticationPage"]::before {
-  content: "Panorama Directory";
-  order: 1;
-  margin-top: 20px;
-  font-size: 26px;
+  content: "学者名录后台";
+  white-space: pre-wrap;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 44%;
+  box-sizing: border-box;
+  padding: 120px 64px 0;
+  color: #fff;
+  font-size: 30px;
   font-weight: 600;
-  letter-spacing: -0.025em;
-  color: var(--ink);
+  line-height: 1.3;
 }
 [class*="-StyledAuthenticationPage"]::after {
-  content: "编辑后台 · 仅限受邀编辑登录";
-  order: 2;
-  margin: 8px 0 32px;
-  font-size: 14px;
-  color: var(--muted);
+  content: "■  新增或修改学者资料、照片和论文\A■  编辑时右侧实时预览网站上的个人页\A■  改动先存草稿，点“发布”后约 1–2 分钟上线";
+  white-space: pre-wrap;
+  position: absolute;
+  top: 200px;
+  left: 0;
+  width: 44%;
+  box-sizing: border-box;
+  padding: 0 64px;
+  color: var(--navy-text);
+  font-size: 15px;
+  line-height: 2.2;
 }
 [class*="-CustomIconWrapper"] {
   order: 0;
-  width: 88px !important;
-  height: 88px !important;
-  margin: 0 !important;
+  width: 56px !important;
+  height: 56px !important;
+  margin: 0 0 22px !important;
   display: flex !important;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 [class*="-CustomIconWrapper"] img {
   max-width: 100%;
@@ -133,13 +141,13 @@ body {
   object-fit: contain;
 }
 [class*="-LoginButton-"] {
-  order: 3;
+  order: 1;
   position: relative;
   display: inline-flex !important;
   align-items: center;
   justify-content: center !important;
   gap: 10px;
-  width: 280px;
+  width: 320px;
   height: 42px !important;
   margin: 0 !important;
   padding: 0 20px !important;
@@ -158,13 +166,13 @@ body {
   height: 18px !important;
 }
 [class*="-GoBackButtonStyle"] {
-  order: 4;
-  margin-top: 24px !important;
+  order: 2;
+  margin-top: 18px !important;
   color: var(--muted) !important;
   font-size: 13px;
 }
 [class*="-GoBackButtonStyle"]:hover {
-  color: var(--ink) !important;
+  color: var(--navy) !important;
 }
 [class*="-NetlifyCreditIcon"] {
   opacity: 0.25;
@@ -174,12 +182,12 @@ body {
 
 /* ---------- Buttons ---------- */
 
-/* Primary: charcoal, flat. */
+/* Primary: navy, flat. */
 [class*="-LoginButton-"],
 [class*="-CollectionTopNewButton"],
 [class*="-SaveButton"],
 [class*="-PublishButton"] {
-  background: var(--ink) !important;
+  background: var(--navy) !important;
   color: #fff !important;
   border: 0 !important;
   border-radius: var(--r-sm) !important;
@@ -189,7 +197,7 @@ body {
 [class*="-CollectionTopNewButton"]:hover,
 [class*="-SaveButton"]:hover,
 [class*="-PublishButton"]:hover {
-  background: #333 !important;
+  background: var(--navy-600) !important;
 }
 [class*="-LoginButton-"] svg path {
   fill: #fff !important;
@@ -205,30 +213,27 @@ body {
   font-weight: 500 !important;
 }
 
-/* Secondary: outlined. */
+/* Secondary: outlined. On the navy bar it turns into a ghost button. */
 [class*="-AppHeaderQuickNewButton"] {
-  background: var(--paper) !important;
-  color: var(--text) !important;
-  border: 1px solid var(--rule-strong) !important;
+  background: transparent !important;
+  color: #fff !important;
+  border: 1px solid var(--navy-line) !important;
   border-radius: var(--r-sm) !important;
   box-shadow: none !important;
   font-weight: 500 !important;
-}
-[class*="-AppHeaderQuickNewButton"]:hover {
-  background: var(--hover) !important;
-  border-color: var(--faint) !important;
-}
-[class*="-AppHeaderQuickNewButton"] {
   height: 32px !important;
   padding: 0 30px 0 12px !important;
   line-height: 30px !important;
   font-size: 13px !important;
 }
+[class*="-AppHeaderQuickNewButton"]:hover {
+  background: var(--navy-line) !important;
+}
 [class*="-AppHeaderQuickNewButton"]::after {
   top: 50% !important;
   right: 12px !important;
   transform: translateY(-50%);
-  color: var(--muted) !important;
+  color: var(--navy-text) !important;
 }
 
 /* Destructive: quiet until hovered. */
@@ -259,7 +264,7 @@ body {
 /* In-form "add" buttons. */
 [class*="-AddButton"] {
   background: var(--paper) !important;
-  color: var(--text) !important;
+  color: var(--navy) !important;
   border: 1px solid var(--rule-strong) !important;
   border-radius: var(--r-sm) !important;
   font-weight: 500 !important;
@@ -271,16 +276,16 @@ body {
   fill: currentColor;
 }
 
-/* ---------- Top bar ---------- */
+/* ---------- Top bar: navy, like the publisher's own systems ---------- */
 
 [class*="-AppHeader-"] {
-  background: var(--paper) !important;
-  border-bottom: 1px solid var(--rule);
+  background: var(--navy) !important;
+  border-bottom: 0;
   box-shadow: none !important;
 }
 [class*="-AppHeaderContent"] {
-  max-width: 1240px;
-  min-height: 56px;
+  max-width: 1320px;
+  min-height: 54px;
   justify-content: flex-start !important;
   align-items: center !important;
 }
@@ -299,31 +304,40 @@ body {
   padding-left: 4px;
   font-weight: 600;
   font-size: 15px;
-  letter-spacing: -0.02em;
-  color: var(--ink);
+  color: #fff;
   white-space: nowrap;
 }
 [class*="-AppHeaderNavList"] {
-  align-items: center;
+  align-items: stretch;
+  align-self: stretch;
   gap: 2px;
 }
 [class*="-AppHeaderNavList"]::before {
-  content: "/ 编辑后台";
+  content: "编辑部后台";
   display: flex;
   align-items: center;
-  margin: 0 24px 0 8px;
-  font-size: 14px;
-  color: var(--faint);
+  margin: 0 28px 0 12px;
+  padding-left: 12px;
+  border-left: 1px solid var(--navy-line);
+  font-size: 13px;
+  color: var(--navy-text);
   white-space: nowrap;
+  height: 18px;
+  align-self: center;
+}
+[class*="-AppHeaderNavList"] > li {
+  display: flex;
 }
 [class*="-AppHeaderNavLink"],
 [class*="-AppHeaderButton"] {
-  height: 32px !important;
-  padding: 0 10px !important;
-  border-radius: var(--r-sm);
-  color: var(--muted) !important;
+  height: auto !important;
+  padding: 0 12px !important;
+  border-radius: 0;
+  border-bottom: 2px solid transparent !important;
+  color: var(--navy-text) !important;
   font-size: 14px !important;
   font-weight: 500 !important;
+  background: transparent !important;
 }
 [class*="-AppHeaderNavLink"] [class*="-IconWrapper"],
 [class*="-AppHeaderButton"] [class*="-IconWrapper"] {
@@ -331,32 +345,39 @@ body {
 }
 [class*="-AppHeaderNavLink"]:hover,
 [class*="-AppHeaderButton"]:hover {
-  background: var(--hover) !important;
-  color: var(--ink) !important;
+  color: #fff !important;
 }
 [class*="-AppHeaderNavLink"].header-link-active {
-  background: var(--hover) !important;
-  color: var(--ink) !important;
+  color: #fff !important;
+  border-bottom-color: #fff !important;
 }
 [class*="-AppHeaderSiteLink"] {
   font-family: var(--mono) !important;
-  color: var(--faint) !important;
+  color: var(--navy-text) !important;
   font-size: 12px !important;
 }
 [class*="-AppHeaderSiteLink"]:hover {
-  color: var(--ink) !important;
+  color: #fff !important;
+}
+[class*="-AvatarImage"],
+[class*="-AvatarPlaceholderIcon"] {
+  border: 1px solid var(--navy-line);
+  border-radius: 50%;
+}
+[class*="-AvatarPlaceholderIcon"] path {
+  fill: var(--navy-text);
 }
 
 /* ---------- Collection view ---------- */
 
 [class*="-AppMainContainer"] {
-  max-width: 1240px !important;
+  max-width: 1320px !important;
 }
 [class*="-CollectionContainer"] {
-  margin-top: 40px !important;
+  margin-top: 28px !important;
 }
 
-/* Sidebar: a plain column, not a card. */
+/* Sidebar: a grey column of plain rows, the current one highlighted. */
 [class*="-SidebarContainer"] {
   background: transparent !important;
   border: 0 !important;
@@ -365,14 +386,14 @@ body {
 }
 [class*="-SidebarHeading"] {
   padding: 0 10px !important;
-  margin: 4px 0 12px !important;
-  font-size: 12px !important;
-  font-weight: 500 !important;
+  margin: 4px 0 10px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
   color: var(--faint) !important;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.06em;
 }
 [class*="-SearchContainer"] {
-  margin: 0 0 8px !important;
+  margin: 0 0 10px !important;
   padding: 0 !important;
 }
 [class*="-SearchInput"] {
@@ -383,7 +404,7 @@ body {
   font-size: 13.5px !important;
 }
 [class*="-SearchInput"]:focus {
-  border-color: var(--ink) !important;
+  border-color: var(--navy-600) !important;
   box-shadow: var(--focus-ring) !important;
   outline: none;
 }
@@ -391,7 +412,7 @@ body {
   margin: 1px 0;
   padding: 8px 10px !important;
   border-radius: var(--r-sm);
-  border-left: 0 !important;
+  border-left: 2px solid transparent !important;
   color: var(--muted) !important;
   font-size: 14px !important;
   font-weight: 500 !important;
@@ -399,13 +420,18 @@ body {
 [class*="-SidebarNavLink"] svg path {
   fill: currentColor;
 }
-[class*="-SidebarNavLink"]:hover,
-[class*="-SidebarNavLink"].sidebar-active {
-  background: var(--hover) !important;
+[class*="-SidebarNavLink"]:hover {
+  background: #e9ecf0 !important;
   color: var(--ink) !important;
 }
+[class*="-SidebarNavLink"].sidebar-active {
+  background: var(--paper) !important;
+  border-left-color: var(--navy) !important;
+  color: var(--navy) !important;
+  font-weight: 600 !important;
+}
 
-/* Page heading: type on the canvas, no box around it. */
+/* Page heading */
 [class*="-CollectionTopContainer"],
 [class*="-CollectionControlsContainer"] {
   width: auto !important;
@@ -415,8 +441,8 @@ body {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
-  padding: 0 0 28px !important;
-  margin-bottom: 8px !important;
+  padding: 0 0 18px !important;
+  margin-bottom: 4px !important;
   border-bottom: 1px solid var(--rule) !important;
   border-radius: 0 !important;
 }
@@ -424,22 +450,20 @@ body {
   align-items: flex-end !important;
 }
 [class*="-CollectionTopHeading"] {
-  font-size: 30px !important;
+  font-size: 24px !important;
   font-weight: 600 !important;
-  letter-spacing: -0.03em;
-  line-height: 1.1 !important;
+  line-height: 1.2 !important;
   color: var(--ink) !important;
 }
 [class*="-CollectionTopDescription"] {
-  max-width: 60ch;
-  margin-top: 10px !important;
+  max-width: 64ch;
+  margin-top: 6px !important;
   color: var(--muted) !important;
-  font-size: 14px !important;
+  font-size: 13px !important;
   line-height: 1.6 !important;
-  text-wrap: pretty;
 }
 [class*="-CollectionControlsContainer"] {
-  margin: 12px 0 !important;
+  margin: 10px 0 14px !important;
 }
 [class*="-ViewControlsText"],
 [class*="-ControlButton"] {
@@ -450,15 +474,93 @@ body {
   color: var(--faint) !important;
 }
 [class*="-ViewControlsButton"]:hover {
-  color: var(--ink) !important;
+  color: var(--navy) !important;
 }
 /* Decap marks the active view only with its blue; repaint that blue. */
 [class*="-ViewControlsButton"][style*="color"],
 [class*="-ViewControlsButton"] svg[style*="color"] {
-  color: var(--ink) !important;
+  color: var(--navy) !important;
+}
+/* Group headings (分组 → 编委会层级) read like the board page's tier rules. */
+[class*="-GroupHeading"] {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 18px 0 10px !important;
+  color: var(--navy-600) !important;
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+[class*="-GroupHeading"]::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--rule);
 }
 
-/* Entry list: one bordered sheet with hairline rows. */
+/* Photo cards: the Editorial Board page in miniature. */
+[class*="-CardsGrid"]:has(> [class*="-GridCard"]) {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 14px;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+[class*="-GridCard"] {
+  width: auto !important;
+  height: auto !important;
+  margin: 0 !important;
+  background: var(--paper) !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--r) !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+[class*="-GridCard"]:hover {
+  border-color: var(--navy-600) !important;
+  box-shadow: 0 0 0 1px var(--navy-600) !important;
+}
+[class*="-GridCardLink"] {
+  display: flex !important;
+  flex-direction: column;
+  height: 100%;
+}
+[class*="-GridCard"] [class*="-StyledImage"] {
+  order: -1;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 4 / 5;
+  background-size: cover !important;
+  background-position: center !important;
+  background-color: #d9dde2;
+}
+[class*="-GridCard"] [class*="-CardBody"] {
+  height: auto !important;
+  padding: 9px 11px 11px !important;
+}
+[class*="-GridCard"] [class*="-CardBody"]::after {
+  display: none !important;
+}
+[class*="-GridCard"] [class*="-CardHeading"] {
+  display: block !important;
+  -webkit-line-clamp: unset !important;
+  margin: 0 !important;
+  white-space: pre-line;
+  color: var(--muted) !important;
+  font-size: 11.5px !important;
+  font-weight: 400 !important;
+  line-height: 1.45 !important;
+}
+[class*="-GridCard"] [class*="-CardHeading"]::first-line {
+  color: var(--ink);
+  font-size: 13.5px;
+  font-weight: 600;
+  line-height: 1.6;
+}
+
+/* List view (the table toggle): one bordered sheet with hairline rows. */
 [class*="-CardsGrid"]:has(> [class*="-ListCard-"]) {
   display: block !important;
   margin: 0 !important;
@@ -484,40 +586,21 @@ body {
   background: var(--hover) !important;
 }
 [class*="-ListCardLink"] {
-  position: relative;
-  padding: 14px 44px 14px 18px !important;
-}
-[class*="-ListCardLink"]::after {
-  content: "→";
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translate(-4px, -50%);
-  opacity: 0;
-  color: var(--muted);
-  transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
-}
-[class*="-ListCard-"]:hover [class*="-ListCardLink"]::after {
-  opacity: 1;
-  transform: translate(0, -50%);
+  padding: 11px 18px !important;
 }
 [class*="-ListCardTitle"] {
-  color: var(--text) !important;
-  font-size: 14.5px !important;
-  font-weight: 500 !important;
+  white-space: pre-line;
+  color: var(--muted) !important;
+  font-size: 12.5px !important;
+  font-weight: 400 !important;
+}
+[class*="-ListCardTitle"]::first-line {
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 600;
 }
 
-/* Grid view cards */
-[class*="-GridCard"] {
-  border: 1px solid var(--rule) !important;
-  border-radius: var(--r) !important;
-  box-shadow: none !important;
-}
-[class*="-GridCard"]:hover {
-  border-color: var(--rule-strong) !important;
-}
-
-/* ---------- Editor ---------- */
+/* ---------- Editor: form on the left, live profile preview on the right ---------- */
 
 [class*="-ToolbarContainer"] {
   background: var(--paper) !important;
@@ -532,10 +615,10 @@ body {
 }
 [class*="-BackCollection"] {
   color: var(--ink) !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
 }
 [class*="-BackArrow"] {
-  color: var(--ink) !important;
+  color: var(--navy) !important;
 }
 [class*="-BackStatus"] {
   font-size: 12px !important;
@@ -549,7 +632,7 @@ body {
   font-weight: 500;
 }
 [class*="-PreviewLink"]:hover {
-  color: var(--ink) !important;
+  color: var(--navy) !important;
 }
 [class*="-PreviewLink"] * {
   color: inherit !important;
@@ -557,18 +640,30 @@ body {
 [class*="-EditorContainer"],
 [class*="-ControlPaneContainer"],
 [class*="-NoPreviewContainer"] {
-  background: var(--canvas) !important;
+  background: var(--paper) !important;
   border: 0 !important;
   box-shadow: none !important;
 }
 [class*="-ControlPaneContainer"] {
-  padding-top: 8px !important;
-  padding-bottom: 120px !important;
+  padding: 4px 28px 120px !important;
+  border-right: 1px solid var(--rule) !important;
+}
+[class*="-PreviewPaneFrame"] {
+  background: var(--canvas) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+/* The pane-switch buttons Decap floats over the split. */
+[class*="-EditorToggle"] {
+  background: var(--paper) !important;
+  border: 1px solid var(--rule-strong) !important;
+  box-shadow: none !important;
+  border-radius: var(--r-sm) !important;
 }
 
-/* Fields: small label above a flat input. */
+/* Fields: label above a flat, near-square input, hint beneath. */
 [class*="-ControlContainer"] {
-  margin-top: 26px !important;
+  margin-top: 22px !important;
 }
 [class*="-ControlTopbar"] {
   background: none !important;
@@ -577,10 +672,10 @@ body {
 [class*="-FieldLabel"] {
   background: none !important;
   border: 0 !important;
-  padding: 0 0 7px !important;
-  color: var(--text) !important;
+  padding: 0 0 6px !important;
+  color: var(--ink) !important;
   font-size: 13px !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
   text-transform: none !important;
 }
 [class*="-FieldLabel"]::before,
@@ -598,9 +693,9 @@ body {
 }
 [class*="-ControlTopbar"] + input,
 [class*="-ControlTopbar"] + textarea {
-  padding: 9px 12px !important;
-  min-height: 40px;
-  font-size: 14.5px !important;
+  padding: 8px 11px !important;
+  min-height: 38px;
+  font-size: 14px !important;
   line-height: 1.55 !important;
   color: var(--ink) !important;
 }
@@ -612,24 +707,23 @@ body {
 [class*="-ControlTopbar"] + textarea:focus,
 [class*="-ControlTopbar"] + div:focus-within:not([class*="-container"]),
 [class*="-ControlTopbar"] + div[class*="-container"] [class*="-control"]:focus-within {
-  border-color: var(--ink) !important;
+  border-color: var(--navy-600) !important;
   box-shadow: var(--focus-ring) !important;
   outline: none;
 }
 [class*="-ControlHint"] {
-  color: var(--muted) !important;
-  font-size: 12.5px !important;
-  line-height: 1.6 !important;
-  margin-top: 7px !important;
+  color: var(--faint) !important;
+  font-size: 12px !important;
+  line-height: 1.55 !important;
+  margin-top: 6px !important;
 }
 
-/* Lists and nested objects: hairline rows inside the field. */
+/* Lists and nested objects: grey setting rows. */
 [class*="-TopBarContainer"] {
   background: transparent !important;
   border-bottom: 1px solid var(--rule);
   border-radius: 0 !important;
 }
-/* Each item's handle bar and summary read as one row. */
 [class*="-StyledListItemTopBar"] {
   background: transparent !important;
   border: 0 !important;
@@ -641,17 +735,17 @@ body {
 }
 [class*="-SortableListItem"],
 [class*="-listControlItem"] {
-  background: var(--paper) !important;
+  background: #f6f7f9 !important;
   border: 1px solid var(--rule) !important;
-  border-radius: var(--r-sm) !important;
+  border-radius: var(--r) !important;
   box-shadow: none !important;
   overflow: hidden;
 }
 [class*="-NestedObjectLabel"] {
-  background: var(--paper) !important;
+  background: #f6f7f9 !important;
   border: 0 !important;
   color: var(--text) !important;
-  font-size: 14px;
+  font-size: 13.5px;
   font-weight: 500;
 }
 [class*="-TopBarButton"] svg path,
@@ -668,7 +762,7 @@ body {
 }
 [class*="-StyledToolbarButton"]:hover {
   background: var(--hover) !important;
-  color: var(--ink) !important;
+  color: var(--navy) !important;
 }
 [class*="-ToolbarToggleLabel"] {
   color: var(--muted) !important;
@@ -677,36 +771,60 @@ body {
 [class*="-ToggleBackground"] {
   background-color: var(--rule-strong) !important;
 }
-[class*="-ToggleHandle"] {
-  box-shadow: 0 1px 2px rgba(25, 25, 25, 0.2) !important;
-}
 
-/* Image field */
+/* Photo field: show the portrait in the site's 4:5 frame. */
 [class*="-ImageWrapper"] {
+  width: 120px !important;
+  height: 150px !important;
   border-radius: var(--r-sm) !important;
   border: 1px solid var(--rule);
   box-shadow: none !important;
   overflow: hidden;
 }
+[class*="-ImageWrapper"] img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
 [class*="-FileWidgetButton"] {
   border-radius: var(--r-sm) !important;
   font-weight: 500 !important;
+  background: var(--paper) !important;
+  color: var(--navy) !important;
+  border: 1px solid var(--rule-strong) !important;
 }
 
-/* ---------- Editorial workflow board ---------- */
+/* ---------- Photo library ---------- */
+
+[class*="-MediaLibraryTop"] h1,
+[class*="-LibraryTitle"] {
+  color: var(--ink) !important;
+  font-weight: 600 !important;
+}
+[class*="-CardGrid"] [class*="-Card-"],
+[class*="-MediaLibraryCard"] {
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--r) !important;
+  box-shadow: none !important;
+}
+[class*="-MediaLibraryCard"][class*="isPrivate"],
+[class*="-CardImageWrapper"] {
+  background-color: var(--canvas) !important;
+}
+
+/* ---------- Editorial workflow board (待发布) ---------- */
 
 [class*="-WorkflowTop"] {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
-  padding: 0 0 24px !important;
+  padding: 0 0 18px !important;
   border-bottom: 1px solid var(--rule) !important;
   border-radius: 0 !important;
 }
 [class*="-WorkflowTopHeading"] {
-  font-size: 30px !important;
+  font-size: 24px !important;
   font-weight: 600 !important;
-  letter-spacing: -0.03em;
   color: var(--ink) !important;
 }
 [class*="-WorkflowTopDescription"] {
@@ -716,10 +834,8 @@ body {
   border-radius: var(--r-sm) !important;
   font-size: 13px !important;
   font-weight: 600 !important;
-  letter-spacing: 0.01em;
 }
 [class*="-ColumnCount"] {
-  font-family: var(--mono) !important;
   color: var(--muted) !important;
 }
 [class*="-WorkflowCardContainer"] {
@@ -729,7 +845,7 @@ body {
   box-shadow: none !important;
 }
 [class*="-WorkflowCardContainer"]:hover {
-  border-color: var(--rule-strong) !important;
+  border-color: var(--navy-600) !important;
 }
 
 /* ---------- Dropdowns, modals, toasts ---------- */
@@ -739,7 +855,7 @@ body {
   background: var(--paper) !important;
   border: 1px solid var(--rule) !important;
   border-radius: var(--r) !important;
-  box-shadow: 0 8px 24px rgba(25, 25, 25, 0.06) !important;
+  box-shadow: 0 8px 24px rgba(14, 42, 71, 0.08) !important;
   padding: 4px !important;
   overflow: hidden;
 }
@@ -753,16 +869,15 @@ body {
 [class*="-StyledMenuItem"]:focus,
 [class*="-dropdownItem"]:focus {
   background: var(--hover) !important;
-  color: var(--ink) !important;
+  color: var(--navy) !important;
 }
 .ReactModal__Content {
   border-radius: var(--r) !important;
   border: 1px solid var(--rule) !important;
-  box-shadow: 0 16px 48px rgba(25, 25, 25, 0.08) !important;
+  box-shadow: 0 16px 48px rgba(14, 42, 71, 0.12) !important;
 }
 .Toastify__toast {
   border-radius: var(--r) !important;
-  box-shadow: 0 8px 24px rgba(25, 25, 25, 0.08) !important;
   font-family: var(--font) !important;
   font-size: 14px;
 }
@@ -770,6 +885,30 @@ body {
 /* ---------- Small screens ---------- */
 
 @media (max-width: 800px) {
+  [class*="-StyledAuthenticationPage"] {
+    background: var(--paper) !important;
+    align-items: center !important;
+    padding: 0 16px 40px !important;
+  }
+  [class*="-StyledAuthenticationPage"]::before {
+    position: static;
+    width: auto;
+    order: -1;
+    padding: 0 0 24px;
+    color: var(--navy);
+    font-size: 22px;
+    text-align: center;
+  }
+  [class*="-StyledAuthenticationPage"]::after {
+    display: none;
+  }
+  [class*="-CustomIconWrapper"] {
+    justify-content: center;
+  }
+  [class*="-LoginButton-"] {
+    width: 100%;
+    max-width: 320px;
+  }
   [class*="-AppHeaderContent"]::before,
   [class*="-AppHeaderNavList"]::before {
     display: none;
@@ -777,8 +916,8 @@ body {
   [class*="-CollectionContainer"] {
     margin-top: 16px !important;
   }
-  [class*="-CollectionTopHeading"] {
-    font-size: 24px !important;
+  [class*="-CardsGrid"]:has(> [class*="-GridCard"]) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

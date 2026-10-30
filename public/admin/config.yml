@@ -31,6 +31,11 @@ site_url: https://profiles.panorama-sg.com
 display_url: https://profiles.panorama-sg.com
 logo_url: /assets/logos/favicon.png
 
+# Photos live in src/assets/scholars and are written into each entry as
+# ../../assets/scholars/<file>, the relative path Astro's image() expects.
+# Keep these global: a collection-level relative media_folder resolves
+# against the entry's own path, which a new entry doesn't have yet, so the
+# photo library came up empty when adding a scholar.
 media_folder: src/assets/scholars
 public_folder: ../../assets/scholars
 
@@ -50,17 +55,24 @@ collections:
     delete: true
     slug: "{{fields.name}}"
     identifier_field: name
-    summary: "{{name}} · {{role}}"
-    sortable_fields: [name, order, role]
+    # Two lines on the photo cards: name, then role.
+    summary: "{{name}}\n{{role}}"
+    sortable_fields:
+      - { field: order, label: 首页排序, default_sort: asc }
+      - { field: name, label: 姓名 }
+      - { field: role, label: 职位 }
+    # The same tiers as the Editorial Board page (TIERS in src/lib/scholars.ts).
+    view_filters:
+      - { label: 主编, field: role, pattern: "Editor-in-Chief" }
+      - { label: 执行编委, field: role, pattern: "^Executive Editorial Board" }
+      - { label: 编委, field: role, pattern: "Editorial Board Member" }
     view_groups:
+      - { label: 层级, field: role, pattern: "Editor-in-Chief|Executive Editorial Board|Editorial Board Member" }
       - { label: 职位, field: role }
-    # Photos are stored next to the existing ones and referenced relatively,
-    # the way Astro's image() schema expects.
-    media_folder: ../../assets/scholars
-    public_folder: ../../assets/scholars
     preview_path: "board/{{slug}}"
+    # The right-hand pane renders the profile page (public/admin/preview.js).
     editor:
-      preview: false
+      preview: true
     fields:
       - { name: name, label: 姓名（英文）, widget: string, hint: "例如 Qin Shi。新建时网址由它生成（qin-shi）。" }
       - { name: nativeName, label: 中文名 / 母语姓名, widget: string, required: false }

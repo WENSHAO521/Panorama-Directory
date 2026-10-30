@@ -1,0 +1,220 @@
+/* Styles for the live profile preview in /admin (see preview.js). Colours and
+   type follow src/styles/global.css so the preview reads like the real page. */
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/inter-latin-wght-normal.woff2") format("woff2");
+}
+
+:root {
+  --ink: #1b1f24;
+  --paper: #ffffff;
+  --surface: #f4f5f7;
+  --rule: #e1e4e8;
+  --muted: #5b6470;
+  --faint: #8a929c;
+  --brand: #0e2a47;
+  --brand-600: #1d4a78;
+  --brand-50: #eef3f8;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--surface);
+  color: var(--ink);
+  font: 14px/1.6 "Inter", -apple-system, "PingFang SC", "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.page {
+  margin: 16px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.nav {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  height: 44px;
+  padding: 0 24px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--muted);
+  font-size: 12px;
+}
+.nav b {
+  margin-right: auto;
+  color: var(--brand);
+  font-size: 13px;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 132px 1fr;
+  gap: 24px;
+  padding: 26px 28px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--rule);
+}
+.photo {
+  aspect-ratio: 4 / 5;
+  border-radius: 4px;
+  background: #d9dde2 center / cover no-repeat;
+}
+.photo.empty {
+  display: grid;
+  place-items: center;
+  color: var(--faint);
+  font-size: 12px;
+  border: 1px dashed #b9c1ca;
+  background: var(--paper);
+}
+.who {
+  min-width: 0;
+}
+.kicker {
+  color: var(--brand-600);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+h1 {
+  margin: 4px 0 2px;
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+.native {
+  margin-left: 10px;
+  color: var(--muted);
+  font-size: 18px;
+  font-weight: 500;
+}
+.aff {
+  color: var(--muted);
+  font-size: 14px;
+}
+.aff.sub {
+  font-size: 13px;
+}
+.badges,
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+.badges a {
+  padding: 3px 8px;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 11px;
+  text-decoration: none;
+}
+.badges b {
+  color: var(--brand);
+  font-weight: 600;
+}
+.tags span {
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: var(--brand-50);
+  color: var(--brand);
+  font-size: 11px;
+}
+
+.body {
+  display: grid;
+  gap: 22px;
+  padding: 24px 28px 32px;
+}
+.summary {
+  margin: 0;
+  color: var(--muted);
+  max-width: 68ch;
+}
+.prose {
+  max-width: 68ch;
+}
+.prose p {
+  margin: 0 0 0.8em;
+}
+
+.block h3 {
+  margin: 2px 0 10px;
+  font-size: 17px;
+}
+.cites,
+.cards {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.cite {
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  gap: 12px;
+  padding: 10px 0;
+  border-top: 1px solid var(--rule);
+  line-height: 1.55;
+}
+.cite-label {
+  color: var(--brand-600);
+  font-size: 11px;
+  font-weight: 600;
+}
+.cite-title {
+  font-weight: 500;
+}
+.cite-venue {
+  color: var(--muted);
+}
+.cite-link {
+  margin-left: 6px;
+  color: var(--brand-600);
+  font-size: 12px;
+}
+.cards {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.cards.cols-3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.card {
+  padding: 12px 14px;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+}
+.card h4 {
+  margin: 0 0 4px;
+  font-size: 14px;
+}
+.card-meta,
+.card-entry {
+  color: var(--muted);
+  font-size: 12px;
+}
+.card p {
+  margin: 6px 0 0;
+  font-size: 13px;
+}
+.card ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+  font-size: 13px;
+}
+.email {
+  color: var(--muted);
+  font-size: 13px;
+}
