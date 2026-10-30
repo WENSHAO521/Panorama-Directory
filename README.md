@@ -63,7 +63,8 @@ do both in reverse.
   `https://profiles.panorama-sg.com/oauth/callback`, and two secrets on the
   Cloudflare project: `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`. Accounts
   not in `ALLOWED_GITHUB_USERS` are refused there and their token is revoked
-  (on Pages, set that variable in the dashboard instead).
+  (on Pages, set that variable in the dashboard instead; if it is missing,
+  only the repository owner can sign in).
 - `public/_headers` stops other sites framing `/admin` and keeps it out of
   search engines; `public/admin/index.html` pins the Decap script by hash.
 - To try the editor locally without signing in, run `npx decap-server` next to

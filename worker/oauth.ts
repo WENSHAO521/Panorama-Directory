@@ -10,8 +10,9 @@
 // https://<site>/oauth/callback.
 //
 // Only the GitHub accounts listed in ALLOWED_GITHUB_USERS (comma-separated,
-// set in wrangler.jsonc) are handed a token. Anyone else is turned away and
-// the token GitHub issued them is revoked. An empty list lets nobody in.
+// set in wrangler.jsonc, or in the dashboard on Pages) are handed a token.
+// Anyone else is turned away and the token GitHub issued them is revoked.
+// If the variable is missing entirely, only the repository owner is allowed.
 
 export interface OAuthEnv {
   GITHUB_CLIENT_ID?: string;
@@ -19,6 +20,7 @@ export interface OAuthEnv {
   ALLOWED_GITHUB_USERS?: string;
 }
 
+const DEFAULT_EDITORS = "WENSHAO521";
 const STATE_COOKIE = "__Host-decap_oauth_state";
 
 export async function handleOAuth(request: Request, env: OAuthEnv): Promise<Response> {
@@ -83,7 +85,7 @@ async function finish(request: Request, url: URL, env: OAuthEnv): Promise<Respon
 
 function allowedUsers(env: OAuthEnv): Set<string> {
   return new Set(
-    (env.ALLOWED_GITHUB_USERS ?? "")
+    (env.ALLOWED_GITHUB_USERS ?? DEFAULT_EDITORS)
       .split(",")
       .map((name) => name.trim().toLowerCase())
       .filter(Boolean),
