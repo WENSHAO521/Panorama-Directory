@@ -1,6 +1,7 @@
 ---
 // Researcher identifier links in the style publishers use on board pages:
-// the official ORCID iD mark, Web of Science (Clarivate mark), other profiles, and email.
+// the official ORCID iD mark, Web of Science (Clarivate mark), other profiles
+// with a plain link icon (no unofficial logos), and email.
 import Icon from "./Icon.astro";
 import orcidSvg from "../assets/brand/orcid.svg?raw";
 import clarivateSvg from "../assets/brand/clarivate.svg?raw";
@@ -34,9 +35,7 @@ const short = (label: string) =>
           ) : id.label === "Web of Science ResearcherID" ? (
             <span class="brand-mark text-ink" aria-hidden="true" set:html={clarivateSvg} />
           ) : (
-            <span class="flex size-4 shrink-0 items-center justify-center rounded-sm bg-brand text-[9px] font-bold text-paper" aria-hidden="true">
-              {id.label[0]}
-            </span>
+            <Icon name="link" class="text-base!" />
           )}
           <span>{id.label === "ORCID" ? id.value : short(id.label)}</span>
         </a>
