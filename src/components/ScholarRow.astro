@@ -10,7 +10,7 @@ const { name, affiliation, role, photo, summary, keywords } = scholar.data;
 const href = profileUrl(scholar);
 ---
 
-<article class="group relative flex flex-col gap-6 border border-rule bg-paper p-6 transition-colors duration-300 hover:border-ink sm:flex-row md:p-8">
+<article class="card-lift group relative flex flex-col gap-6 border border-rule bg-paper p-6 hover:border-ink sm:flex-row md:p-8">
   <div class="aspect-[4/5] w-28 shrink-0 overflow-hidden border border-rule bg-mist md:w-32">
     <Image
       src={photo}

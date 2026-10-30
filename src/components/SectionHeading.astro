@@ -3,11 +3,12 @@ interface Props {
   eyebrow?: string;
   title?: string;
   as?: "h2" | "h3";
+  reveal?: boolean;
 }
-const { eyebrow, title, as: Tag = "h2" } = Astro.props;
+const { eyebrow, title, as: Tag = "h2", reveal = true } = Astro.props;
 ---
 
-<div class="mb-10 flex flex-col gap-6 border-b border-ink pb-6 md:mb-12 md:flex-row md:items-end md:justify-between">
+<div data-reveal={reveal ? "" : undefined} class="mb-10 flex flex-col gap-6 border-b border-ink pb-6 md:mb-12 md:flex-row md:items-end md:justify-between">
   <div>
     {eyebrow && <p class="eyebrow mb-3">{eyebrow}</p>}
     {title && <Tag class="display text-3xl md:text-4xl">{title}</Tag>}

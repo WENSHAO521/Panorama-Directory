@@ -3,7 +3,7 @@
 The full icon font is ~4 MB, so this keeps only the icons the site actually
 uses (scanned from src/: <Icon name="..."> in components/pages and `icon:` in
 scholar content), pinned at the axis values set in src/styles/global.css
-(FILL 0, wght 400, GRAD 0, opsz 24).
+(FILL 0, wght 300, GRAD 0, opsz 24).
 
 Re-run after adding a new icon name anywhere in the markup:
     pip install fonttools brotli
@@ -60,7 +60,7 @@ def main():
     names = used_icons()
     font = TTFont(SRC)
     font = instancer.instantiateVariableFont(
-        font, {"FILL": 0, "wght": 400, "GRAD": 0, "opsz": 24}
+        font, {"FILL": 0, "wght": 300, "GRAD": 0, "opsz": 24}
     )
     ligs = ligature_glyphs(font, names)
     missing = sorted(set(names) - set(ligs))

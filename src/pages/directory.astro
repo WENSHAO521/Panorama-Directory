@@ -57,13 +57,13 @@ const available = new Set(scholars.flatMap((s) => nameInitials(s.data.name)));
   </section>
 
   <section class="mx-auto max-w-6xl px-5 pb-24 md:px-8">
-    <p id="result-count" class="eyebrow mb-8" aria-live="polite">{scholars.length} editorial members</p>
+    <p id="result-count" class="eyebrow tabular mb-8" aria-live="polite">{scholars.length} editorial members</p>
 
-    <div id="view-grid" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
+    <div id="view-grid" class="grid gap-x-5 border-b border-ink sm:grid-cols-2 sm:gap-y-5 sm:border-b-0 lg:grid-cols-3 xl:grid-cols-4">
       {
         scholars.map((s, i) => (
-          <div data-id={s.id} data-initials={nameInitials(s.data.name).join("")}>
-            <ScholarCard scholar={s} eager={i < 3} />
+          <div data-id={s.id} data-initials={nameInitials(s.data.name).join("")} data-reveal style={`--reveal-i: ${i % 4}`}>
+            <ScholarCard scholar={s} eager={i < 4} />
           </div>
         ))
       }

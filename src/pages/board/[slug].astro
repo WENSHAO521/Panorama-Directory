@@ -52,10 +52,18 @@ const jsonLd = {
     </a>
   </div>
 
-  <section class="mx-auto grid max-w-6xl gap-10 px-5 pt-8 pb-20 md:grid-cols-12 md:gap-14 md:px-8 md:pt-12 md:pb-28">
-    <aside class="md:col-span-4">
+  <section class="mx-auto grid max-w-6xl gap-x-14 gap-y-10 px-5 pt-8 pb-20 md:grid-cols-12 md:px-8 md:pt-12 md:pb-28">
+    <!-- On phones the name comes first, then the portrait, then the bio. -->
+    <header class="md:col-span-8 md:col-start-5 md:row-start-1">
+      <p class="eyebrow mb-5">{d.role}</p>
+      <h1 class="display mb-3 text-5xl md:text-7xl">{d.name}</h1>
+      {d.nativeName && <p class="mb-3 text-2xl font-light text-muted" lang="zh">{d.nativeName}</p>}
+      <p class="border-l-2 border-ink pl-4 text-lg font-medium text-ink/80 md:text-xl">{d.headline ?? d.affiliation}</p>
+    </header>
+
+    <aside class="md:col-span-4 md:col-start-1 md:row-span-2 md:row-start-1">
       <div class="md:sticky md:top-28">
-        <div class="aspect-[3/4] overflow-hidden border border-rule bg-mist">
+        <div class="mx-auto aspect-[3/4] max-w-xs overflow-hidden bg-mist md:max-w-none">
           <Image
             src={d.photo}
             alt={`Portrait of ${d.name}`}
@@ -70,9 +78,9 @@ const jsonLd = {
 
         {
           d.identifiers && (
-            <dl class="mt-5 divide-y divide-rule border border-rule">
+            <dl class="mt-5 divide-y divide-rule border-y border-ink">
               {d.identifiers.map((id) => (
-                <div class="px-5 py-4">
+                <div class="py-4">
                   <dt class="eyebrow mb-1">{id.label}</dt>
                   <dd>
                     <a href={id.href} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 font-mono text-sm transition-colors hover:text-muted">
@@ -96,12 +104,7 @@ const jsonLd = {
       </div>
     </aside>
 
-    <div class="md:col-span-8">
-      <p class="eyebrow mb-5">{d.role}</p>
-      <h1 class="display mb-3 text-5xl text-balance md:text-7xl">{d.name}</h1>
-      {d.nativeName && <p class="mb-3 text-2xl font-light text-muted" lang="zh">{d.nativeName}</p>}
-      <p class="mb-10 border-l-2 border-ink pl-4 text-lg font-medium text-ink/80 md:text-xl">{d.headline ?? d.affiliation}</p>
-
+    <div class="md:col-span-8 md:col-start-5">
       <div class="prose-bio max-w-2xl text-base leading-[1.75] font-light text-ink/80 md:text-[17px]">
         <Content />
       </div>
@@ -129,8 +132,14 @@ const jsonLd = {
       <SectionHeading eyebrow="Editorial Network" title="More from the board">
         <a href="/directory" class="btn-ghost shrink-0">Full directory</a>
       </SectionHeading>
-      <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
-        {more.map((s) => <ScholarCard scholar={s} />)}
+      <div class="grid border-b border-ink max-sm:-mt-10 max-sm:[&>:first-child_article]:border-t-0 sm:grid-cols-2 sm:gap-5 sm:border-b-0 md:gap-6 lg:grid-cols-3">
+        {
+          more.map((s, i) => (
+            <div data-reveal style={`--reveal-i: ${i}`}>
+              <ScholarCard scholar={s} />
+            </div>
+          ))
+        }
       </div>
     </div>
   </section>

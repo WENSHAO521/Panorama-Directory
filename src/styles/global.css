@@ -47,6 +47,29 @@
     background: var(--color-ink);
     color: var(--color-paper);
   }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums lining-nums;
+  }
+  /* Faint paper grain over the whole page, on a fixed layer so it never repaints on scroll. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
   :focus-visible {
     outline: 2px solid var(--color-ink);
     outline-offset: 3px;
@@ -72,13 +95,29 @@
   @apply border-b border-ink pb-0.5 transition-colors hover:border-muted hover:text-muted;
 }
 @utility btn {
-  @apply inline-flex items-center justify-center gap-2 border border-ink px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.16em] transition-colors duration-200;
+  @apply inline-flex items-center justify-center gap-2 border border-ink px-6 py-3.5 text-[11px] font-semibold uppercase tracking-[0.16em] transition-[color,background-color,transform] duration-200 ease-editorial active:scale-[0.98];
 }
 @utility btn-solid {
   @apply btn bg-ink text-paper hover:bg-paper hover:text-ink;
 }
 @utility btn-ghost {
   @apply btn bg-paper text-ink hover:bg-ink hover:text-paper;
+}
+
+/* Hover lift for cards: an ultra-diffuse shadow, never a hard drop shadow. */
+@utility card-lift {
+  transition:
+    border-color 300ms var(--ease-editorial),
+    box-shadow 400ms var(--ease-editorial),
+    transform 400ms var(--ease-editorial);
+  &:hover {
+    box-shadow: 0 18px 40px -24px rgb(20 18 12 / 0.18);
+  }
+  @media (min-width: 640px) {
+    &:hover {
+      transform: translateY(-2px);
+    }
+  }
 }
 
 @layer components {
@@ -104,9 +143,24 @@
     direction: ltr;
     font-feature-settings: "liga";
     -webkit-font-smoothing: antialiased;
-    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+    font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
     user-select: none;
   }
+}
+
+/* Scroll reveal: content fades up as it enters the viewport. Only applies once
+   the reveal script has run (html.js-reveal), so nothing is hidden without JS. */
+.js-reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition:
+    opacity 700ms var(--ease-editorial),
+    transform 700ms var(--ease-editorial);
+  transition-delay: calc(var(--reveal-i, 0) * 70ms);
+}
+.js-reveal [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
 }
 
 /* Cross-document view transitions: the portrait morphs from the directory
@@ -120,6 +174,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .js-reveal [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
   @view-transition {
     navigation: none;
   }

@@ -4,10 +4,13 @@ import ScholarCard from "../components/ScholarCard.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import SearchIndex from "../components/SearchIndex.astro";
 import Icon from "../components/Icon.astro";
+import { Image } from "astro:assets";
 import { getScholars, getFeatured, publicationCount } from "../lib/scholars";
 
 const scholars = await getScholars();
 const featured = await getFeatured(3);
+// Portrait mosaic beside the hero (desktop only): the next few board members.
+const mosaic = (await getFeatured(7)).slice(3);
 const fields = new Set(scholars.flatMap((s) => s.data.keywords.map((k) => k.toLowerCase())));
 const stats = [
   { value: scholars.length, label: "Members" },
@@ -21,36 +24,58 @@ const stats = [
   description="Discover the international network of scholars, principal investigators and editorial board members of Panorama Scholarly Group."
   active="home"
 >
-  <section class="mx-auto max-w-6xl px-5 pt-20 pb-16 md:px-8 md:pt-32 md:pb-24">
-    <p class="eyebrow mb-6">Official Researcher Database</p>
-    <h1 class="display mb-8 max-w-4xl text-5xl text-balance md:text-8xl">Global Editorial Directory.</h1>
-    <p class="mb-14 max-w-2xl border-l-2 border-ink pl-6 text-lg leading-relaxed font-light text-ink/75 md:text-xl">
-      Discover the international network of scholars, principal investigators, and editorial board members driving rigorous peer review across our publishing group.
-    </p>
+  <section class="mx-auto grid max-w-6xl gap-16 px-5 pt-20 pb-16 md:px-8 md:pt-28 md:pb-24 lg:grid-cols-12">
+    <div class="lg:col-span-8">
+      <p class="eyebrow mb-6">Official Researcher Database</p>
+      <h1 class="display mb-8 text-5xl md:text-[5.5rem]">Global Editorial Directory.</h1>
+      <p class="mb-14 max-w-2xl border-l-2 border-ink pl-6 text-lg leading-relaxed font-light text-ink/75 md:text-xl">
+        Discover the international network of scholars, principal investigators, and editorial board members driving rigorous peer review across our publishing group.
+      </p>
 
-    <div class="relative max-w-3xl" id="home-search">
-      <label for="global-search" class="eyebrow mb-3 block text-ink">Search scholars by name, affiliation, domain or publication</label>
-      <div class="flex items-center border border-ink bg-paper focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-ink">
-        <Icon name="search" class="mx-4 text-2xl! md:mx-5 md:text-3xl!" />
-        <input
-          type="search"
-          id="global-search"
-          autocomplete="off"
-          role="combobox"
-          aria-expanded="false"
-          aria-controls="search-results"
-          aria-autocomplete="list"
-          class="w-full border-0 bg-transparent px-0 py-4 text-lg font-light placeholder:text-faint focus:ring-0 focus:outline-none md:py-5 md:text-2xl"
-          placeholder="e.g. Chengwen Song, Kookmin, Social Cognition"
-        />
-        <kbd class="mr-4 hidden border border-rule px-2 py-1 font-mono text-[11px] text-faint md:block">/</kbd>
+      <div class="relative max-w-3xl" id="home-search">
+        <label for="global-search" class="eyebrow mb-3 block text-ink">Search scholars by name, affiliation, domain or publication</label>
+        <div class="flex items-center border border-ink bg-paper focus-within:outline-2 focus-within:outline-offset-3 focus-within:outline-ink">
+          <Icon name="search" class="mx-4 text-2xl! md:mx-5 md:text-3xl!" />
+          <input
+            type="search"
+            id="global-search"
+            autocomplete="off"
+            role="combobox"
+            aria-expanded="false"
+            aria-controls="search-results"
+            aria-autocomplete="list"
+            class="w-full border-0 bg-transparent px-0 py-4 text-lg font-light placeholder:text-faint focus:ring-0 focus:outline-none md:py-5 md:text-2xl"
+            placeholder="e.g. Chengwen Song, Kookmin, Social Cognition"
+          />
+          <kbd class="mr-4 hidden border border-rule bg-mist px-2 py-0.5 font-mono text-[11px] text-muted md:block">/</kbd>
+        </div>
+        <ul
+          id="search-results"
+          role="listbox"
+          class="absolute top-full right-0 left-0 z-40 -mt-px hidden max-h-[26rem] overflow-y-auto border border-ink bg-paper shadow-[0_28px_60px_-30px_rgb(20_18_12/0.28)]"
+        >
+        </ul>
       </div>
-      <ul
-        id="search-results"
-        role="listbox"
-        class="absolute top-full right-0 left-0 z-40 -mt-px hidden max-h-[26rem] overflow-y-auto border border-ink bg-paper shadow-[0_24px_48px_-24px_rgba(0,0,0,0.35)]"
-      >
-      </ul>
+    </div>
+
+    <div class="relative hidden lg:col-span-4 lg:block" aria-hidden="true">
+      <div class="grid grid-cols-2 gap-3">
+        {
+          mosaic.map((s, i) => (
+            <a href={`/board/${s.id}`} tabindex="-1" class:list={["group block overflow-hidden bg-mist", i % 2 === 1 && "translate-y-12"]}>
+              <Image
+                src={s.data.photo}
+                alt=""
+                widths={[200, 400]}
+                sizes="180px"
+                class="aspect-[3/4] w-full object-cover grayscale transition duration-700 ease-editorial group-hover:scale-[1.03] group-hover:grayscale-0"
+                loading="eager"
+              />
+            </a>
+          ))
+        }
+      </div>
+      <p class="eyebrow mt-16 text-right">Members of the editorial board</p>
     </div>
   </section>
 
@@ -58,9 +83,9 @@ const stats = [
     <dl class="mx-auto grid max-w-6xl grid-cols-3 divide-x divide-rule px-5 md:px-8">
       {
         stats.map((s) => (
-          <div class="flex flex-col-reverse gap-2 py-8 pr-4 not-first:pl-4 md:py-10 md:not-first:pl-8">
+          <div class="flex flex-col gap-2 py-8 pr-4 not-first:pl-4 md:py-10 md:not-first:pl-8">
             <dt class="eyebrow">{s.label}</dt>
-            <dd class="display text-4xl md:text-6xl">{s.value}</dd>
+            <dd class="display tabular order-first text-4xl md:text-6xl">{s.value}</dd>
           </div>
         ))
       }
@@ -68,17 +93,23 @@ const stats = [
   </section>
 
   <section class="mx-auto max-w-6xl px-5 py-20 md:px-8 md:py-28">
-    <SectionHeading eyebrow="Board Members" title="Featured Scholars">
+    <SectionHeading eyebrow="Board Members" title="Featured Scholars" reveal>
       <a href="/directory" class="btn-ghost shrink-0">View full directory</a>
     </SectionHeading>
-    <div class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 md:gap-6">
-      {featured.map((s) => <ScholarCard scholar={s} />)}
+    <div class="grid border-b border-ink max-sm:-mt-10 max-sm:[&>:first-child_article]:border-t-0 sm:grid-cols-2 sm:gap-5 sm:border-b-0 md:gap-6 lg:grid-cols-3">
+      {
+        featured.map((s, i) => (
+          <div data-reveal style={`--reveal-i: ${i}`}>
+            <ScholarCard scholar={s} />
+          </div>
+        ))
+      }
     </div>
   </section>
 
   <section class="border-t border-rule bg-mist">
     <div class="mx-auto grid max-w-6xl gap-10 px-5 py-20 md:grid-cols-12 md:px-8 md:py-24">
-      <div class="md:col-span-7">
+      <div class="md:col-span-7" data-reveal>
         <Icon name="account_balance" class="mb-6 text-4xl!" />
         <h2 class="display mb-5 text-3xl md:text-4xl">Join the editorial network</h2>
         <p class="max-w-xl text-base leading-relaxed font-light text-muted">

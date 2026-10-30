@@ -11,27 +11,28 @@ const { name, affiliation, role, photo } = scholar.data;
 const href = profileUrl(scholar);
 ---
 
-<article class="group relative flex h-full flex-col border border-rule bg-paper transition-colors duration-300 hover:border-ink">
-  <div class="aspect-[4/5] overflow-hidden border-b border-rule bg-mist">
+<!-- Horizontal on phones (small portrait beside the text), vertical card from sm up. -->
+<article class="card-lift group relative grid h-full grid-cols-[5.5rem_1fr] gap-5 border-t border-ink bg-paper py-5 sm:flex sm:flex-col sm:gap-0 sm:border sm:border-rule sm:p-0 sm:hover:border-ink">
+  <div class="aspect-[3/4] overflow-hidden bg-mist sm:border-b sm:border-rule">
     <Image
       src={photo}
       alt={`Portrait of ${name}`}
-      widths={[320, 480, 720]}
-      sizes="(min-width: 1024px) 340px, (min-width: 640px) 45vw, 90vw"
-      class="h-full w-full object-cover grayscale-[35%] transition duration-700 ease-editorial group-hover:scale-[1.03] group-hover:grayscale-0"
+      widths={[176, 320, 480, 640]}
+      sizes="(min-width: 1280px) 290px, (min-width: 640px) 45vw, 88px"
+      class="h-full w-full object-cover grayscale-[30%] transition duration-700 ease-editorial group-hover:scale-[1.03] group-hover:grayscale-0"
       style={`view-transition-name: portrait-${scholar.id}`}
       loading={eager ? "eager" : "lazy"}
     />
   </div>
-  <div class="flex grow flex-col p-6">
-    <p class="eyebrow mb-3">{role}</p>
-    <h3 class="display mb-2 text-2xl">
+  <div class="flex grow flex-col sm:p-6">
+    <p class="eyebrow mb-2 sm:mb-3 sm:min-h-[2lh]">{role}</p>
+    <h3 class="display mb-1.5 text-[1.375rem] sm:text-2xl">
       <a href={href} class="after:absolute after:inset-0">{name}</a>
     </h3>
-    <p class="text-sm font-light text-muted">{affiliation}</p>
-    <span class="mt-auto inline-flex items-center gap-1 pt-6 text-[11px] font-semibold uppercase tracking-[0.16em]">
+    <p class="text-sm font-light text-muted text-pretty">{affiliation}</p>
+    <span class="mt-auto inline-flex items-center gap-1.5 pt-4 text-[11px] font-semibold tracking-[0.16em] uppercase sm:pt-6">
       View profile
-      <span class="transition-transform duration-300 group-hover:translate-x-1" aria-hidden="true">→</span>
+      <span class="transition-transform duration-300 ease-editorial group-hover:translate-x-1" aria-hidden="true">→</span>
     </span>
   </div>
 </article>
