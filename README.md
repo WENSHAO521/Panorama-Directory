@@ -2,7 +2,8 @@
 
 Editorial directory for Panorama Scholarly Group, served at
 <https://profiles.panorama-sg.com>. Built with [Astro](https://astro.build) and
-Tailwind CSS v4, deployed as static assets on Cloudflare Workers.
+Tailwind CSS v4, deployed as static assets on Cloudflare Workers (a small Worker
+only handles GitHub sign-in for the `/admin` editor).
 
 ## Working on the site
 
@@ -38,6 +39,26 @@ Section `layout: list` renders `type: publication` rows; `layout: grid`
 renders `type: card` items (appointments, honours, expertise). A card's
 `icon` field is kept in the data but not drawn by the current design.
 
+### Editing in the browser (`/admin`)
+
+Non-technical editors can use the form-based editor at
+<https://profiles.panorama-sg.com/admin/> ([Decap CMS](https://decapcms.org)).
+They sign in with a GitHub account that has write access to this repository;
+every save is a commit to `main`, which triggers the normal rebuild and
+redeploy (about a minute or two). If a save ever breaks validation, the build
+fails and the previous version of the site stays live.
+
+- Editor config: `public/admin/config.yml`. Its fields mirror the schema in
+  `src/content.config.ts`; when you add a field to one, add it to the other.
+- GitHub sign-in runs on the site itself: `worker/oauth.ts`, wired up by
+  `worker/index.ts` (Workers) and `functions/oauth/[[path]].ts` (Pages). It
+  needs a GitHub OAuth App with callback URL
+  `https://profiles.panorama-sg.com/oauth/callback`, and two secrets on the
+  Cloudflare project: `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET`.
+- To try the editor locally without signing in, run `npx decap-server` next to
+  `npm run dev` and open <http://localhost:4321/admin/index.html>; saves go to
+  your local files.
+
 ## Design
 
 Publisher editorial-board style (in the manner of Springer Nature or De Gruyter
@@ -69,4 +90,7 @@ src/
   pages/              routes; board/[slug].astro renders every profile
   styles/global.css   design tokens, fonts, shared utilities
 public/               files served as-is (fonts, favicon, verification file)
+public/admin/         the /admin editor (Decap CMS) and its config
+worker/               Worker entry and GitHub sign-in for /admin
+functions/            the same sign-in as a Pages Function
 ```
