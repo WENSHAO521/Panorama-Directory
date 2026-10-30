@@ -1,0 +1,495 @@
+/*
+  Theme for the Decap editor, matching the public site (src/styles/global.css):
+  navy brand on white and cool grey, Inter, thin rules, small radii.
+
+  Decap styles itself with Emotion, whose class names look like
+  `css-<hash>-<ComponentName>`. The hash changes between Decap versions but the
+  component names don't, so we match on `-<ComponentName>`. Emotion injects its
+  styles after this file, hence the !important. After upgrading Decap, open
+  /admin and check that these still apply.
+*/
+
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/inter-latin-wght-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url("/assets/fonts/inter-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2C60-2C7F,
+    U+A720-A7FF;
+}
+
+:root {
+  --ink: #1b1f24;
+  --paper: #ffffff;
+  --surface: #f4f5f7;
+  --rule: #e1e4e8;
+  --rule-strong: #cfd5dc;
+  --muted: #5b6470;
+  --faint: #8a929c;
+  --brand: #0e2a47;
+  --brand-600: #1d4a78;
+  --brand-50: #eef3f8;
+  --danger: #b42318;
+  --danger-50: #fef3f2;
+  --radius: 10px;
+  --radius-sm: 6px;
+  --ring: 0 0 0 3px rgba(29, 74, 120, 0.15);
+  --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
+  --font: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+    "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
+}
+
+/* ---------- Base ---------- */
+
+html,
+body {
+  background: var(--surface) !important;
+  color: var(--ink);
+  font-family: var(--font) !important;
+  -webkit-font-smoothing: antialiased;
+}
+#nc-root,
+#nc-root button,
+#nc-root input,
+#nc-root textarea,
+#nc-root select {
+  font-family: var(--font) !important;
+}
+#nc-root ::selection {
+  background: var(--brand-50);
+}
+
+/* ---------- Sign-in page ---------- */
+
+[class*="-StyledAuthenticationPage"] {
+  background: radial-gradient(1200px 600px at 50% -10%, #dfe8f2 0%, var(--surface) 60%) !important;
+  justify-content: center !important;
+  gap: 0;
+}
+[class*="-StyledAuthenticationPage"]::before {
+  content: "Panorama Directory";
+  order: 1;
+  margin-top: 20px;
+  font-size: 22px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  color: var(--brand);
+}
+[class*="-StyledAuthenticationPage"]::after {
+  content: "学者名录 · 内容管理后台";
+  order: 2;
+  margin: 6px 0 28px;
+  font-size: 14px;
+  color: var(--muted);
+}
+[class*="-CustomIconWrapper"] {
+  order: 0;
+  width: 112px !important;
+  height: 112px !important;
+  margin: 0 !important;
+  padding: 6px;
+  border-radius: 24px;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  box-shadow: 0 10px 30px rgba(14, 42, 71, 0.1);
+  box-sizing: border-box;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+[class*="-CustomIconWrapper"] img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+[class*="-LoginButton"] {
+  order: 3;
+  justify-content: center !important;
+  text-align: center;
+  min-width: 240px;
+  height: 44px !important;
+  margin: 0 !important;
+  border-radius: var(--radius-sm) !important;
+  font-size: 15px !important;
+  font-weight: 600 !important;
+}
+[class*="-GoBackButtonStyle"] {
+  order: 4;
+  margin-top: 20px !important;
+  color: var(--muted) !important;
+  font-size: 13px;
+}
+
+/* ---------- Buttons ---------- */
+
+/* Primary actions: sign in, new entry, quick add, publish. */
+[class*="-LoginButton"],
+[class*="-CollectionTopNewButton"],
+[class*="-AppHeaderQuickNewButton"],
+[class*="-PublishButton"],
+[class*="-PublishedToolbarButton"],
+[class*="-SaveButton"] {
+  background: var(--brand) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 1px 2px rgba(14, 42, 71, 0.2) !important;
+  font-weight: 600 !important;
+  transition: background 0.15s ease;
+}
+[class*="-LoginButton"]:hover,
+[class*="-CollectionTopNewButton"]:hover,
+[class*="-AppHeaderQuickNewButton"]:hover,
+[class*="-PublishButton"]:hover,
+[class*="-PublishedToolbarButton"]:hover,
+[class*="-SaveButton"]:hover {
+  background: var(--brand-600) !important;
+}
+[class*="-CollectionTopNewButton"] {
+  height: 40px !important;
+  padding: 0 18px !important;
+  line-height: 40px !important;
+}
+[class*="-AppHeaderQuickNewButton"] {
+  height: 36px !important;
+  padding: 0 34px 0 14px !important;
+  line-height: 36px !important;
+}
+[class*="-AppHeaderQuickNewButton"]::after,
+[class*="-PublishedToolbarButton"]::after,
+[class*="-PublishButton"]::after {
+  color: #fff !important;
+}
+/* Re-centre the dropdown caret after the height change. */
+[class*="-AppHeaderQuickNewButton"]::after {
+  top: 50% !important;
+  right: 14px !important;
+  transform: translateY(-50%);
+}
+
+/* Secondary / destructive */
+[class*="-DeleteButton"] {
+  background: var(--paper) !important;
+  color: var(--danger) !important;
+  border: 1px solid #f3c6c1 !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: none !important;
+}
+[class*="-DeleteButton"]:hover {
+  background: var(--danger-50) !important;
+}
+[class*="-StyledToolbarButton"],
+[class*="-AddButton"] {
+  border-radius: var(--radius-sm) !important;
+}
+
+/* ---------- Top bar ---------- */
+
+[class*="-AppHeader-"] {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: saturate(180%) blur(8px);
+  border-bottom: 1px solid var(--rule);
+  box-shadow: none !important;
+}
+[class*="-AppHeaderContent"] {
+  max-width: 1280px;
+}
+[class*="-AppHeaderNavList"]::before {
+  content: "Panorama · 后台";
+  display: flex;
+  align-items: center;
+  padding: 0 24px 0 4px;
+  margin-right: 8px;
+  border-right: 1px solid var(--rule);
+  font-weight: 650;
+  font-size: 15px;
+  letter-spacing: -0.01em;
+  color: var(--brand);
+  white-space: nowrap;
+}
+[class*="-AppHeaderButton"],
+[class*="-AppHeaderNavLink"] {
+  color: var(--muted) !important;
+  font-weight: 500 !important;
+}
+[class*="-AppHeaderButton"]:hover,
+[class*="-AppHeaderNavLink"]:hover,
+[class*="-AppHeaderNavLink"].header-link-active {
+  color: var(--brand) !important;
+}
+[class*="-AppHeaderNavLink"].header-link-active {
+  box-shadow: inset 0 -2px 0 var(--brand);
+}
+[class*="-AppHeaderButton"] svg path,
+[class*="-AppHeaderNavLink"] svg path {
+  fill: currentColor !important;
+}
+[class*="-AppHeaderSiteLink"] {
+  color: var(--faint) !important;
+  font-size: 13px !important;
+}
+[class*="-AppHeaderSiteLink"]:hover {
+  color: var(--brand) !important;
+}
+
+/* ---------- Cards and sidebar ---------- */
+
+[class*="-SidebarContainer"],
+[class*="-CollectionTopContainer"],
+[class*="-ListCard-"],
+[class*="-GridCard"],
+[class*="-WorkflowCard"] {
+  background: var(--paper) !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow) !important;
+}
+[class*="-SidebarHeading"],
+[class*="-CollectionTopHeading"] {
+  color: var(--ink) !important;
+  font-weight: 650 !important;
+  letter-spacing: -0.01em;
+}
+[class*="-SidebarHeading"] {
+  font-size: 13px !important;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--faint) !important;
+}
+[class*="-CollectionTopDescription"] {
+  color: var(--muted) !important;
+  line-height: 1.6;
+}
+[class*="-SearchInput"] {
+  background: var(--surface) !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--radius-sm) !important;
+}
+[class*="-SearchInput"]:focus {
+  background: var(--paper) !important;
+  border-color: var(--brand-600) !important;
+  box-shadow: var(--ring) !important;
+  outline: none;
+}
+[class*="-SidebarNavLink"] {
+  margin: 2px 8px;
+  border-radius: var(--radius-sm);
+  border-left: 0 !important;
+  color: var(--muted) !important;
+}
+[class*="-SidebarNavLink"]:hover,
+[class*="-SidebarNavLink"].sidebar-active {
+  background: var(--brand-50) !important;
+  color: var(--brand) !important;
+}
+[class*="-SidebarNavLink"].sidebar-active {
+  font-weight: 600;
+}
+
+/* Entry list */
+[class*="-ListCard-"] {
+  margin-bottom: 8px !important;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+[class*="-ListCard-"]:hover {
+  border-color: var(--brand-600) !important;
+  box-shadow: 0 4px 14px rgba(14, 42, 71, 0.08) !important;
+}
+[class*="-ListCardLink"] {
+  padding: 16px 20px !important;
+}
+[class*="-ListCardTitle"] {
+  color: var(--ink) !important;
+  font-weight: 500 !important;
+}
+[class*="-ViewControlsText"],
+[class*="-ControlButton"] {
+  color: var(--muted) !important;
+}
+/* ---------- Editor ---------- */
+
+[class*="-ToolbarContainer"] {
+  background: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: saturate(180%) blur(8px);
+  border-bottom: 1px solid var(--rule);
+  box-shadow: none !important;
+}
+[class*="-ToolbarSectionBackLink"] {
+  border-right-color: var(--rule) !important;
+}
+[class*="-BackCollection"] {
+  color: var(--ink) !important;
+  font-weight: 600 !important;
+}
+[class*="-BackArrow"] {
+  color: var(--brand) !important;
+}
+[class*="-ToolbarSectionMeta"] {
+  border-left-color: var(--rule) !important;
+}
+[class*="-EditorContainer"],
+[class*="-ControlPaneContainer"],
+[class*="-NoPreviewContainer"] {
+  background: var(--surface) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+[class*="-ControlPaneContainer"] {
+  padding-top: 32px !important;
+}
+
+/* Each field: label above a rounded input, instead of a grey tab. */
+[class*="-ControlContainer"] {
+  margin-top: 22px !important;
+}
+[class*="-FieldLabel"] {
+  background: none !important;
+  border: 0 !important;
+  padding: 0 0 6px !important;
+  color: var(--ink) !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  text-transform: none !important;
+}
+[class*="-ControlTopbar"] {
+  background: none !important;
+  border: 0 !important;
+}
+/* Decap draws the tab's rounded corners with these. */
+[class*="-FieldLabel"]::before,
+[class*="-FieldLabel"]::after {
+  display: none !important;
+}
+[class*="-ControlContainer"]:focus-within [class*="-FieldLabel"] {
+  color: var(--brand-600) !important;
+}
+/* The widget is whatever follows the label bar: an input, a textarea, or a
+   div wrapping an image, toggle or list. react-select draws its own box. */
+[class*="-ControlTopbar"] + input,
+[class*="-ControlTopbar"] + textarea,
+[class*="-ControlTopbar"] + div:not([class*="-container"]),
+[class*="-ControlTopbar"] + div[class*="-container"] [class*="-control"] {
+  border: 1px solid var(--rule-strong) !important;
+  border-radius: var(--radius-sm) !important;
+  background: var(--paper) !important;
+  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+[class*="-ControlTopbar"] + input,
+[class*="-ControlTopbar"] + textarea {
+  padding: 11px 14px !important;
+  font-size: 15px !important;
+  color: var(--ink) !important;
+}
+[class*="-ControlTopbar"] + input:hover,
+[class*="-ControlTopbar"] + textarea:hover {
+  border-color: var(--faint) !important;
+}
+[class*="-ControlTopbar"] + input:focus,
+[class*="-ControlTopbar"] + textarea:focus,
+[class*="-ControlTopbar"] + div:focus-within:not([class*="-container"]),
+[class*="-ControlTopbar"] + div[class*="-container"] [class*="-control"]:focus-within {
+  border-color: var(--brand-600) !important;
+  box-shadow: var(--ring) !important;
+  outline: none;
+}
+[class*="-ControlHint"] {
+  color: var(--faint) !important;
+  font-size: 12.5px !important;
+  line-height: 1.55 !important;
+  margin-top: 6px !important;
+}
+
+/* Lists and nested objects */
+[class*="-listControlItem"],
+[class*="-SortableListItem"] {
+  border-radius: var(--radius-sm) !important;
+}
+[class*="-TopBarContainer"],
+[class*="-StyledListItemTopBar"] {
+  background: var(--brand-50) !important;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0 !important;
+}
+[class*="-SortableListItem"] {
+  border: 1px solid var(--rule) !important;
+  overflow: hidden;
+}
+[class*="-NestedObjectLabel"] {
+  background: var(--paper) !important;
+  border: 0 !important;
+  color: var(--ink) !important;
+  font-weight: 500;
+}
+
+/* Image field */
+[class*="-ImageWrapper"] {
+  border-radius: var(--radius-sm) !important;
+  overflow: hidden;
+  box-shadow: none !important;
+  border: 1px solid var(--rule);
+}
+[class*="-FileWidgetButton"] {
+  border-radius: var(--radius-sm) !important;
+}
+
+/* Status badges and toggles */
+[class*="-BackStatus"] {
+  font-weight: 600 !important;
+}
+[class*="-ToggleBackground"][class*="-BooleanBackground"] {
+  border-radius: 999px !important;
+}
+
+/* ---------- Editorial workflow board ---------- */
+
+[class*="-WorkflowTop"] {
+  background: var(--paper) !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--radius) !important;
+  box-shadow: var(--shadow) !important;
+}
+[class*="-ColumnHeader"] {
+  border-radius: var(--radius-sm) !important;
+  font-weight: 600 !important;
+}
+
+/* ---------- Dropdowns, modals, toasts ---------- */
+
+[class*="-DropdownList"],
+[class*="-dropdownList"] {
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--radius-sm) !important;
+  box-shadow: 0 12px 32px rgba(16, 24, 40, 0.12) !important;
+  overflow: hidden;
+}
+[class*="-StyledMenuItem"]:hover,
+[class*="-dropdownItem"]:hover {
+  background: var(--brand-50) !important;
+  color: var(--brand) !important;
+}
+.ReactModal__Content {
+  border-radius: var(--radius) !important;
+  border: 1px solid var(--rule) !important;
+}
+.Toastify__toast {
+  border-radius: var(--radius-sm) !important;
+  font-family: var(--font) !important;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 800px) {
+  [class*="-AppHeaderNavList"]::before {
+    display: none;
+  }
+}
