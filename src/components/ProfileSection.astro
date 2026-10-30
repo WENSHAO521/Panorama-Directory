@@ -1,0 +1,70 @@
+---
+import type { Scholar } from "../lib/scholars";
+import { inline } from "../lib/scholars";
+import SectionHeading from "./SectionHeading.astro";
+import Icon from "./Icon.astro";
+
+interface Props {
+  section: Scholar["data"]["sections"][number];
+  id: string;
+}
+const { section, id } = Astro.props;
+const { layout, columns = 2, compact } = section;
+const count = layout === "list" ? section.items.length : undefined;
+---
+
+<section id={id} class="scroll-mt-28">
+  <SectionHeading kicker={section.eyebrow ?? "Research Focus"} title={section.title ?? "Areas of Expertise"} count={count} />
+
+  {
+    layout === "list" ? (
+      <ol class="divide-y divide-rule">
+        {section.items.map((item) =>
+          item.type === "publication" ? (
+            <li class="flex gap-4 py-5 first:pt-0">
+              <span class="tabular mt-0.5 w-16 shrink-0 text-sm font-semibold text-brand">{item.label}</span>
+              <div class="min-w-0">
+                <h3 class="mb-1.5 leading-snug font-semibold">{item.title}</h3>
+                {item.authors && <p class="text-sm" set:html={inline(item.authors)} />}
+                {item.venue && <p class="text-sm text-muted italic" set:html={inline(item.venue)} />}
+                {item.link && (
+                  <a href={item.link.href} target="_blank" rel="noopener noreferrer" class="link mt-1.5 inline-flex items-center gap-1 text-sm break-all">
+                    {item.link.text}
+                    <Icon name="open_in_new" class="text-sm!" />
+                  </a>
+                )}
+              </div>
+            </li>
+          ) : null,
+        )}
+      </ol>
+    ) : (
+      <div class:list={["grid gap-4", columns === 3 || compact ? "md:grid-cols-3" : "md:grid-cols-2"]}>
+        {section.items.map((item) =>
+          item.type === "card" ? (
+            <div class:list={["rounded-lg border border-rule p-5", item.centered && "text-center"]}>
+              <h3 class="mb-2 leading-snug font-semibold">{item.title}</h3>
+              {item.entries && (
+                <dl class="divide-y divide-rule">
+                  {item.entries.map((e) => (
+                    <div class="py-2.5 first:pt-0 last:pb-0">
+                      <dt class="text-sm font-medium">{e.title}</dt>
+                      <dd class="text-sm text-muted">{e.meta}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              {item.meta?.map((m) => <p class="text-sm text-brand-600" set:html={inline(m)} />)}
+              {item.text?.map((t) => <p class="mt-1 text-sm leading-relaxed text-muted" set:html={inline(t)} />)}
+              {item.list && (
+                <ul class="list-disc space-y-2 pl-4 text-sm leading-relaxed text-muted marker:text-faint">
+                  {item.list.map((l) => <li set:html={inline(l)} />)}
+                </ul>
+              )}
+            </div>
+          ) : null,
+        )}
+      </div>
+    )
+  }
+</section>

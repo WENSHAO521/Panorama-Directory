@@ -3,17 +3,22 @@
   "private": true,
   "scripts": {
     "build:icons": "python3 scripts/subset-icons.py",
-    "build:css": "node scripts/build-css.js",
-    "build:html": "node scripts/build.js",
-    "build": "npm run build:html && npm run build:css"
+    "build": "astro build",
+    "dev": "astro dev",
+    "preview": "wrangler dev",
+    "check": "astro check",
+    "deploy": "wrangler deploy"
   },
   "devDependencies": {
-    "@fontsource-variable/fraunces": "^5.3.0",
-    "@fontsource-variable/inter": "^5.3.0",
+    "@astrojs/check": "^0.9.12",
+    "@astrojs/markdown-satteri": "^0.4.4",
+    "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/forms": "^0.5.11",
-    "@tailwindcss/postcss": "^4.3.3",
-    "material-symbols": "^0.47.5",
-    "postcss": "^8.5.31",
-    "tailwindcss": "^4.3.3"
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.4.1",
+    "material-symbols": "^0.47.6",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^6.0.3",
+    "wrangler": "^4.156.0"
   }
 }

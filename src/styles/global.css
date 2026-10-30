@@ -1,0 +1,186 @@
+@import "tailwindcss";
+
+@plugin "@tailwindcss/forms";
+
+/* Design system: academic publisher editorial board.
+   Calm institutional palette (deep navy brand colour on white and cool grey
+   surfaces), one sans typeface, small radii, dense but well-spaced listings.
+   Change the look here rather than in individual components. */
+@theme {
+  --color-ink: #1b1f24;
+  --color-paper: #ffffff;
+  --color-surface: #f4f5f7;
+  --color-rule: #e1e4e8;
+  --color-muted: #5b6470;
+  --color-faint: #8a929c;
+  --color-brand: #0e2a47;
+  --color-brand-600: #1d4a78;
+  --color-brand-50: #eef3f8;
+
+  --font-sans: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  --radius-sm: 3px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 6rem;
+  }
+  body {
+    @apply bg-paper text-ink font-sans antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-rule);
+  }
+  ::selection {
+    background: var(--color-brand-50);
+    color: var(--color-brand);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-brand-600);
+    outline-offset: 2px;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p,
+  li,
+  dd {
+    text-wrap: pretty;
+  }
+}
+
+/* Page container shared by every section. */
+@utility wrap {
+  @apply mx-auto w-full max-w-[75rem] px-5 md:px-8;
+}
+/* Small grey label above values (Affiliation, ORCID, ...). */
+@utility label {
+  font-size: 0.75rem;
+  line-height: 1.4;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--color-muted);
+}
+/* Section kicker: small brand-coloured caps above a heading. */
+@utility kicker {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-brand-600);
+}
+@utility tabular {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+@utility link {
+  @apply text-brand-600 underline decoration-brand-600/30 underline-offset-2 transition-colors hover:decoration-brand-600;
+}
+@utility btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-md px-4 py-2.5 text-sm font-medium transition-colors duration-150;
+}
+@utility btn-primary {
+  @apply btn bg-brand text-paper hover:bg-brand-600;
+}
+@utility btn-secondary {
+  @apply btn border border-rule bg-paper text-ink hover:border-brand-600 hover:text-brand-600;
+}
+/* Small bordered tag (research fields, index labels). */
+@utility tag {
+  @apply inline-flex items-center rounded-sm border border-rule bg-paper px-2 py-0.5 text-xs text-muted;
+}
+
+@layer components {
+  .prose-bio p + p {
+    margin-top: 1em;
+  }
+  .prose-bio em {
+    font-style: italic;
+  }
+  .material-symbols-outlined {
+    font-family: "Material Symbols Outlined";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 20px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    display: inline-block;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    font-feature-settings: "liga";
+    -webkit-font-smoothing: antialiased;
+    font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 24;
+    user-select: none;
+    vertical-align: middle;
+  }
+}
+
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 160ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  ::before,
+  ::after {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Self-hosted fonts (Google Fonts is unreliable from mainland China).
+   Licenses live next to the files in public/assets/fonts/. The icon font is a
+   subset: run `npm run build:icons` after using a new Material Symbols name. */
+@layer base {
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/assets/fonts/inter-latin-wght-normal.woff2') format('woff2');
+    unicode-range:
+      U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC,
+      U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193,
+      U+2212, U+2215, U+FEFF, U+FFFD;
+  }
+  @font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 100 900;
+    font-display: swap;
+    src: url('/assets/fonts/inter-latin-ext-wght-normal.woff2') format('woff2');
+    unicode-range:
+      U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304,
+      U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020,
+      U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+  }
+  @font-face {
+    font-family: 'Material Symbols Outlined';
+    font-style: normal;
+    font-weight: 400;
+    font-display: block;
+    src: url('/assets/fonts/material-symbols-outlined-subset.woff2') format('woff2');
+  }
+}

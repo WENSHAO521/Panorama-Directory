@@ -1,0 +1,31 @@
+---
+import { profileUrl, type Scholar } from "../lib/scholars";
+import IdBadges from "./IdBadges.astro";
+import Portrait from "./Portrait.astro";
+
+interface Props {
+  scholar: Scholar;
+  eager?: boolean;
+}
+const { scholar, eager = false } = Astro.props;
+const { name, affiliation, role } = scholar.data;
+const href = profileUrl(scholar);
+---
+
+<article class="group relative flex h-full gap-4 rounded-lg border border-rule bg-paper p-4 transition-[border-color,box-shadow] hover:border-brand-600/40 hover:shadow-[0_6px_24px_-12px_rgb(14_42_71/0.25)] sm:flex-col sm:p-0">
+  <Portrait
+    scholar={scholar}
+    widths={[160, 320, 480]}
+    sizes="(min-width: 1024px) 280px, (min-width: 640px) 33vw, 80px"
+    class="w-20 rounded-md sm:w-full sm:rounded-b-none"
+    loading={eager ? "eager" : "lazy"}
+  />
+  <div class="flex min-w-0 grow flex-col sm:p-5">
+    <p class="kicker mb-1">{role}</p>
+    <h3 class="text-lg leading-snug font-semibold tracking-tight">
+      <a href={href} class="after:absolute after:inset-0 group-hover:text-brand-600">{name}</a>
+    </h3>
+    <p class="mb-3 text-sm text-muted">{affiliation}</p>
+    <div class="mt-auto"><IdBadges scholar={scholar} email={false} /></div>
+  </div>
+</article>

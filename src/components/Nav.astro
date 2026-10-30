@@ -1,0 +1,82 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/logo.png";
+import Icon from "./Icon.astro";
+
+interface Props {
+  active?: "home" | "directory" | "about" | "contact";
+}
+const { active } = Astro.props;
+const links = [
+  { key: "home", label: "Home", href: "/" },
+  { key: "directory", label: "Editorial Board", href: "/directory" },
+  { key: "about", label: "About", href: "/about" },
+  { key: "contact", label: "Contact", href: "/contact" },
+] as const;
+---
+
+<div class="bg-brand text-paper/80">
+  <div class="wrap flex h-9 items-center justify-between text-xs">
+    <span class="truncate">Panorama Scholarly Group · Open Access Publishing</span>
+    <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="hidden shrink-0 items-center gap-1 hover:text-paper sm:inline-flex">
+      Journals &amp; publishing platform <Icon name="open_in_new" class="text-sm!" />
+    </a>
+  </div>
+</div>
+
+<header class="sticky top-0 z-50 border-b border-rule bg-paper/95 backdrop-blur">
+  <nav class="wrap flex h-16 items-center justify-between gap-6 md:h-[4.5rem]" aria-label="Main">
+    <a href="/" class="flex shrink-0 items-center gap-3" aria-label="Panorama Scholarly Group Editorial Directory, home">
+      <Image src={logo} alt="" class="h-11 w-auto md:h-12" height={96} loading="eager" />
+      <span class="hidden border-l border-rule pl-3 text-sm leading-tight font-semibold text-brand lg:block">
+        Editorial<br />Directory
+      </span>
+    </a>
+
+    <ul class="hidden h-full items-stretch gap-1 md:flex">
+      {
+        links.map((l) => (
+          <li class="flex">
+            <a
+              href={l.href}
+              aria-current={active === l.key ? "page" : undefined}
+              class:list={[
+                "flex items-center border-b-2 px-3 text-sm font-medium transition-colors",
+                active === l.key ? "border-brand text-brand" : "border-transparent text-muted hover:text-brand",
+              ]}
+            >
+              {l.label}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+
+    <a href="/directory" class="btn-secondary hidden lg:inline-flex" aria-label="Search the editorial board">
+      <Icon name="search" /> Search members
+    </a>
+
+    <details class="group md:hidden">
+      <summary class="flex size-10 cursor-pointer list-none items-center justify-center rounded-md border border-rule [&::-webkit-details-marker]:hidden" aria-label="Menu">
+        <Icon name="menu" class="group-open:hidden" />
+        <Icon name="close" class="hidden group-open:inline-block" />
+      </summary>
+      <ul class="absolute inset-x-0 top-full border-b border-rule bg-paper px-5 py-2 shadow-lg">
+        {
+          links.map((l) => (
+            <li class="border-b border-rule last:border-0">
+              <a
+                href={l.href}
+                aria-current={active === l.key ? "page" : undefined}
+                class:list={["flex items-center justify-between py-3.5 font-medium", active === l.key ? "text-brand" : "text-ink"]}
+              >
+                {l.label}
+                <Icon name="chevron_right" class="text-faint" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </details>
+  </nav>
+</header>

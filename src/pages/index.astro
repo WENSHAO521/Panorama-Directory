@@ -1,0 +1,218 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ScholarCard from "../components/ScholarCard.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import SearchIndex from "../components/SearchIndex.astro";
+import Icon from "../components/Icon.astro";
+import { getScholars, getBoard, publicationCount } from "../lib/scholars";
+
+const scholars = await getScholars();
+const board = await getBoard();
+const chiefs = board.find((g) => g.key === "chief")?.members ?? [];
+
+// Research fields ranked by how many members list them.
+const fieldCounts = new Map<string, { label: string; n: number }>();
+for (const s of scholars)
+  for (const k of s.data.keywords) {
+    if (/editor/i.test(k)) continue; // a role some profiles list as a keyword, not a field
+    const key = k.toLowerCase();
+    const e = fieldCounts.get(key) ?? { label: k, n: 0 };
+    e.n++;
+    fieldCounts.set(key, e);
+  }
+const fields = [...fieldCounts.values()].sort((a, b) => b.n - a.n || a.label.localeCompare(b.label));
+const stats = [
+  { value: scholars.length, label: "Board members" },
+  { value: new Set(scholars.map((s) => s.data.affiliation)).size, label: "Affiliations" },
+  { value: fields.length, label: "Research fields" },
+  { value: scholars.reduce((n, s) => n + publicationCount(s), 0), label: "Publications listed" },
+];
+const journals = [
+  "Global Review of Humanities, Arts, and Society",
+  "Health Nexus",
+  "Silence",
+  "Journal of Social Cognition and Communication",
+];
+---
+
+<BaseLayout
+  title="Global Editorial Directory"
+  description="Discover the international network of scholars, principal investigators and editorial board members of Panorama Scholarly Group."
+  active="home"
+>
+  <section class="bg-brand text-paper">
+    <div class="wrap py-14 md:py-20">
+      <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-paper/70 uppercase">Official Researcher Database</p>
+      <h1 class="mb-5 max-w-3xl text-4xl font-semibold tracking-tight md:text-[3.5rem] md:leading-[1.08]">Global Editorial Directory</h1>
+      <p class="mb-10 max-w-2xl text-lg leading-relaxed text-paper/80">
+        Discover the international network of scholars, principal investigators, and editorial board members driving rigorous peer review across our publishing group.
+      </p>
+
+      <div class="relative max-w-2xl" id="home-search">
+        <label for="global-search" class="sr-only">Search scholars by name, affiliation, research field or publication</label>
+        <div class="flex items-center rounded-md bg-paper pr-1.5 pl-4 text-ink shadow-lg focus-within:ring-4 focus-within:ring-paper/25">
+          <Icon name="search" class="text-faint" />
+          <input
+            type="search"
+            id="global-search"
+            autocomplete="off"
+            role="combobox"
+            aria-expanded="false"
+            aria-controls="search-results"
+            aria-autocomplete="list"
+            class="w-full border-0 bg-transparent px-3 py-3.5 text-base placeholder:text-faint focus:ring-0 focus:outline-none"
+            placeholder="Search by name, institution, research field or publication"
+          />
+          <kbd class="mr-2 hidden rounded-sm border border-rule px-1.5 py-0.5 font-mono text-xs text-faint md:block">/</kbd>
+        </div>
+        <ul
+          id="search-results"
+          role="listbox"
+          class="absolute top-full right-0 left-0 z-40 mt-1.5 hidden max-h-[26rem] overflow-y-auto rounded-md border border-rule bg-paper text-ink shadow-xl"
+        >
+        </ul>
+      </div>
+    </div>
+    <div class="border-t border-paper/10">
+      <dl class="wrap grid grid-cols-2 md:grid-cols-4">
+        {
+          stats.map((s, i) => (
+            <div class:list={["py-5 md:py-6", i % 2 === 1 && "pl-5 md:pl-0", i > 0 && "md:border-l md:border-paper/10 md:pl-6", i > 1 && "border-t border-paper/10 md:border-t-0"]}>
+              <dd class="tabular text-2xl font-semibold md:text-3xl">{s.value}</dd>
+              <dt class="text-sm text-paper/70">{s.label}</dt>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="wrap py-14 md:py-20">
+    <SectionHeading kicker="Leadership" title="Editors-in-Chief">
+      <a href="/directory" class="link text-sm font-medium">View full editorial board</a>
+    </SectionHeading>
+    <div class="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
+      {chiefs.map((s, i) => <ScholarCard scholar={s} eager={i < 4} />)}
+    </div>
+  </section>
+
+  <section class="border-y border-rule bg-surface">
+    <div class="wrap grid gap-12 py-14 md:py-20 lg:grid-cols-12">
+      <div class="lg:col-span-7">
+        <SectionHeading kicker="Browse" title="Research fields" />
+        <ul class="flex flex-wrap gap-2">
+          {
+            fields.slice(0, 28).map((f) => (
+              <li>
+                <a href={`/directory?q=${encodeURIComponent(f.label)}`} class="tag gap-1.5 py-1 text-sm text-ink transition-colors hover:border-brand-600 hover:text-brand-600">
+                  {f.label}
+                  {f.n > 1 && <span class="tabular text-faint">{f.n}</span>}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+      <div class="lg:col-span-5">
+        <SectionHeading kicker="Portfolio" title="Our journals" />
+        <ul class="divide-y divide-rule rounded-lg border border-rule bg-paper">
+          {
+            journals.map((j) => (
+              <li class="flex items-center gap-3 px-4 py-3.5">
+                <Icon name="menu_book" class="text-brand-600" />
+                <span class="text-sm font-medium italic">{j}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="link mt-4 inline-flex items-center gap-1 text-sm">
+          All journals on the publishing platform <Icon name="open_in_new" class="text-sm!" />
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap py-14 md:py-20">
+    <div class="flex flex-col gap-6 rounded-lg border border-rule p-6 md:flex-row md:items-center md:justify-between md:p-10">
+      <div class="max-w-2xl">
+        <p class="kicker mb-2">Join the network</p>
+        <h2 class="mb-2 text-2xl font-semibold tracking-tight">Panorama Scholarly Group Editorial Directory</h2>
+        <p class="text-muted">
+          If you are an academic interested in joining our editorial board or have inquiries regarding our scholarly network, please contact the directory administration.
+        </p>
+      </div>
+      <div class="flex shrink-0 flex-col gap-2">
+        <a href="mailto:directory.admin@panorama-sg.com" class="btn-primary"><Icon name="mail" /> directory.admin@panorama-sg.com</a>
+        <a href="/contact" class="btn-secondary">All contact options</a>
+      </div>
+    </div>
+  </section>
+
+  <SearchIndex />
+</BaseLayout>
+
+<script>
+  import { loadIndex, search, escapeHtml } from "../lib/search";
+
+  const input = document.getElementById("global-search") as HTMLInputElement;
+  const results = document.getElementById("search-results") as HTMLUListElement;
+  const index = loadIndex();
+  let active = -1;
+
+  const open = (show: boolean) => {
+    results.classList.toggle("hidden", !show);
+    input.setAttribute("aria-expanded", String(show));
+    if (!show) active = -1;
+  };
+
+  const highlight = (text: string, q: string) => {
+    const safe = escapeHtml(text);
+    const words = q.trim().split(/\s+/).filter(Boolean).map((w) => w.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"));
+    return words.length ? safe.replace(new RegExp(`(${words.join("|")})`, "gi"), '<mark class="bg-brand-50 text-brand">$1</mark>') : safe;
+  };
+
+  const render = () => {
+    const q = input.value.trim();
+    if (!q) return open(false);
+    const matches = search(index, q);
+    results.innerHTML = matches.length
+      ? matches
+          .map(
+            (m, i) => `<li role="option" id="opt-${i}"><a href="${m.url}" class="block border-b border-rule px-4 py-3 transition-colors hover:bg-surface">
+              <span class="block font-semibold text-ink">${highlight(m.name, q)}</span>
+              <span class="mt-0.5 block text-sm text-muted">${highlight(m.affiliation, q)}</span></a></li>`,
+          )
+          .join("") +
+        `<li><a href="/directory?q=${encodeURIComponent(q)}" class="block px-4 py-3 text-sm font-medium text-brand-600 hover:underline">Show all results in the directory →</a></li>`
+      : `<li class="px-4 py-4 text-sm text-muted">No matches. Browse the <a class="link" href="/directory">full directory</a>.</li>`;
+    active = -1;
+    open(true);
+  };
+
+  const options = () => [...results.querySelectorAll<HTMLElement>("[role=option]")];
+  const move = (dir: number) => {
+    const opts = options();
+    if (!opts.length) return;
+    active = (active + dir + opts.length) % opts.length;
+    opts.forEach((o, i) => o.firstElementChild!.classList.toggle("bg-surface", i === active));
+    input.setAttribute("aria-activedescendant", opts[active].id);
+    opts[active].scrollIntoView({ block: "nearest" });
+  };
+
+  input.addEventListener("input", render);
+  input.addEventListener("focus", render);
+  input.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") (e.preventDefault(), move(1));
+    else if (e.key === "ArrowUp") (e.preventDefault(), move(-1));
+    else if (e.key === "Enter") {
+      const target = options()[active]?.querySelector("a") ?? results.querySelector("a");
+      if (target) location.href = target.getAttribute("href")!;
+    } else if (e.key === "Escape") open(false);
+  });
+  document.addEventListener("click", (e) => {
+    if (!document.getElementById("home-search")!.contains(e.target as Node)) open(false);
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "/" && document.activeElement !== input) (e.preventDefault(), input.focus());
+  });
+</script>

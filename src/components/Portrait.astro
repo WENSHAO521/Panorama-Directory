@@ -1,0 +1,29 @@
+---
+// A scholar's photo in a fixed 4:5 frame, the same size in every row.
+import { Image } from "astro:assets";
+import type { Scholar } from "../lib/scholars";
+
+interface Props {
+  scholar: Scholar;
+  widths: number[];
+  sizes: string;
+  class?: string;
+  loading?: "eager" | "lazy";
+  fetchpriority?: "high";
+}
+const { scholar, widths, sizes, class: className, loading = "lazy", fetchpriority } = Astro.props;
+const { name, photo } = scholar.data;
+---
+
+<div class:list={["aspect-[4/5] shrink-0 self-start overflow-hidden bg-surface", className]}>
+  <Image
+    src={photo}
+    alt={`Portrait of ${name}`}
+    widths={widths}
+    sizes={sizes}
+    class="h-full w-full object-cover"
+    style={`view-transition-name: portrait-${scholar.id}`}
+    loading={loading}
+    fetchpriority={fetchpriority}
+  />
+</div>

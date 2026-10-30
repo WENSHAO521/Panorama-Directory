@@ -1,0 +1,11 @@
+---
+// Material Symbols ligature icon. The font is subset to the names used in
+// src/; run `npm run build:icons` after adding a new name.
+interface Props {
+  name: string;
+  class?: string;
+}
+const { name, class: className = "" } = Astro.props;
+---
+
+<span class:list={["material-symbols-outlined", className]} aria-hidden="true">{name}</span>

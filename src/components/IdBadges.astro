@@ -1,0 +1,69 @@
+---
+// Researcher identifier links in the style publishers use on board pages:
+// the official ORCID iD mark, Web of Science (Clarivate mark), other profiles
+// with a plain link icon (no unofficial logos), and email.
+import Icon from "./Icon.astro";
+import orcidSvg from "../assets/brand/orcid.svg?raw";
+import clarivateSvg from "../assets/brand/clarivate.svg?raw";
+import type { Scholar } from "../lib/scholars";
+
+interface Props {
+  scholar: Scholar;
+  size?: "sm" | "md";
+  email?: boolean;
+}
+const { scholar, size = "sm", email = true } = Astro.props;
+const ids = scholar.data.identifiers ?? [];
+const text = size === "sm" ? "text-xs" : "text-sm";
+const short = (label: string) =>
+  label === "Web of Science ResearcherID" ? "Web of Science" : label.replace(/ Profile$/, "");
+---
+
+<ul class:list={["relative z-10 flex flex-wrap items-center gap-x-4 gap-y-1.5", text]}>
+  {
+    ids.map((id) => (
+      <li>
+        <a
+          href={id.href}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center gap-1.5 text-muted transition-colors hover:text-brand-600"
+          title={`${id.label}: ${id.value}`}
+        >
+          {id.label === "ORCID" ? (
+            <span class="brand-mark" aria-hidden="true" set:html={orcidSvg} />
+          ) : id.label === "Web of Science ResearcherID" ? (
+            <span class="brand-mark text-ink" aria-hidden="true" set:html={clarivateSvg} />
+          ) : (
+            <Icon name="link" class="text-base!" />
+          )}
+          <span>{id.label === "ORCID" ? id.value : short(id.label)}</span>
+        </a>
+      </li>
+    ))
+  }
+  {
+    email && scholar.data.email && (
+      <li>
+        <a href={`mailto:${scholar.data.email}`} class="inline-flex items-center gap-1 text-muted transition-colors hover:text-brand-600">
+          <Icon name="mail" class="text-base!" />
+          <span>Email</span>
+        </a>
+      </li>
+    )
+  }
+</ul>
+
+<style>
+  .brand-mark {
+    display: inline-flex;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+  .brand-mark :global(svg) {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+</style>

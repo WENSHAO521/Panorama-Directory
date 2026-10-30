@@ -5,12 +5,13 @@
   "observability": {
     "enabled": true
   },
-  "main": "worker/index.js",
-  "assets": {
-    "directory": ".",
-    "binding": "ASSETS"
+  // Static site: Astro builds into dist/, which is the only thing deployed.
+  // `wrangler deploy` runs the build first, so no separate build step is needed.
+  "build": {
+    "command": "npm run build"
   },
-  "compatibility_flags": [
-    "nodejs_compat"
-  ]
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
 }

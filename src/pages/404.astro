@@ -1,0 +1,15 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Page not found" description="The page you were looking for could not be found.">
+  <section class="wrap py-20 md:py-32">
+    <p class="kicker tabular mb-2">Error 404</p>
+    <h1 class="mb-4 text-3xl font-semibold tracking-tight md:text-[2.75rem]">Page not found</h1>
+    <p class="mb-8 max-w-xl text-lg text-muted">The profile or page you were looking for may have moved. Use the editorial board listing to find a member.</p>
+    <div class="flex flex-wrap gap-3">
+      <a href="/directory" class="btn-primary">Browse the editorial board</a>
+      <a href="/" class="btn-secondary">Home</a>
+    </div>
+  </section>
+</BaseLayout>

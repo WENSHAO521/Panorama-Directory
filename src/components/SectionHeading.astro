@@ -1,0 +1,24 @@
+---
+interface Props {
+  kicker?: string;
+  title?: string;
+  count?: number;
+  as?: "h2" | "h3";
+}
+const { kicker, title, count, as: Tag = "h2" } = Astro.props;
+---
+
+<div class="mb-6 flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b border-rule pb-4 md:mb-8">
+  <div>
+    {kicker && <p class="kicker mb-1.5">{kicker}</p>}
+    {
+      title && (
+        <Tag class="text-2xl font-semibold tracking-tight md:text-[1.75rem]">
+          {title}
+          {count !== undefined && <span class="tabular ml-2 text-base font-normal text-faint">({count})</span>}
+        </Tag>
+      )
+    }
+  </div>
+  <slot />
+</div>

@@ -1,0 +1,27 @@
+---
+// One member in a publisher-style editorial board listing.
+import { profileUrl, type Scholar } from "../lib/scholars";
+import IdBadges from "./IdBadges.astro";
+import Portrait from "./Portrait.astro";
+
+interface Props {
+  scholar: Scholar;
+}
+const { scholar } = Astro.props;
+const { name, nativeName, affiliation, role, keywords } = scholar.data;
+const href = profileUrl(scholar);
+---
+
+<article class="group relative flex gap-4 py-5 md:gap-5">
+  <Portrait scholar={scholar} widths={[96, 144]} sizes="72px" class="w-16 rounded-md md:w-[4.5rem]" />
+  <div class="min-w-0 grow">
+    <h3 class="font-semibold tracking-tight md:text-[1.0625rem]">
+      <a href={href} class="after:absolute after:inset-0 group-hover:text-brand-600 group-hover:underline">{name}</a>
+      {nativeName && <span class="ml-1 font-normal text-muted" lang="zh">{nativeName}</span>}
+    </h3>
+    <p class="text-sm">{role}</p>
+    <p class="mb-2 text-sm text-muted">{affiliation}</p>
+    <p class="mb-2 hidden text-xs text-faint sm:block">{keywords.join(" · ")}</p>
+    <IdBadges scholar={scholar} />
+  </div>
+</article>

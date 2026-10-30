@@ -1,0 +1,74 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+
+const channels = [
+  {
+    title: "Editorial Directory Administration",
+    text: "For updates to scholar profiles, directory corrections, ORCID-related matters, or general directory questions.",
+    email: "directory.admin@panorama-sg.com",
+  },
+  {
+    title: "Publishing & Institutional Partnerships",
+    text: "For inquiries relating to journal development, institutional cooperation, special issues, and scholarly publishing partnerships.",
+    email: "partnerships@panorama-sg.com",
+  },
+  {
+    title: "General Contact",
+    text: "For general editorial, policy, or administrative questions related to Panorama Scholarly Group.",
+    email: "contact@panorama-sg.com",
+  },
+];
+---
+
+<BaseLayout
+  title="Contact Us"
+  description="Contact the Panorama Scholarly Group directory administration, partnerships team or general office."
+  active="contact"
+>
+  <section class="border-b border-rule bg-surface">
+    <div class="wrap py-10 md:py-14">
+      <p class="kicker mb-2">Administration & support</p>
+      <h1 class="mb-3 text-3xl font-semibold tracking-tight md:text-[2.75rem]">Contact Us</h1>
+      <p class="max-w-2xl text-muted">
+        Whether you are a researcher with directory inquiries, an academic interested in editorial participation, or an institution seeking publishing or collaboration information, we welcome your correspondence.
+      </p>
+    </div>
+  </section>
+
+  <div class="wrap grid gap-10 py-10 md:py-14 lg:grid-cols-12">
+    <div class="grid gap-4 md:grid-cols-3 lg:col-span-12">
+      {
+        channels.map((c) => (
+          <div class="flex flex-col rounded-lg border border-rule p-5">
+            <h2 class="mb-2 text-base font-semibold">{c.title}</h2>
+            <p class="mb-5 flex-1 text-sm leading-relaxed text-muted">{c.text}</p>
+            <a href={`mailto:${c.email}`} class="link inline-flex items-center gap-1.5 text-sm font-medium break-all">
+              <Icon name="mail" class="text-base! no-underline" />
+              {c.email}
+            </a>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="rounded-lg border border-rule bg-surface p-6 md:p-8 lg:col-span-12 lg:grid lg:grid-cols-12 lg:gap-8">
+      <div class="lg:col-span-5">
+        <h2 class="kicker mb-3">Administrative and operational contact</h2>
+        <address class="text-lg leading-snug not-italic">
+          Panorama Scholarly Group<br />
+          Room 1508, 15/F., Office Tower Two, Grand Plaza,<br />
+          625 Nathan Road, Kowloon, Hong Kong
+        </address>
+      </div>
+      <div class="mt-6 flex flex-col items-start gap-5 lg:col-span-7 lg:mt-0">
+        <p class="text-sm leading-relaxed text-muted">
+          Selected journals within the group hold ISSNs assigned through the German ISSN Centre. Administrative and operational correspondence is coordinated through the contact information listed on this page.
+        </p>
+        <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
+          Visit Official Publishing Platform <Icon name="open_in_new" class="text-base!" />
+        </a>
+      </div>
+    </div>
+  </div>
+</BaseLayout>

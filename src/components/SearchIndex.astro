@@ -1,0 +1,24 @@
+---
+// Inlines a compact search index (name, affiliation, keywords, publication
+// titles) so search works without fetching anything at runtime.
+import { getScholars, profileUrl } from "../lib/scholars";
+
+const scholars = await getScholars();
+const index = scholars.map((s) => ({
+  id: s.id,
+  name: s.data.name + (s.data.nativeName ? ` ${s.data.nativeName}` : ""),
+  affiliation: s.data.affiliation,
+  role: s.data.role,
+  url: profileUrl(s),
+  keywords: s.data.keywords,
+  text: [
+    s.data.headline,
+    s.data.summary,
+    ...s.data.sections.flatMap((sec) => sec.items.map((i) => i.title)),
+  ]
+    .filter(Boolean)
+    .join(" "),
+}));
+---
+
+<script type="application/json" id="search-index" set:html={JSON.stringify(index)} />

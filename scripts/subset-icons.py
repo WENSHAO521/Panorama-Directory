@@ -1,8 +1,8 @@
 """Build a tiny self-hosted Material Symbols Outlined font.
 
 The full icon font is ~4 MB, so this keeps only the icons the site actually
-uses (scanned from templates/ and content/), pinned at the axis values set in
-assets/css/tailwind.input.css (FILL 0, wght 400, GRAD 0, opsz 24).
+uses (scanned from src/: <Icon name="..."> in components and pages), pinned at the axis values set in src/styles/global.css
+(FILL 0, wght 300, GRAD 0, opsz 24).
 
 Re-run after adding a new icon name anywhere in the markup:
     pip install fonttools brotli
@@ -18,16 +18,15 @@ from fontTools import subset
 
 ROOT = Path(__file__).resolve().parent.parent
 SRC = ROOT / "node_modules/material-symbols/material-symbols-outlined.woff2"
-OUT = ROOT / "assets/fonts/material-symbols-outlined-subset.woff2"
+OUT = ROOT / "public/assets/fonts/material-symbols-outlined-subset.woff2"
 
-ICON_RE = re.compile(r'material-symbols-outlined[^>]*>\s*([a-z0-9_]+)\s*<')
+ICON_RE = re.compile(r'<Icon\s+name="([a-z0-9_]+)"')
 
 
 def used_icons():
     names = set()
-    for folder in ("templates", "content"):
-        for path in (ROOT / folder).rglob("*.html"):
-            names.update(ICON_RE.findall(path.read_text(encoding="utf-8")))
+    for path in (ROOT / "src").rglob("*.astro"):
+        names.update(ICON_RE.findall(path.read_text(encoding="utf-8")))
     return sorted(names)
 
 
@@ -54,7 +53,7 @@ def main():
     names = used_icons()
     font = TTFont(SRC)
     font = instancer.instantiateVariableFont(
-        font, {"FILL": 0, "wght": 400, "GRAD": 0, "opsz": 24}
+        font, {"FILL": 0, "wght": 300, "GRAD": 0, "opsz": 24}
     )
     ligs = ligature_glyphs(font, names)
     missing = sorted(set(names) - set(ligs))
