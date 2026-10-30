@@ -5,6 +5,11 @@
   // Only handles /oauth/* (GitHub sign-in for the /admin editor); every other
   // request is served straight from the static assets.
   "main": "worker/index.ts",
+  // GitHub accounts allowed to sign in to the /admin editor, comma-separated
+  // (e.g. "WENSHAO521,another-editor"). Everyone else is refused at sign-in.
+  "vars": {
+    "ALLOWED_GITHUB_USERS": "WENSHAO521"
+  },
   "observability": {
     "enabled": true
   },

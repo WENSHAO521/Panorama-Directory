@@ -8,10 +8,15 @@
 // Needs two secrets on the Cloudflare project: GITHUB_CLIENT_ID and
 // GITHUB_CLIENT_SECRET, from a GitHub OAuth App whose callback URL is
 // https://<site>/oauth/callback.
+//
+// Only the GitHub accounts listed in ALLOWED_GITHUB_USERS (comma-separated,
+// set in wrangler.jsonc) are handed a token. Anyone else is turned away and
+// the token GitHub issued them is revoked. An empty list lets nobody in.
 
 export interface OAuthEnv {
   GITHUB_CLIENT_ID?: string;
   GITHUB_CLIENT_SECRET?: string;
+  ALLOWED_GITHUB_USERS?: string;
 }
 
 const STATE_COOKIE = "__Host-decap_oauth_state";
@@ -67,7 +72,46 @@ async function finish(request: Request, url: URL, env: OAuthEnv): Promise<Respon
   if (!data.access_token) {
     return reply("error", { message: data.error_description ?? "GitHub did not return a token." }, url.origin);
   }
+
+  const login = await githubLogin(data.access_token);
+  if (!login || !allowedUsers(env).has(login.toLowerCase())) {
+    await revokeToken(data.access_token, env);
+    return reply("error", { message: `GitHub account ${login ?? "(unknown)"} is not allowed to edit this site.` }, url.origin);
+  }
   return reply("success", { token: data.access_token, provider: "github" }, url.origin);
+}
+
+function allowedUsers(env: OAuthEnv): Set<string> {
+  return new Set(
+    (env.ALLOWED_GITHUB_USERS ?? "")
+      .split(",")
+      .map((name) => name.trim().toLowerCase())
+      .filter(Boolean),
+  );
+}
+
+async function githubLogin(token: string): Promise<string | undefined> {
+  const res = await fetch("https://api.github.com/user", {
+    headers: { Authorization: `Bearer ${token}`, Accept: "application/vnd.github+json", "User-Agent": "panorama-directory-cms" },
+  });
+  if (!res.ok) return undefined;
+  const user = (await res.json().catch(() => ({}))) as { login?: string };
+  return user.login;
+}
+
+// Best effort: a rejected account's token is never sent to the browser, but
+// revoking it means it isn't left valid on GitHub either.
+async function revokeToken(token: string, env: OAuthEnv): Promise<void> {
+  await fetch(`https://api.github.com/applications/${env.GITHUB_CLIENT_ID}/token`, {
+    method: "DELETE",
+    headers: {
+      Authorization: `Basic ${btoa(`${env.GITHUB_CLIENT_ID}:${env.GITHUB_CLIENT_SECRET}`)}`,
+      Accept: "application/vnd.github+json",
+      "Content-Type": "application/json",
+      "User-Agent": "panorama-directory-cms",
+    },
+    body: JSON.stringify({ access_token: token }),
+  }).catch(() => undefined);
 }
 
 /**
@@ -92,6 +136,8 @@ function reply(status: "success" | "error", content: object, origin: string): Re
     headers: {
       "Content-Type": "text/html; charset=utf-8",
       "Cache-Control": "no-store",
+      "X-Frame-Options": "DENY",
+      "Referrer-Policy": "no-referrer",
       "Set-Cookie": `${STATE_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=0`,
     },
   });
