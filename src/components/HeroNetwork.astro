@@ -1,0 +1,115 @@
+---
+// Animated scholarly network behind the home hero: slowly drifting nodes
+// linked when close, like a co-authorship graph. Faded out behind the text,
+// static with reduced motion, paused when off screen or in a hidden tab.
+---
+
+<canvas id="hero-network" class="pointer-events-none absolute inset-0 h-full w-full" aria-hidden="true"></canvas>
+
+<style>
+  #hero-network {
+    mask-image: linear-gradient(to right, transparent 15%, rgb(0 0 0 / 0.55) 45%, #000 75%);
+  }
+</style>
+
+<script>
+  const canvas = document.getElementById("hero-network") as HTMLCanvasElement | null;
+  const ctx = canvas?.getContext("2d");
+  if (canvas && ctx) {
+    const still = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const LINK = 150; // max link length in CSS px
+    type Node = { x: number; y: number; vx: number; vy: number; r: number; hub: boolean; phase: number };
+    let nodes: Node[] = [];
+    let w = 0;
+    let h = 0;
+    let frame = 0;
+    let visible = true;
+
+    const seed = () => {
+      const count = Math.round(Math.min(90, Math.max(28, (w * h) / 11000)));
+      nodes = Array.from({ length: count }, (_, i) => {
+        const hub = i % 9 === 0;
+        return {
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.18,
+          vy: (Math.random() - 0.5) * 0.18,
+          r: hub ? 2.6 : 1.4 + Math.random() * 0.8,
+          hub,
+          phase: Math.random() * Math.PI * 2,
+        };
+      });
+    };
+
+    const resize = () => {
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const rect = canvas.getBoundingClientRect();
+      w = rect.width;
+      h = rect.height;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      seed();
+      draw(0);
+    };
+
+    const draw = (t: number) => {
+      ctx.clearRect(0, 0, w, h);
+      for (let i = 0; i < nodes.length; i++) {
+        const a = nodes[i];
+        for (let j = i + 1; j < nodes.length; j++) {
+          const b = nodes[j];
+          const d = Math.hypot(a.x - b.x, a.y - b.y);
+          if (d > LINK) continue;
+          const k = 1 - d / LINK;
+          ctx.strokeStyle = `rgba(160, 196, 232, ${(a.hub || b.hub ? 0.42 : 0.26) * k})`;
+          ctx.lineWidth = a.hub || b.hub ? 0.9 : 0.6;
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y);
+          ctx.lineTo(b.x, b.y);
+          ctx.stroke();
+        }
+      }
+      for (const n of nodes) {
+        if (n.hub) {
+          const pulse = 0.5 + 0.5 * Math.sin(t / 900 + n.phase);
+          ctx.fillStyle = `rgba(166, 206, 255, ${0.08 + 0.1 * pulse})`;
+          ctx.beginPath();
+          ctx.arc(n.x, n.y, n.r + 4 + 3 * pulse, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.fillStyle = n.hub ? "rgba(214, 232, 255, 0.9)" : "rgba(180, 208, 238, 0.65)";
+        ctx.beginPath();
+        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    };
+
+    const step = (t: number) => {
+      for (const n of nodes) {
+        n.x += n.vx;
+        n.y += n.vy;
+        if (n.x < -20) n.x = w + 20;
+        else if (n.x > w + 20) n.x = -20;
+        if (n.y < -20) n.y = h + 20;
+        else if (n.y > h + 20) n.y = -20;
+      }
+      draw(t);
+      frame = requestAnimationFrame(step);
+    };
+
+    const run = () => {
+      cancelAnimationFrame(frame);
+      if (!still && visible && !document.hidden) frame = requestAnimationFrame(step);
+    };
+
+    new ResizeObserver(() => resize()).observe(canvas);
+    new IntersectionObserver(([e]) => {
+      visible = e.isIntersecting;
+      run();
+    }).observe(canvas);
+    document.addEventListener("visibilitychange", run);
+    resize();
+    run();
+  }
+</script>

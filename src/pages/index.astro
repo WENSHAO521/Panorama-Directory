@@ -4,6 +4,7 @@ import ScholarCard from "../components/ScholarCard.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import SearchIndex from "../components/SearchIndex.astro";
 import Icon from "../components/Icon.astro";
+import HeroNetwork from "../components/HeroNetwork.astro";
 import { getScholars, getBoard, publicationCount } from "../lib/scholars";
 
 const scholars = await getScholars();
@@ -40,8 +41,9 @@ const journals = [
   description="Discover the international network of scholars, principal investigators and editorial board members of Panorama Scholarly Group."
   active="home"
 >
-  <section class="bg-brand text-paper">
-    <div class="wrap py-14 md:py-20">
+  <section class="relative isolate bg-brand text-paper">
+    <HeroNetwork />
+    <div class="wrap relative z-20 py-14 md:py-20">
       <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-paper/70 uppercase">Official Researcher Database</p>
       <h1 class="mb-5 max-w-3xl text-4xl font-semibold tracking-tight md:text-[3.5rem] md:leading-[1.08]">Global Editorial Directory</h1>
       <p class="mb-10 max-w-2xl text-lg leading-relaxed text-paper/80">
@@ -73,7 +75,7 @@ const journals = [
         </ul>
       </div>
     </div>
-    <div class="border-t border-paper/10">
+    <div class="relative z-10 border-t border-paper/10 bg-brand/60 backdrop-blur-[2px]">
       <dl class="wrap grid grid-cols-2 md:grid-cols-4">
         {
           stats.map((s, i) => (
