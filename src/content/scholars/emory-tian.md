@@ -4,7 +4,6 @@ order: 9
 role: Youth Editorial Board Member
 affiliation: University of Rochester
 photo: ../../assets/scholars/emory-tian.jpg
-photoCrop: { x: 0.0, y: 0.0752, width: 1.0 }
 summary: Youth Editorial Board Member for AI & Future Society. Applied researcher specializing in AI-driven energy systems, power market optimization, and machine learning applications.
 keywords:
   - AI-Energy Systems

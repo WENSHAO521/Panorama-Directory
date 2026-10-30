@@ -4,7 +4,6 @@ order: 11
 role: Academic Researcher
 affiliation: Xi'an Medical University
 photo: ../../assets/scholars/siheng-ma.jpg
-photoCrop: { x: 0.0735, y: 0.0, width: 0.8168 }
 summary: Researcher specializing in adolescent depression, non-invasive neuromodulation (rTMS), digital mental health, and psychiatric epidemiology using machine learning.
 keywords:
   - Psychiatry

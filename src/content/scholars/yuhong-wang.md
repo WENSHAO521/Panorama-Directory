@@ -4,7 +4,6 @@ order: 13
 role: Deputy Editor-in-Chief
 affiliation: North China Electric Power University
 photo: ../../assets/scholars/yuhong-wang.jpg
-photoCrop: { x: 0.0319, y: 0.0146, width: 0.9681 }
 summary: Deputy Editor-in-Chief for AI & Future Society. Researcher specializing in psychoanalysis and the philosophy of technology, bridging cutting-edge AI issues with Lacanian theory.
 keywords:
   - Psychoanalysis

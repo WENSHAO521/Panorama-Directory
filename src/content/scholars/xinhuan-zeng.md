@@ -5,7 +5,6 @@ order: 2
 role: Co-Editor-in-Chief
 affiliation: Hanyang University
 photo: ../../assets/scholars/xinhuan-zeng.jpg
-photoCrop: { x: 0.2714, y: 0.0172, width: 0.5197 }
 summary: Co-Editor-in-Chief of GRHAS and Ph.D. candidate focusing on AI motion analysis in dance, digital interactive performance, and expert evaluation methodologies.
 keywords:
   - AI Motion Analysis

@@ -4,7 +4,6 @@ order: 7
 role: Assistant Editor
 affiliation: Xinjiang Medical University
 photo: ../../assets/scholars/xingkai-zhang.jpg
-photoCrop: { x: 0.0934, y: 0.4466, width: 0.4375 }
 summary: Assistant Editor for Silence and Health Nexus. Master's candidate in Clinical Medicine focusing on bioinformatics, high-altitude physiology, and Mendelian randomization.
 keywords:
   - Clinical Medicine

@@ -1,7 +1,5 @@
 ---
-// A scholar's photo in a 4:5 frame. With `photoCrop` (written by
-// scripts/portrait-crops.py) it shows that window of the original photo, so
-// every portrait is framed head-and-shoulders whatever the source shot.
+// A scholar's photo in a fixed 4:5 frame, the same size in every row.
 import { Image } from "astro:assets";
 import type { Scholar } from "../lib/scholars";
 
@@ -14,27 +12,17 @@ interface Props {
   fetchpriority?: "high";
 }
 const { scholar, widths, sizes, class: className, loading = "lazy", fetchpriority } = Astro.props;
-const { name, photo, photoCrop: crop } = scholar.data;
-
-const pct = (n: number) => `${+(n * 100).toFixed(3)}%`;
-let style = `view-transition-name: portrait-${scholar.id}`;
-let srcWidths = widths;
-if (crop) {
-  const height = (crop.width * photo.width) / (4 / 5) / photo.height;
-  style += `;width:${pct(1 / crop.width)};height:${pct(1 / height)};left:${pct(-crop.x / crop.width)};top:${pct(-crop.y / height)}`;
-  // The frame shows part of the photo, so request a proportionally larger file.
-  srcWidths = [...new Set(widths.map((w) => Math.min(photo.width, Math.round(w / crop.width))))];
-}
+const { name, photo } = scholar.data;
 ---
 
-<div class:list={["relative aspect-[4/5] shrink-0 overflow-hidden bg-surface", className]}>
+<div class:list={["aspect-[4/5] shrink-0 self-start overflow-hidden bg-surface", className]}>
   <Image
     src={photo}
     alt={`Portrait of ${name}`}
-    widths={srcWidths}
-    sizes={crop ? sizes.replace(/(\d+(?:\.\d+)?)(px|vw)/g, (_, n, u) => `${Math.round(n / crop.width)}${u}`) : sizes}
-    class:list={[crop ? "absolute max-w-none" : "h-full w-full object-cover"]}
-    style={style}
+    widths={widths}
+    sizes={sizes}
+    class="h-full w-full object-cover"
+    style={`view-transition-name: portrait-${scholar.id}`}
     loading={loading}
     fetchpriority={fetchpriority}
   />

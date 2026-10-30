@@ -5,7 +5,6 @@ role: Editor-in-Chief
 affiliation: International Review of Education & Learning Sciences
 headline: Editorial Office, International Review of Education & Learning Sciences
 photo: ../../assets/scholars/mengzhou-wu.jpg
-photoCrop: { x: 0.1817, y: 0.4569, width: 0.3241 }
 summary: Editor-in-Chief for the International Review of Education & Learning Sciences. Researcher specializing in Marxist Principles, Chinese Modernization, state ideology, and grassroots governance.
 keywords:
   - Marxist Philosophy

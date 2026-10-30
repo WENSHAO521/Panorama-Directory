@@ -4,7 +4,6 @@ order: 14
 role: Editorial Board Member
 affiliation: Nanjing Medical University
 photo: ../../assets/scholars/sichen-xia.jpg
-photoCrop: { x: 0.0, y: 0.0, width: 1.0 }
 summary: Editorial Board Member for Silence. Medical researcher focusing on Stomatology, Oral Epidemiology, biostatistics, and population health.
 keywords:
   - Stomatology

@@ -4,7 +4,6 @@ order: 8
 role: Assistant Editor & Reviewer
 affiliation: Xiamen University
 photo: ../../assets/scholars/zhili-zhu.jpg
-photoCrop: { x: 0.1599, y: 0.1052, width: 0.7106 }
 summary: Assistant Editor and Reviewer for GRHAS. Postgraduate researcher specializing in Marxist spatial theory, Foreign Marxism, urban Marxism, and contemporary radical left-wing thought.
 keywords:
   - Marxist Philosophy

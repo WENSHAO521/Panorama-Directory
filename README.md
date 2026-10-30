@@ -48,14 +48,6 @@ The board is grouped by role tier (`TIERS` in `src/lib/scholars.ts`: a member's
 ORCID iD, letter badges for others) and publications as citations
 (`ProfileSection`).
 
-## Portraits
-
-Every photo is shown in the same 4:5 head-and-shoulders frame. The frame is
-stored as `photoCrop` in each scholar's front matter and is computed from the
-face position by `npm run build:crops` (needs `pip install "opencv-python-headless<5" pyyaml`).
-Run it after adding a scholar; edit or delete a `photoCrop` line to adjust it.
-The photo files themselves are never changed.
-
 ## Icons
 
 Icons use a self-hosted subset of Material Symbols. After using a new icon
