@@ -55,7 +55,8 @@ To add an editor: invite their GitHub account as a collaborator (Settings →
 Collaborators) and add their login to `ALLOWED_GITHUB_USERS`. To remove one,
 do both in reverse.
 
-- Editor look: `public/admin/admin.css` restyles Decap to match the site. It
+- Editor look: `public/admin/admin.css` restyles Decap as a quiet,
+  document-style workspace (Geist, self-hosted in `public/admin/fonts/`). It
   targets Decap's component names in its class names, so check `/admin` after
   upgrading Decap.
 - Editor config: `public/admin/config.yml`. Its fields mirror the schema in

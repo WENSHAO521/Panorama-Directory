@@ -1,62 +1,73 @@
 /*
-  Theme for the Decap editor, matching the public site (src/styles/global.css):
-  navy brand on white and cool grey, Inter, thin rules, small radii.
+  Theme for the Decap editor at /admin.
 
-  Decap styles itself with Emotion, whose class names look like
-  `css-<hash>-<ComponentName>`. The hash changes between Decap versions but the
-  component names don't, so we match on `-<ComponentName>`. Emotion injects its
-  styles after this file, hence the !important. After upgrading Decap, open
-  /admin and check that these still apply.
+  Direction: a quiet, document-style workspace. Warm off-white canvas, white
+  surfaces separated by hairlines rather than floating cards, charcoal for
+  primary actions, colour only where it carries meaning (status, errors).
+  Type is Geist (self-hosted next to this file) with the system CJK face for
+  Chinese.
+
+  How it hooks in: Decap styles itself with Emotion, whose class names look
+  like `css-<hash>-<ComponentName>`. The hash changes between Decap versions
+  but the component names don't, so rules match `-<ComponentName>`. Emotion
+  injects its styles after this file, hence the !important. After upgrading
+  Decap, open /admin and check that these still apply.
 */
 
 @font-face {
-  font-family: "Inter";
+  font-family: "Geist";
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url("/assets/fonts/inter-latin-wght-normal.woff2") format("woff2");
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
-    U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+  src: url("/admin/fonts/geist.woff2") format("woff2");
 }
 @font-face {
-  font-family: "Inter";
+  font-family: "Geist Mono";
   font-style: normal;
   font-weight: 100 900;
   font-display: swap;
-  src: url("/assets/fonts/inter-latin-ext-wght-normal.woff2") format("woff2");
-  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1E00-1E9F, U+2C60-2C7F,
-    U+A720-A7FF;
+  src: url("/admin/fonts/geist-mono.woff2") format("woff2");
 }
 
 :root {
-  --ink: #1b1f24;
+  --canvas: #fbfbfa;
   --paper: #ffffff;
-  --surface: #f4f5f7;
-  --rule: #e1e4e8;
-  --rule-strong: #cfd5dc;
-  --muted: #5b6470;
-  --faint: #8a929c;
-  --brand: #0e2a47;
-  --brand-600: #1d4a78;
-  --brand-50: #eef3f8;
-  --danger: #b42318;
-  --danger-50: #fef3f2;
-  --radius: 10px;
-  --radius-sm: 6px;
-  --ring: 0 0 0 3px rgba(29, 74, 120, 0.15);
-  --shadow: 0 1px 2px rgba(16, 24, 40, 0.04), 0 1px 3px rgba(16, 24, 40, 0.06);
-  --font: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+  --hover: #f4f3ef;
+  --ink: #191919;
+  --text: #2f3437;
+  --muted: #787774;
+  --faint: #a5a39d;
+  --rule: #eaeaea;
+  --rule-strong: #dcdad5;
+  --focus-ring: 0 0 0 3px rgba(25, 25, 25, 0.07);
+
+  --red: #9f2f2d;
+  --red-bg: #fdebec;
+  --green: #346538;
+  --green-bg: #edf3ec;
+  --yellow: #956400;
+  --yellow-bg: #fbf3db;
+  --blue: #1f6c9f;
+  --blue-bg: #e1f3fe;
+
+  --r-sm: 5px;
+  --r: 8px;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --font: "Geist", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
     "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
+  --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
 }
 
 /* ---------- Base ---------- */
 
 html,
 body {
-  background: var(--surface) !important;
-  color: var(--ink);
+  background: var(--canvas) !important;
+  color: var(--text);
   font-family: var(--font) !important;
   -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
 }
 #nc-root,
 #nc-root button,
@@ -66,43 +77,52 @@ body {
   font-family: var(--font) !important;
 }
 #nc-root ::selection {
-  background: var(--brand-50);
+  background: #e8e6df;
+}
+#nc-root a,
+#nc-root button,
+#nc-root [role="button"] {
+  transition: background-color 0.18s var(--ease), color 0.18s var(--ease), border-color 0.18s var(--ease),
+    transform 0.12s var(--ease);
+}
+#nc-root button:active,
+#nc-root [role="button"]:active {
+  transform: scale(0.98);
+}
+#nc-root :focus-visible {
+  outline: 2px solid var(--ink) !important;
+  outline-offset: 2px;
 }
 
-/* ---------- Sign-in page ---------- */
+/* ---------- Sign-in ---------- */
 
 [class*="-StyledAuthenticationPage"] {
-  background: radial-gradient(1200px 600px at 50% -10%, #dfe8f2 0%, var(--surface) 60%) !important;
+  background: var(--canvas) !important;
   justify-content: center !important;
-  gap: 0;
+  gap: 0 !important;
+  padding: 0 16px 72px;
 }
 [class*="-StyledAuthenticationPage"]::before {
   content: "Panorama Directory";
   order: 1;
   margin-top: 20px;
-  font-size: 22px;
-  font-weight: 650;
-  letter-spacing: -0.01em;
-  color: var(--brand);
+  font-size: 26px;
+  font-weight: 600;
+  letter-spacing: -0.025em;
+  color: var(--ink);
 }
 [class*="-StyledAuthenticationPage"]::after {
-  content: "学者名录 · 内容管理后台";
+  content: "编辑后台 · 仅限受邀编辑登录";
   order: 2;
-  margin: 6px 0 28px;
+  margin: 8px 0 32px;
   font-size: 14px;
   color: var(--muted);
 }
 [class*="-CustomIconWrapper"] {
   order: 0;
-  width: 112px !important;
-  height: 112px !important;
+  width: 88px !important;
+  height: 88px !important;
   margin: 0 !important;
-  padding: 6px;
-  border-radius: 24px;
-  background: var(--paper);
-  border: 1px solid var(--rule);
-  box-shadow: 0 10px 30px rgba(14, 42, 71, 0.1);
-  box-sizing: border-box;
   display: flex !important;
   align-items: center;
   justify-content: center;
@@ -112,283 +132,476 @@ body {
   max-height: 100%;
   object-fit: contain;
 }
-[class*="-LoginButton"] {
+[class*="-LoginButton-"] {
   order: 3;
+  position: relative;
+  display: inline-flex !important;
+  align-items: center;
   justify-content: center !important;
-  text-align: center;
-  min-width: 240px;
-  height: 44px !important;
+  gap: 10px;
+  width: 280px;
+  height: 42px !important;
   margin: 0 !important;
-  border-radius: var(--radius-sm) !important;
-  font-size: 15px !important;
-  font-weight: 600 !important;
+  padding: 0 20px !important;
+  font-size: 14.5px !important;
+  font-weight: 500 !important;
+}
+[class*="-LoginButtonIcon"] {
+  position: static !important;
+  width: 18px !important;
+  height: 18px !important;
+  margin: 0 !important;
+  color: #fff;
+}
+[class*="-LoginButtonIcon"] svg {
+  width: 18px !important;
+  height: 18px !important;
 }
 [class*="-GoBackButtonStyle"] {
   order: 4;
-  margin-top: 20px !important;
+  margin-top: 24px !important;
   color: var(--muted) !important;
   font-size: 13px;
+}
+[class*="-GoBackButtonStyle"]:hover {
+  color: var(--ink) !important;
+}
+[class*="-NetlifyCreditIcon"] {
+  opacity: 0.25;
+  filter: grayscale(1);
+  transform: scale(0.8);
 }
 
 /* ---------- Buttons ---------- */
 
-/* Primary actions: sign in, new entry, quick add, publish. */
-[class*="-LoginButton"],
+/* Primary: charcoal, flat. */
+[class*="-LoginButton-"],
 [class*="-CollectionTopNewButton"],
-[class*="-AppHeaderQuickNewButton"],
-[class*="-PublishButton"],
-[class*="-PublishedToolbarButton"],
-[class*="-SaveButton"] {
-  background: var(--brand) !important;
+[class*="-SaveButton"],
+[class*="-PublishButton"] {
+  background: var(--ink) !important;
   color: #fff !important;
   border: 0 !important;
-  border-radius: var(--radius-sm) !important;
-  box-shadow: 0 1px 2px rgba(14, 42, 71, 0.2) !important;
-  font-weight: 600 !important;
-  transition: background 0.15s ease;
+  border-radius: var(--r-sm) !important;
+  box-shadow: none !important;
 }
-[class*="-LoginButton"]:hover,
+[class*="-LoginButton-"]:hover,
 [class*="-CollectionTopNewButton"]:hover,
-[class*="-AppHeaderQuickNewButton"]:hover,
-[class*="-PublishButton"]:hover,
-[class*="-PublishedToolbarButton"]:hover,
-[class*="-SaveButton"]:hover {
-  background: var(--brand-600) !important;
+[class*="-SaveButton"]:hover,
+[class*="-PublishButton"]:hover {
+  background: #333 !important;
 }
-[class*="-CollectionTopNewButton"] {
-  height: 40px !important;
-  padding: 0 18px !important;
-  line-height: 40px !important;
+[class*="-LoginButton-"] svg path {
+  fill: #fff !important;
 }
-[class*="-AppHeaderQuickNewButton"] {
-  height: 36px !important;
-  padding: 0 34px 0 14px !important;
-  line-height: 36px !important;
-}
-[class*="-AppHeaderQuickNewButton"]::after,
-[class*="-PublishedToolbarButton"]::after,
 [class*="-PublishButton"]::after {
   color: #fff !important;
 }
-/* Re-centre the dropdown caret after the height change. */
-[class*="-AppHeaderQuickNewButton"]::after {
-  top: 50% !important;
-  right: 14px !important;
-  transform: translateY(-50%);
+[class*="-CollectionTopNewButton"] {
+  height: 34px !important;
+  padding: 0 14px !important;
+  line-height: 34px !important;
+  font-size: 13.5px !important;
+  font-weight: 500 !important;
 }
 
-/* Secondary / destructive */
-[class*="-DeleteButton"] {
+/* Secondary: outlined. */
+[class*="-AppHeaderQuickNewButton"] {
   background: var(--paper) !important;
-  color: var(--danger) !important;
-  border: 1px solid #f3c6c1 !important;
-  border-radius: var(--radius-sm) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--rule-strong) !important;
+  border-radius: var(--r-sm) !important;
   box-shadow: none !important;
+  font-weight: 500 !important;
+}
+[class*="-AppHeaderQuickNewButton"]:hover {
+  background: var(--hover) !important;
+  border-color: var(--faint) !important;
+}
+[class*="-AppHeaderQuickNewButton"] {
+  height: 32px !important;
+  padding: 0 30px 0 12px !important;
+  line-height: 30px !important;
+  font-size: 13px !important;
+}
+[class*="-AppHeaderQuickNewButton"]::after {
+  top: 50% !important;
+  right: 12px !important;
+  transform: translateY(-50%);
+  color: var(--muted) !important;
+}
+
+/* Destructive: quiet until hovered. */
+[class*="-DeleteButton"] {
+  background: transparent !important;
+  color: var(--red) !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  font-weight: 500 !important;
 }
 [class*="-DeleteButton"]:hover {
-  background: var(--danger-50) !important;
+  background: var(--red-bg) !important;
 }
-[class*="-StyledToolbarButton"],
+
+/* Status of the open entry. */
+[class*="-PublishedToolbarButton"] {
+  background: var(--green-bg) !important;
+  color: var(--green) !important;
+  border: 0 !important;
+  border-radius: var(--r-sm) !important;
+  box-shadow: none !important;
+  font-weight: 500 !important;
+}
+[class*="-PublishedToolbarButton"]::after {
+  color: var(--green) !important;
+}
+
+/* In-form "add" buttons. */
 [class*="-AddButton"] {
-  border-radius: var(--radius-sm) !important;
+  background: var(--paper) !important;
+  color: var(--text) !important;
+  border: 1px solid var(--rule-strong) !important;
+  border-radius: var(--r-sm) !important;
+  font-weight: 500 !important;
+}
+[class*="-AddButton"]:hover {
+  background: var(--hover) !important;
+}
+[class*="-AddButton"] svg path {
+  fill: currentColor;
 }
 
 /* ---------- Top bar ---------- */
 
 [class*="-AppHeader-"] {
-  background: rgba(255, 255, 255, 0.92) !important;
-  backdrop-filter: saturate(180%) blur(8px);
+  background: var(--paper) !important;
   border-bottom: 1px solid var(--rule);
   box-shadow: none !important;
 }
 [class*="-AppHeaderContent"] {
-  max-width: 1280px;
+  max-width: 1240px;
+  min-height: 56px;
+  justify-content: flex-start !important;
+  align-items: center !important;
 }
-[class*="-AppHeaderNavList"]::before {
-  content: "Panorama · 后台";
+[class*="-AppHeaderContent"] > nav {
   display: flex;
   align-items: center;
-  padding: 0 24px 0 4px;
-  margin-right: 8px;
-  border-right: 1px solid var(--rule);
-  font-weight: 650;
+  align-self: stretch;
+}
+[class*="-AppHeaderActions"] {
+  margin-left: auto;
+}
+[class*="-AppHeaderContent"]::before {
+  content: "Panorama";
+  display: flex;
+  align-items: center;
+  padding-left: 4px;
+  font-weight: 600;
   font-size: 15px;
-  letter-spacing: -0.01em;
-  color: var(--brand);
+  letter-spacing: -0.02em;
+  color: var(--ink);
   white-space: nowrap;
 }
-[class*="-AppHeaderButton"],
-[class*="-AppHeaderNavLink"] {
+[class*="-AppHeaderNavList"] {
+  align-items: center;
+  gap: 2px;
+}
+[class*="-AppHeaderNavList"]::before {
+  content: "/ 编辑后台";
+  display: flex;
+  align-items: center;
+  margin: 0 24px 0 8px;
+  font-size: 14px;
+  color: var(--faint);
+  white-space: nowrap;
+}
+[class*="-AppHeaderNavLink"],
+[class*="-AppHeaderButton"] {
+  height: 32px !important;
+  padding: 0 10px !important;
+  border-radius: var(--r-sm);
   color: var(--muted) !important;
+  font-size: 14px !important;
   font-weight: 500 !important;
 }
-[class*="-AppHeaderButton"]:hover,
+[class*="-AppHeaderNavLink"] [class*="-IconWrapper"],
+[class*="-AppHeaderButton"] [class*="-IconWrapper"] {
+  display: none !important;
+}
 [class*="-AppHeaderNavLink"]:hover,
-[class*="-AppHeaderNavLink"].header-link-active {
-  color: var(--brand) !important;
+[class*="-AppHeaderButton"]:hover {
+  background: var(--hover) !important;
+  color: var(--ink) !important;
 }
 [class*="-AppHeaderNavLink"].header-link-active {
-  box-shadow: inset 0 -2px 0 var(--brand);
-}
-[class*="-AppHeaderButton"] svg path,
-[class*="-AppHeaderNavLink"] svg path {
-  fill: currentColor !important;
+  background: var(--hover) !important;
+  color: var(--ink) !important;
 }
 [class*="-AppHeaderSiteLink"] {
+  font-family: var(--mono) !important;
   color: var(--faint) !important;
-  font-size: 13px !important;
+  font-size: 12px !important;
 }
 [class*="-AppHeaderSiteLink"]:hover {
-  color: var(--brand) !important;
-}
-
-/* ---------- Cards and sidebar ---------- */
-
-[class*="-SidebarContainer"],
-[class*="-CollectionTopContainer"],
-[class*="-ListCard-"],
-[class*="-GridCard"],
-[class*="-WorkflowCard"] {
-  background: var(--paper) !important;
-  border: 1px solid var(--rule) !important;
-  border-radius: var(--radius) !important;
-  box-shadow: var(--shadow) !important;
-}
-[class*="-SidebarHeading"],
-[class*="-CollectionTopHeading"] {
   color: var(--ink) !important;
-  font-weight: 650 !important;
-  letter-spacing: -0.01em;
+}
+
+/* ---------- Collection view ---------- */
+
+[class*="-AppMainContainer"] {
+  max-width: 1240px !important;
+}
+[class*="-CollectionContainer"] {
+  margin-top: 40px !important;
+}
+
+/* Sidebar: a plain column, not a card. */
+[class*="-SidebarContainer"] {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
 [class*="-SidebarHeading"] {
-  font-size: 13px !important;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  padding: 0 10px !important;
+  margin: 4px 0 12px !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
   color: var(--faint) !important;
+  letter-spacing: 0.02em;
 }
-[class*="-CollectionTopDescription"] {
-  color: var(--muted) !important;
-  line-height: 1.6;
+[class*="-SearchContainer"] {
+  margin: 0 0 8px !important;
+  padding: 0 !important;
 }
 [class*="-SearchInput"] {
-  background: var(--surface) !important;
-  border: 1px solid var(--rule) !important;
-  border-radius: var(--radius-sm) !important;
+  height: 34px;
+  background: var(--paper) !important;
+  border: 1px solid var(--rule-strong) !important;
+  border-radius: var(--r-sm) !important;
+  font-size: 13.5px !important;
 }
 [class*="-SearchInput"]:focus {
-  background: var(--paper) !important;
-  border-color: var(--brand-600) !important;
-  box-shadow: var(--ring) !important;
+  border-color: var(--ink) !important;
+  box-shadow: var(--focus-ring) !important;
   outline: none;
 }
 [class*="-SidebarNavLink"] {
-  margin: 2px 8px;
-  border-radius: var(--radius-sm);
+  margin: 1px 0;
+  padding: 8px 10px !important;
+  border-radius: var(--r-sm);
   border-left: 0 !important;
   color: var(--muted) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+[class*="-SidebarNavLink"] svg path {
+  fill: currentColor;
 }
 [class*="-SidebarNavLink"]:hover,
 [class*="-SidebarNavLink"].sidebar-active {
-  background: var(--brand-50) !important;
-  color: var(--brand) !important;
-}
-[class*="-SidebarNavLink"].sidebar-active {
-  font-weight: 600;
+  background: var(--hover) !important;
+  color: var(--ink) !important;
 }
 
-/* Entry list */
-[class*="-ListCard-"] {
+/* Page heading: type on the canvas, no box around it. */
+[class*="-CollectionTopContainer"],
+[class*="-CollectionControlsContainer"] {
+  width: auto !important;
+  max-width: none !important;
+}
+[class*="-CollectionTopContainer"] {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 0 28px !important;
   margin-bottom: 8px !important;
-  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+  border-bottom: 1px solid var(--rule) !important;
+  border-radius: 0 !important;
 }
-[class*="-ListCard-"]:hover {
-  border-color: var(--brand-600) !important;
-  box-shadow: 0 4px 14px rgba(14, 42, 71, 0.08) !important;
+[class*="-CollectionTopRow"] {
+  align-items: flex-end !important;
 }
-[class*="-ListCardLink"] {
-  padding: 16px 20px !important;
-}
-[class*="-ListCardTitle"] {
+[class*="-CollectionTopHeading"] {
+  font-size: 30px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.03em;
+  line-height: 1.1 !important;
   color: var(--ink) !important;
-  font-weight: 500 !important;
+}
+[class*="-CollectionTopDescription"] {
+  max-width: 60ch;
+  margin-top: 10px !important;
+  color: var(--muted) !important;
+  font-size: 14px !important;
+  line-height: 1.6 !important;
+  text-wrap: pretty;
+}
+[class*="-CollectionControlsContainer"] {
+  margin: 12px 0 !important;
 }
 [class*="-ViewControlsText"],
 [class*="-ControlButton"] {
   color: var(--muted) !important;
+  font-weight: 500 !important;
 }
+[class*="-ViewControlsButton"] {
+  color: var(--faint) !important;
+}
+[class*="-ViewControlsButton"]:hover {
+  color: var(--ink) !important;
+}
+/* Decap marks the active view only with its blue; repaint that blue. */
+[class*="-ViewControlsButton"][style*="color"],
+[class*="-ViewControlsButton"] svg[style*="color"] {
+  color: var(--ink) !important;
+}
+
+/* Entry list: one bordered sheet with hairline rows. */
+[class*="-CardsGrid"]:has(> [class*="-ListCard-"]) {
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: var(--paper);
+  border: 1px solid var(--rule);
+  border-radius: var(--r);
+  overflow: hidden;
+}
+[class*="-ListCard-"] {
+  width: auto !important;
+  margin: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--rule) !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+}
+[class*="-ListCard-"]:last-child {
+  border-bottom: 0 !important;
+}
+[class*="-ListCard-"]:hover {
+  background: var(--hover) !important;
+}
+[class*="-ListCardLink"] {
+  position: relative;
+  padding: 14px 44px 14px 18px !important;
+}
+[class*="-ListCardLink"]::after {
+  content: "→";
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translate(-4px, -50%);
+  opacity: 0;
+  color: var(--muted);
+  transition: opacity 0.18s var(--ease), transform 0.18s var(--ease);
+}
+[class*="-ListCard-"]:hover [class*="-ListCardLink"]::after {
+  opacity: 1;
+  transform: translate(0, -50%);
+}
+[class*="-ListCardTitle"] {
+  color: var(--text) !important;
+  font-size: 14.5px !important;
+  font-weight: 500 !important;
+}
+
+/* Grid view cards */
+[class*="-GridCard"] {
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--r) !important;
+  box-shadow: none !important;
+}
+[class*="-GridCard"]:hover {
+  border-color: var(--rule-strong) !important;
+}
+
 /* ---------- Editor ---------- */
 
 [class*="-ToolbarContainer"] {
-  background: rgba(255, 255, 255, 0.92) !important;
-  backdrop-filter: saturate(180%) blur(8px);
+  background: var(--paper) !important;
   border-bottom: 1px solid var(--rule);
   box-shadow: none !important;
 }
 [class*="-ToolbarSectionBackLink"] {
   border-right-color: var(--rule) !important;
 }
+[class*="-ToolbarSectionBackLink"]:hover {
+  background: var(--hover) !important;
+}
 [class*="-BackCollection"] {
   color: var(--ink) !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
 }
 [class*="-BackArrow"] {
-  color: var(--brand) !important;
+  color: var(--ink) !important;
+}
+[class*="-BackStatus"] {
+  font-size: 12px !important;
+  font-weight: 500 !important;
 }
 [class*="-ToolbarSectionMeta"] {
   border-left-color: var(--rule) !important;
 }
+[class*="-PreviewLink"] {
+  color: var(--muted) !important;
+  font-weight: 500;
+}
+[class*="-PreviewLink"]:hover {
+  color: var(--ink) !important;
+}
+[class*="-PreviewLink"] * {
+  color: inherit !important;
+}
 [class*="-EditorContainer"],
 [class*="-ControlPaneContainer"],
 [class*="-NoPreviewContainer"] {
-  background: var(--surface) !important;
+  background: var(--canvas) !important;
   border: 0 !important;
   box-shadow: none !important;
 }
 [class*="-ControlPaneContainer"] {
-  padding-top: 32px !important;
+  padding-top: 8px !important;
+  padding-bottom: 120px !important;
 }
 
-/* Each field: label above a rounded input, instead of a grey tab. */
+/* Fields: small label above a flat input. */
 [class*="-ControlContainer"] {
-  margin-top: 22px !important;
-}
-[class*="-FieldLabel"] {
-  background: none !important;
-  border: 0 !important;
-  padding: 0 0 6px !important;
-  color: var(--ink) !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  text-transform: none !important;
+  margin-top: 26px !important;
 }
 [class*="-ControlTopbar"] {
   background: none !important;
   border: 0 !important;
 }
-/* Decap draws the tab's rounded corners with these. */
+[class*="-FieldLabel"] {
+  background: none !important;
+  border: 0 !important;
+  padding: 0 0 7px !important;
+  color: var(--text) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+}
 [class*="-FieldLabel"]::before,
 [class*="-FieldLabel"]::after {
   display: none !important;
 }
-[class*="-ControlContainer"]:focus-within [class*="-FieldLabel"] {
-  color: var(--brand-600) !important;
-}
-/* The widget is whatever follows the label bar: an input, a textarea, or a
-   div wrapping an image, toggle or list. react-select draws its own box. */
 [class*="-ControlTopbar"] + input,
 [class*="-ControlTopbar"] + textarea,
 [class*="-ControlTopbar"] + div:not([class*="-container"]),
 [class*="-ControlTopbar"] + div[class*="-container"] [class*="-control"] {
   border: 1px solid var(--rule-strong) !important;
-  border-radius: var(--radius-sm) !important;
+  border-radius: var(--r-sm) !important;
   background: var(--paper) !important;
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.04);
-  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  box-shadow: none !important;
 }
 [class*="-ControlTopbar"] + input,
 [class*="-ControlTopbar"] + textarea {
-  padding: 11px 14px !important;
-  font-size: 15px !important;
+  padding: 9px 12px !important;
+  min-height: 40px;
+  font-size: 14.5px !important;
+  line-height: 1.55 !important;
   color: var(--ink) !important;
 }
 [class*="-ControlTopbar"] + input:hover,
@@ -399,97 +612,179 @@ body {
 [class*="-ControlTopbar"] + textarea:focus,
 [class*="-ControlTopbar"] + div:focus-within:not([class*="-container"]),
 [class*="-ControlTopbar"] + div[class*="-container"] [class*="-control"]:focus-within {
-  border-color: var(--brand-600) !important;
-  box-shadow: var(--ring) !important;
+  border-color: var(--ink) !important;
+  box-shadow: var(--focus-ring) !important;
   outline: none;
 }
 [class*="-ControlHint"] {
-  color: var(--faint) !important;
+  color: var(--muted) !important;
   font-size: 12.5px !important;
-  line-height: 1.55 !important;
-  margin-top: 6px !important;
+  line-height: 1.6 !important;
+  margin-top: 7px !important;
 }
 
-/* Lists and nested objects */
-[class*="-listControlItem"],
-[class*="-SortableListItem"] {
-  border-radius: var(--radius-sm) !important;
+/* Lists and nested objects: hairline rows inside the field. */
+[class*="-TopBarContainer"] {
+  background: transparent !important;
+  border-bottom: 1px solid var(--rule);
+  border-radius: 0 !important;
 }
-[class*="-TopBarContainer"],
+/* Each item's handle bar and summary read as one row. */
 [class*="-StyledListItemTopBar"] {
-  background: var(--brand-50) !important;
-  border-radius: var(--radius-sm) var(--radius-sm) 0 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
 }
-[class*="-SortableListItem"] {
+[class*="-StyledListItemTopBar"] + * [class*="-NestedObjectLabel"],
+[class*="-SortableListItem"] [class*="-NestedObjectLabel"] {
+  padding-top: 0 !important;
+}
+[class*="-SortableListItem"],
+[class*="-listControlItem"] {
+  background: var(--paper) !important;
   border: 1px solid var(--rule) !important;
+  border-radius: var(--r-sm) !important;
+  box-shadow: none !important;
   overflow: hidden;
 }
 [class*="-NestedObjectLabel"] {
   background: var(--paper) !important;
   border: 0 !important;
-  color: var(--ink) !important;
+  color: var(--text) !important;
+  font-size: 14px;
   font-weight: 500;
+}
+[class*="-TopBarButton"] svg path,
+[class*="-ExpandButton"] svg path {
+  fill: var(--muted);
+}
+
+/* Markdown editor toolbar */
+[class*="-StyledToolbarButton"] {
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: var(--r-sm) !important;
+  color: var(--muted) !important;
+}
+[class*="-StyledToolbarButton"]:hover {
+  background: var(--hover) !important;
+  color: var(--ink) !important;
+}
+[class*="-ToolbarToggleLabel"] {
+  color: var(--muted) !important;
+  font-weight: 500;
+}
+[class*="-ToggleBackground"] {
+  background-color: var(--rule-strong) !important;
+}
+[class*="-ToggleHandle"] {
+  box-shadow: 0 1px 2px rgba(25, 25, 25, 0.2) !important;
 }
 
 /* Image field */
 [class*="-ImageWrapper"] {
-  border-radius: var(--radius-sm) !important;
-  overflow: hidden;
-  box-shadow: none !important;
+  border-radius: var(--r-sm) !important;
   border: 1px solid var(--rule);
+  box-shadow: none !important;
+  overflow: hidden;
 }
 [class*="-FileWidgetButton"] {
-  border-radius: var(--radius-sm) !important;
-}
-
-/* Status badges and toggles */
-[class*="-BackStatus"] {
-  font-weight: 600 !important;
-}
-[class*="-ToggleBackground"][class*="-BooleanBackground"] {
-  border-radius: 999px !important;
+  border-radius: var(--r-sm) !important;
+  font-weight: 500 !important;
 }
 
 /* ---------- Editorial workflow board ---------- */
 
 [class*="-WorkflowTop"] {
-  background: var(--paper) !important;
-  border: 1px solid var(--rule) !important;
-  border-radius: var(--radius) !important;
-  box-shadow: var(--shadow) !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 0 24px !important;
+  border-bottom: 1px solid var(--rule) !important;
+  border-radius: 0 !important;
+}
+[class*="-WorkflowTopHeading"] {
+  font-size: 30px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.03em;
+  color: var(--ink) !important;
+}
+[class*="-WorkflowTopDescription"] {
+  color: var(--muted) !important;
 }
 [class*="-ColumnHeader"] {
-  border-radius: var(--radius-sm) !important;
+  border-radius: var(--r-sm) !important;
+  font-size: 13px !important;
   font-weight: 600 !important;
+  letter-spacing: 0.01em;
+}
+[class*="-ColumnCount"] {
+  font-family: var(--mono) !important;
+  color: var(--muted) !important;
+}
+[class*="-WorkflowCardContainer"] {
+  background: var(--paper) !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--r) !important;
+  box-shadow: none !important;
+}
+[class*="-WorkflowCardContainer"]:hover {
+  border-color: var(--rule-strong) !important;
 }
 
 /* ---------- Dropdowns, modals, toasts ---------- */
 
 [class*="-DropdownList"],
 [class*="-dropdownList"] {
+  background: var(--paper) !important;
   border: 1px solid var(--rule) !important;
-  border-radius: var(--radius-sm) !important;
-  box-shadow: 0 12px 32px rgba(16, 24, 40, 0.12) !important;
+  border-radius: var(--r) !important;
+  box-shadow: 0 8px 24px rgba(25, 25, 25, 0.06) !important;
+  padding: 4px !important;
   overflow: hidden;
 }
+[class*="-StyledMenuItem"],
+[class*="-dropdownItem"] {
+  border-radius: var(--r-sm) !important;
+  font-size: 14px !important;
+}
 [class*="-StyledMenuItem"]:hover,
-[class*="-dropdownItem"]:hover {
-  background: var(--brand-50) !important;
-  color: var(--brand) !important;
+[class*="-dropdownItem"]:hover,
+[class*="-StyledMenuItem"]:focus,
+[class*="-dropdownItem"]:focus {
+  background: var(--hover) !important;
+  color: var(--ink) !important;
 }
 .ReactModal__Content {
-  border-radius: var(--radius) !important;
+  border-radius: var(--r) !important;
   border: 1px solid var(--rule) !important;
+  box-shadow: 0 16px 48px rgba(25, 25, 25, 0.08) !important;
 }
 .Toastify__toast {
-  border-radius: var(--radius-sm) !important;
+  border-radius: var(--r) !important;
+  box-shadow: 0 8px 24px rgba(25, 25, 25, 0.08) !important;
   font-family: var(--font) !important;
+  font-size: 14px;
 }
 
 /* ---------- Small screens ---------- */
 
 @media (max-width: 800px) {
+  [class*="-AppHeaderContent"]::before,
   [class*="-AppHeaderNavList"]::before {
     display: none;
+  }
+  [class*="-CollectionContainer"] {
+    margin-top: 16px !important;
+  }
+  [class*="-CollectionTopHeading"] {
+    font-size: 24px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #nc-root *,
+  #nc-root *::after {
+    transition: none !important;
   }
 }
