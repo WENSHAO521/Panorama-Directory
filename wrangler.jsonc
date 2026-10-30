@@ -2,16 +2,23 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "profiles-panorama-sg",
   "compatibility_date": "2026-04-04",
+  // Only handles /oauth/* (GitHub sign-in for the /admin editor); every other
+  // request is served straight from the static assets.
+  "main": "worker/index.ts",
   "observability": {
     "enabled": true
   },
-  // Static site: Astro builds into dist/, which is the only thing deployed.
+  // Astro builds the static site into dist/.
   // `wrangler deploy` runs the build first, so no separate build step is needed.
   "build": {
     "command": "npm run build"
   },
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    // Without this, browser navigations to /oauth/* get the 404 page instead
+    // of reaching the Worker.
+    "run_worker_first": ["/oauth/*"]
   }
 }

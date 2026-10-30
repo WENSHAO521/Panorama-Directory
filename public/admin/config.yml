@@ -1,0 +1,150 @@
+# Decap CMS: the form-based editor at /admin.
+# Every save is a commit to `main`, which triggers a rebuild and redeploy.
+# Field names mirror the schema in src/content.config.ts; keep the two in sync.
+
+backend:
+  name: github
+  repo: WENSHAO521/Panorama-Directory
+  branch: main
+  # GitHub sign-in is handled by worker/oauth.ts on the site itself.
+  base_url: https://profiles.panorama-sg.com
+  auth_endpoint: oauth/auth
+  commit_messages:
+    create: "Add scholar: {{slug}}"
+    update: "Update scholar: {{slug}}"
+    delete: "Remove scholar: {{slug}}"
+    uploadMedia: "Upload photo: {{path}}"
+    deleteMedia: "Delete photo: {{path}}"
+
+# `npx decap-server` + `npm run dev` lets you try the editor on localhost
+# against your local files, without signing in.
+local_backend: true
+
+locale: zh_Hans
+site_url: https://profiles.panorama-sg.com
+display_url: https://profiles.panorama-sg.com
+logo_url: /assets/logos/favicon.png
+
+media_folder: src/assets/scholars
+public_folder: ../../assets/scholars
+
+slug:
+  encoding: ascii
+  clean_accents: true
+
+collections:
+  - name: scholars
+    label: 学者
+    label_singular: 学者
+    description: 每位学者一页，发布在 /board/<文件名>。保存后约 1–2 分钟网站自动更新。
+    folder: src/content/scholars
+    extension: md
+    format: frontmatter
+    create: true
+    delete: true
+    slug: "{{fields.name}}"
+    identifier_field: name
+    summary: "{{name}} · {{role}}"
+    sortable_fields: [name, order, role]
+    view_groups:
+      - { label: 职位, field: role }
+    # Photos are stored next to the existing ones and referenced relatively,
+    # the way Astro's image() schema expects.
+    media_folder: ../../assets/scholars
+    public_folder: ../../assets/scholars
+    preview_path: "board/{{slug}}"
+    editor:
+      preview: false
+    fields:
+      - { name: name, label: 姓名（英文）, widget: string, hint: "例如 Qin Shi。新建时网址由它生成（qin-shi）。" }
+      - { name: nativeName, label: 中文名 / 母语姓名, widget: string, required: false }
+      - name: order
+        label: 首页排序
+        widget: number
+        value_type: int
+        default: 99
+        hint: 数字越小越靠前；最小的三位显示在首页“Featured Scholars”。
+      - name: role
+        label: 职位
+        widget: string
+        hint: >-
+          决定在编委会页面的分组：含 “Editor-in-Chief” → 主编组；以 “Executive Editorial Board” 开头 → 执行编委；
+          含 “Editorial Board Member” → 编委；其他 → 编辑部与研究。
+      - { name: affiliation, label: 单位, widget: string }
+      - { name: headline, label: 个人页副标题, widget: string, required: false, hint: 与单位不同时显示在个人页姓名下方，可留空。 }
+      - { name: photo, label: 照片, widget: image, choose_url: false, hint: 建议竖版人像，网站统一按 4:5 居中裁切。 }
+      - { name: summary, label: 简介（一两句）, widget: text, hint: 显示在名录卡片和搜索结果里。 }
+      - { name: keywords, label: 研究方向关键词, widget: list, hint: 用英文逗号分隔，例如 Dance Education, Choreography }
+      - name: email
+        label: 邮箱
+        widget: string
+        required: false
+        pattern: ['^$|^[^@\s]+@[^@\s]+\.[^@\s]+$', "请输入有效邮箱，或留空"]
+      - name: identifiers
+        label: 学术 ID（ORCID 等）
+        label_singular: 学术 ID
+        widget: list
+        required: false
+        summary: "{{fields.label}}: {{fields.value}}"
+        fields:
+          - { name: label, label: 名称, widget: string, hint: "例如 ORCID、Web of Science ResearcherID、Scopus Author ID" }
+          - { name: value, label: 编号, widget: string }
+          - { name: href, label: 链接, widget: string, pattern: ['^https?://', "需以 http:// 或 https:// 开头"] }
+      - name: sections
+        label: 个人页板块（论文、任职、荣誉等）
+        label_singular: 板块
+        widget: list
+        required: false
+        summary: "{{fields.title}}"
+        fields:
+          - { name: eyebrow, label: 小标题, widget: string, required: false, hint: "例如 Research Output" }
+          - { name: title, label: 标题, widget: string, required: false, hint: "例如 Selected Publications" }
+          - name: layout
+            label: 排版
+            widget: select
+            default: list
+            options:
+              - { label: 列表（用于论文）, value: list }
+              - { label: 卡片网格（用于任职、荣誉、专长）, value: grid }
+          - { name: columns, label: 卡片列数, widget: number, value_type: int, min: 2, max: 3, required: false, hint: 仅卡片网格用，2 或 3，可留空。 }
+          - { name: compact, label: 紧凑小卡片, widget: boolean, required: false, default: false }
+          - name: items
+            label: 条目
+            label_singular: 条目
+            widget: list
+            typeKey: type
+            types:
+              - name: publication
+                label: 论文 / 著作
+                summary: "{{fields.label}} · {{fields.title}}"
+                fields:
+                  - { name: label, label: 标签, widget: string, hint: "通常是年份，也可以是 SSCI、AHCI、KCI、Book" }
+                  - { name: title, label: 题目, widget: string }
+                  - { name: authors, label: 作者, widget: string, required: false, hint: "例如 Shi, Q. (First Author)" }
+                  - { name: venue, label: 期刊 / 出版信息, widget: string, required: false, hint: "可用 *斜体* 标记期刊名" }
+                  - name: link
+                    label: 链接
+                    widget: object
+                    required: false
+                    collapsed: true
+                    fields:
+                      - { name: href, label: 网址, widget: string, required: false }
+                      - { name: text, label: 显示文字, widget: string, required: false, hint: "例如 DOI 或 View article" }
+              - name: card
+                label: 卡片
+                summary: "{{fields.title}}"
+                fields:
+                  - { name: title, label: 标题, widget: string }
+                  - { name: meta, label: 副信息（每行一条）, widget: list, required: false, field: { name: line, label: 内容, widget: string } }
+                  - { name: text, label: 段落, widget: list, required: false, field: { name: line, label: 段落, widget: text } }
+                  - { name: list, label: 要点列表, widget: list, required: false, field: { name: line, label: 要点, widget: string } }
+                  - name: entries
+                    label: 条目（标题 + 说明）
+                    widget: list
+                    required: false
+                    fields:
+                      - { name: title, label: 标题, widget: string }
+                      - { name: meta, label: 说明, widget: string }
+                  - { name: icon, label: 图标名（可选）, widget: string, required: false, hint: 当前设计不显示图标，可留空。 }
+                  - { name: centered, label: 居中, widget: boolean, required: false, default: false }
+      - { name: body, label: 个人简介（正文）, widget: markdown, buttons: [bold, italic, link, bulleted-list, numbered-list], editor_components: [] }
