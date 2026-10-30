@@ -10,7 +10,7 @@ keywords:
   - Government Governance
   - Higher Education
   - Psychology
-email: scw@grhas.centraluniteduniversity.de
+email: wenshao521@panorama-sg.de
 identifiers:
   - label: ORCID
     value: 0009-0000-4622-6177
