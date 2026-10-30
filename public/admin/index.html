@@ -12,11 +12,22 @@
     <link href="/assets/logos/favicon.png" rel="icon" />
   </head>
   <body>
+    <script>
+      // Open the scholar list as photo cards the first time; Decap remembers
+      // the choice after someone switches views.
+      try {
+        if (!localStorage.getItem("decap-cms.entries.viewStyle")) {
+          localStorage.setItem("decap-cms.entries.viewStyle", "VIEW_STYLE_GRID");
+        }
+      } catch (e) {}
+    </script>
     <!-- Pinned with a hash so a tampered copy on the CDN is refused. -->
     <script
       src="https://unpkg.com/decap-cms@3.16.3/dist/decap-cms.js"
       integrity="sha384-A/Gdn928CNLufmnGWGs9RM4Q9o8bSNLeJERqBFrBjwzL7FRpoLT3MPF8Tl0+Wd2p"
       crossorigin="anonymous"
     ></script>
+    <!-- Live profile preview beside the form. -->
+    <script src="/admin/preview.js"></script>
   </body>
 </html>
