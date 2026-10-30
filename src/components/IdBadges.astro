@@ -1,7 +1,9 @@
 ---
 // Researcher identifier links in the style publishers use on board pages:
-// the green ORCID iD mark, Web of Science and other profiles, and email.
+// the official ORCID iD mark, Web of Science (Clarivate mark), other profiles, and email.
 import Icon from "./Icon.astro";
+import orcidSvg from "../assets/brand/orcid.svg?raw";
+import clarivateSvg from "../assets/brand/clarivate.svg?raw";
 import type { Scholar } from "../lib/scholars";
 
 interface Props {
@@ -28,13 +30,12 @@ const short = (label: string) =>
           title={`${id.label}: ${id.value}`}
         >
           {id.label === "ORCID" ? (
-            <svg viewBox="0 0 32 32" class="size-4 shrink-0" aria-hidden="true">
-              <circle cx="16" cy="16" r="16" fill="var(--color-orcid)" />
-              <text x="16" y="21.5" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700" text-anchor="middle">iD</text>
-            </svg>
+            <span class="brand-mark" aria-hidden="true" set:html={orcidSvg} />
+          ) : id.label === "Web of Science ResearcherID" ? (
+            <span class="brand-mark text-ink" aria-hidden="true" set:html={clarivateSvg} />
           ) : (
             <span class="flex size-4 shrink-0 items-center justify-center rounded-sm bg-brand text-[9px] font-bold text-paper" aria-hidden="true">
-              {id.label === "Web of Science ResearcherID" ? "W" : id.label[0]}
+              {id.label[0]}
             </span>
           )}
           <span>{id.label === "ORCID" ? id.value : short(id.label)}</span>
@@ -53,3 +54,17 @@ const short = (label: string) =>
     )
   }
 </ul>
+
+<style>
+  .brand-mark {
+    display: inline-flex;
+    width: 1rem;
+    height: 1rem;
+    flex-shrink: 0;
+  }
+  .brand-mark :global(svg) {
+    width: 100%;
+    height: 100%;
+    fill: currentColor;
+  }
+</style>
