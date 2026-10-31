@@ -11,7 +11,9 @@ summary: >-
 
   University, USA
 keywords:
-  - Musicology; Global Music Studies; Scholarly Communication
+  - Musicology
+  - Global Music Studies
+  - Scholarly Communication
 loginEmails:
   - jiale2000@midwest.edu
 sections:
