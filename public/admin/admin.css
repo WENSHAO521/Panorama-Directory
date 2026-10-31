@@ -591,6 +591,19 @@ body {
   background-position: center !important;
   background-color: #d9dde2;
 }
+/* Decap mounts each card without its photo and adds it a frame later, and
+   it remounts the whole grid several times while entries and images load.
+   Without a placeholder every card shrank to its name and sprang back each
+   time, so the grid flickered. Hold the 4:5 photo space until the photo is
+   there (and for scholars with no photo). */
+[class*="-GridCardLink"]:not(:has([class*="-StyledImage"]))::before {
+  content: "";
+  order: -1;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background-color: #d9dde2;
+}
 [class*="-GridCard"] [class*="-CardBody"] {
   flex-grow: 1;
   height: auto !important;
