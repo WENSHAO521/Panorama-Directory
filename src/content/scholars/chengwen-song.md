@@ -4,9 +4,9 @@ order: 1
 role: Executive Editorial Board Member
 affiliation: Kookmin University
 photo: ../../assets/scholars/chengwen-song.jpg
-summary: Editor-in-Chief of PoliEcoM Administration Review and Executive
-  Editorial Board Member. Ph.D. candidate in Public Administration, focusing on
-  central government governance, higher education institutions, and
+summary: Executive Editorial Board Member of Panorama Scholarly Group. Ph.D.
+  candidate in Public Administration at Kookmin University, South Korea,
+  focusing on central government governance, higher education institutions, and
   psychological mechanisms in organizational behavior.
 keywords:
   - Public Administration
@@ -176,7 +176,6 @@ sections:
         meta:
           - Executive Editorial Board Member
 ---
-
 Chengwen Song is a Ph.D. candidate in Public Administration at Kookmin University, South Korea, where he also earned his Master's degree in Public Administration. He holds a Bachelor's degree in Business Administration from Sangmyung University, South Korea. His primary research is highly interdisciplinary, encompassing public governance, organizational behavior, and political philosophy. His extensive academic work explores diverse fields including the digital transformation of SMEs, modern governance dilemmas, Marxist and traditional Chinese philosophy, psychological models in human relationships, and interdisciplinary intersections with public health management and arts theory.
 
-With significant expertise in academic publishing and journal management, he currently serves as the Editor-in-Chief of *PoliEcoM Administration Review* and the Co-Editor-in-Chief of the *Journal of Law, Psychology, & Communication*. He also coordinates global academic liaison for *Resonance: Global Music Studies* and serves as an Executive Editorial Board Member for the Panorama Scholarly Group.
+With significant expertise in academic publishing and journal management, he coordinates global academic liaison for *Resonance: Global Music Studies* and serves as an Executive Editorial Board Member for the Panorama Scholarly Group.
