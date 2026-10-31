@@ -27,6 +27,14 @@ sections:
     layout: list
     items:
       - type: publication
+        link:
+          href: https://doi.org/10.63802/afs.V2.I2.364
+          text: "DOI: 10.63802/afs.V2.I2.364"
+        label: "2026"
+        title: "When AI Delegation Becomes Dependence: Administrative Judgment at Risk"
+        authors: Song, Chengwen
+        venue: AI & Future Society (Oct 2026)
+      - type: publication
         label: "2026"
         title: "Understanding the Digital Transformation of SMEs: A Systematic Review
           from a Dynamic Capabilities Perspective Across Business, Technology,
