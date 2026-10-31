@@ -6,7 +6,9 @@
   corners, Inter. Scholars show as 4:5 photo cards like the Editorial Board
   page; the editor puts the form on the left and a live profile preview
   (preview.js / preview.css) on the right. Status colours: green published,
-  amber draft, blue awaiting publish.
+  amber draft, blue awaiting publish. Fields are soft grey fills that turn
+  white while you type; lists are white rounded panels whose rows (year,
+  title, authors and journal) are built by rows.js.
 
   How it hooks in: Decap styles itself with Emotion, whose class names look
   like `css-<hash>-<ComponentName>`. The hash changes between Decap versions
@@ -51,6 +53,9 @@
 
   --r-sm: 3px;
   --r: 4px;
+  --r-field: 8px;
+  --r-panel: 10px;
+  --fill: #f4f5f7;
   --ease: cubic-bezier(0.16, 1, 0.3, 1);
 
   --font: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
@@ -712,7 +717,9 @@ body {
   border-radius: var(--r-sm) !important;
 }
 
-/* Fields: label above a flat, near-square input, hint beneath. */
+/* Fields: label above a soft filled input, hint beneath. Inputs sit on a
+   light grey fill with rounded corners and turn white with a navy outline
+   while you type. */
 [class*="-ControlContainer"] {
   margin-top: 22px !important;
 }
@@ -723,10 +730,10 @@ body {
 [class*="-FieldLabel"] {
   background: none !important;
   border: 0 !important;
-  padding: 0 0 6px !important;
-  color: var(--ink) !important;
+  padding: 0 0 7px !important;
+  color: var(--text) !important;
   font-size: 13px !important;
-  font-weight: 600 !important;
+  font-weight: 500 !important;
   text-transform: none !important;
 }
 [class*="-FieldLabel"]::before,
@@ -735,32 +742,62 @@ body {
 }
 [class*="-ControlTopbar"] + input,
 [class*="-ControlTopbar"] + textarea,
-[class*="-ControlTopbar"] + div:not([class*="-container"]),
-[class*="-ControlTopbar"] + div[class*="-container"] [class*="-control"] {
-  border: 1px solid var(--rule-strong) !important;
-  border-radius: var(--r-sm) !important;
-  background: var(--paper) !important;
+.pd-doi-row input,
+[aria-label="select field"] [class*="-control"] {
+  border: 1px solid transparent !important;
+  border-radius: var(--r-field) !important;
+  background: var(--fill) !important;
   box-shadow: none !important;
+  outline: none;
+  transition: background-color 0.12s, border-color 0.12s;
 }
 [class*="-ControlTopbar"] + input,
-[class*="-ControlTopbar"] + textarea {
-  padding: 8px 11px !important;
-  min-height: 38px;
+[class*="-ControlTopbar"] + textarea,
+.pd-doi-row input {
+  padding: 8px 12px !important;
+  min-height: 40px;
   font-size: 14px !important;
   line-height: 1.55 !important;
   color: var(--ink) !important;
 }
 [class*="-ControlTopbar"] + input:hover,
-[class*="-ControlTopbar"] + textarea:hover {
-  border-color: var(--faint) !important;
+[class*="-ControlTopbar"] + textarea:hover,
+.pd-doi-row input:hover,
+[aria-label="select field"] [class*="-control"]:hover {
+  border-color: var(--rule-strong) !important;
 }
 [class*="-ControlTopbar"] + input:focus,
 [class*="-ControlTopbar"] + textarea:focus,
-[class*="-ControlTopbar"] + div:focus-within:not([class*="-container"]),
-[class*="-ControlTopbar"] + div[class*="-container"] [class*="-control"]:focus-within {
+.pd-doi-row input:focus,
+[aria-label="select field"] [class*="-control"]:focus-within {
+  background: var(--paper) !important;
   border-color: var(--navy-600) !important;
   box-shadow: var(--focus-ring) !important;
-  outline: none;
+}
+/* Other widgets (markdown editor) keep a plain outlined box. */
+[class*="-ControlTopbar"] + div:not([class*="-container"]) {
+  border: 1px solid var(--rule-strong) !important;
+  border-radius: var(--r-field) !important;
+  background: var(--paper) !important;
+  box-shadow: none !important;
+}
+[class*="-ControlTopbar"] + div:not([class*="-container"]):focus-within {
+  border-color: var(--navy-600) !important;
+  box-shadow: var(--focus-ring) !important;
+}
+/* ...but lists, objects, switches, photos and the DOI box are not inputs:
+   no frame around them. */
+[aria-label="list field"] > [class*="-ControlTopbar"] + div,
+[aria-label="object field"] > [class*="-ControlTopbar"] + div,
+[aria-label="boolean field"] > [class*="-ControlTopbar"] + div,
+[aria-label="image field"] > [class*="-ControlTopbar"] + div,
+[aria-label="doi field"] > [class*="-ControlTopbar"] + div,
+[aria-label="select field"] > [class*="-ControlTopbar"] + div {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
 }
 [class*="-ControlHint"] {
   color: var(--faint) !important;
@@ -769,39 +806,373 @@ body {
   margin-top: 6px !important;
 }
 
-/* Lists and nested objects: grey setting rows. */
-[class*="-TopBarContainer"] {
-  background: transparent !important;
-  border-bottom: 1px solid var(--rule);
-  border-radius: 0 !important;
+/* Select: same height and fill as a text input. */
+[aria-label="select field"] [class*="-control"] {
+  min-height: 40px !important;
 }
-[class*="-StyledListItemTopBar"] {
-  background: transparent !important;
-  border: 0 !important;
-  border-radius: 0 !important;
+[aria-label="select field"] [class*="-control"] > div:first-child {
+  padding: 0 12px !important;
 }
-[class*="-StyledListItemTopBar"] + * [class*="-NestedObjectLabel"],
-[class*="-SortableListItem"] [class*="-NestedObjectLabel"] {
-  padding-top: 0 !important;
+[aria-label="select field"] [class*="-singleValue"] {
+  margin: 0 !important;
+  color: var(--ink) !important;
+  font-size: 14px !important;
 }
-[class*="-SortableListItem"],
-[class*="-listControlItem"] {
-  background: #f6f7f9 !important;
+[aria-label="select field"] [class*="-indicatorContainer"] {
+  padding: 0 10px !important;
+}
+[aria-label="select field"] [class*="-indicatorContainer"] svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* Switch: smaller, navy when on. */
+[aria-label="boolean field"] > [class*="-ControlTopbar"] + div {
+  padding: 2px 0 !important;
+}
+[class*="-ToggleContainer"] {
+  width: 36px !important;
+  height: 20px !important;
+}
+[class*="-ToggleBackground"] {
+  width: 36px !important;
+  height: 20px !important;
+  border-radius: 10px !important;
+  background-color: var(--rule-strong) !important;
+}
+[class*="-ToggleContainer"][aria-checked="true"] [class*="-ToggleBackground"] {
+  background-color: var(--navy) !important;
+}
+[class*="-ToggleHandle"] {
+  width: 16px !important;
+  height: 16px !important;
+  top: 2px !important;
+  box-shadow: 0 1px 2px rgba(14, 42, 71, 0.25) !important;
+}
+[class*="-ToggleContainer"][aria-checked="false"] [class*="-ToggleHandle"] {
+  left: 2px !important;
+}
+[class*="-ToggleContainer"][aria-checked="true"] [class*="-ToggleHandle"] {
+  left: 18px !important;
+}
+
+/* ---------- Lists (论文、学术 ID、板块…) ----------
+   A list is one white rounded panel. rows.js turns each item's summary into
+   a row: year badge, bold title, authors and journal underneath. Click the
+   row to open it; drag handle and delete appear on hover. The add button
+   sits at the bottom of the panel. */
+
+[aria-label="list field"] > [class*="-ControlTopbar"] + div {
+  display: flex !important;
+  flex-direction: column;
   border: 1px solid var(--rule) !important;
-  border-radius: var(--r) !important;
-  box-shadow: none !important;
+  border-radius: var(--r-panel) !important;
+  background: var(--paper) !important;
   overflow: hidden;
 }
-[class*="-NestedObjectLabel"] {
-  background: #f6f7f9 !important;
-  border: 0 !important;
-  color: var(--text) !important;
-  font-size: 13.5px;
-  font-weight: 500;
+[aria-label="list field"] > [class*="-ControlTopbar"] + div:focus-within {
+  border-color: var(--rule) !important;
+  box-shadow: none !important;
 }
-[class*="-TopBarButton"] svg path,
-[class*="-ExpandButton"] svg path {
-  fill: var(--muted);
+[aria-label="object field"] > [class*="-ControlTopbar"] + div:focus-within,
+[aria-label="boolean field"] > [class*="-ControlTopbar"] + div:focus-within,
+[aria-label="image field"] > [class*="-ControlTopbar"] + div:focus-within,
+[aria-label="doi field"] > [class*="-ControlTopbar"] + div:focus-within,
+[aria-label="select field"] > [class*="-ControlTopbar"] + div:focus-within {
+  box-shadow: none !important;
+}
+/* The header (count + collapse-all + add) moves under the rows. */
+[aria-label="list field"] [class*="-TopBarContainer"] {
+  order: 2;
+  display: flex !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-top: 1px solid var(--rule) !important;
+  border-radius: 0 !important;
+}
+[aria-label="list field"]:not(:has([class*="-SortableListItem"])) [class*="-TopBarContainer"] {
+  border-top: 0 !important;
+}
+[aria-label="list field"] [class*="-ExpandButtonContainer"] {
+  display: none !important;
+}
+[aria-label="list field"] [class*="-TopBarContainer"] > div:last-child,
+[aria-label="list field"] [class*="-TopBarContainer"] > div:last-child > div {
+  display: block !important;
+  flex: 1;
+  width: 100% !important;
+}
+[aria-label="list field"] [class*="-AddButton"],
+[aria-label="list field"] [class*="-StyledDropdownButton"] {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start !important;
+  box-sizing: border-box;
+  width: 100% !important;
+  height: 46px !important;
+  margin: 0 !important;
+  padding: 0 0 0 38px !important;
+  background: transparent !important;
+  color: var(--navy-600) !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  font: 500 13.5px/46px var(--font) !important;
+  text-transform: none !important;
+}
+[aria-label="list field"] [class*="-AddButton"]:hover,
+[aria-label="list field"] [class*="-StyledDropdownButton"]:hover {
+  background: var(--navy-50) !important;
+}
+[aria-label="list field"] [class*="-AddButton"] > span,
+[aria-label="list field"] [class*="-StyledDropdownButton"]::after {
+  display: none !important;
+}
+[aria-label="list field"] [class*="-AddButton"]::before,
+[aria-label="list field"] [class*="-StyledDropdownButton"]::before {
+  content: "+";
+  margin-right: 8px;
+  font-size: 18px;
+  font-weight: 400;
+}
+
+/* One item: [drag] [row] [open] [delete] */
+[class*="-SortableListItem"] {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: 22px minmax(0, 1fr) 28px 28px;
+  align-items: start;
+  column-gap: 6px;
+  margin: 0 !important;
+  padding: 14px 10px 14px 6px !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+}
+/* Hairline between rows, inset to start under the text. */
+[class*="-SortableListItem"] + [class*="-SortableListItem"]::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 32px;
+  right: 0;
+  border-top: 1px solid var(--rule);
+}
+[class*="-SortableListItem"]:has(> [class*="-NestedObjectLabel"]:hover) {
+  background: #fafbfc !important;
+}
+[class*="-SortableListItem"] > [class*="-FieldLabel"] {
+  display: none !important;
+}
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] {
+  display: contents !important;
+}
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > [role="button"] {
+  grid-column: 1;
+  grid-row: 1;
+  display: flex;
+  justify-content: center;
+  cursor: grab;
+}
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:first-child {
+  grid-column: 3;
+  grid-row: 1;
+}
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:last-child {
+  grid-column: 4;
+  grid-row: 1;
+}
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > [role="button"],
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:last-child {
+  opacity: 0;
+  transition: opacity 0.12s;
+}
+[class*="-SortableListItem"]:hover > [class*="-StyledListItemTopBar"] > *,
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > :focus-visible {
+  opacity: 1;
+}
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > * > span,
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 6px !important;
+  background: transparent !important;
+}
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] svg {
+  width: 15px !important;
+  height: 15px !important;
+}
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] svg path {
+  fill: var(--faint) !important;
+}
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:hover {
+  background: var(--hover) !important;
+}
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:last-child:hover {
+  background: var(--red-bg) !important;
+}
+[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:last-child:hover svg path {
+  fill: var(--red) !important;
+}
+
+/* The summary: Decap's own text is hidden and rows.js's spans shown. If
+   rows.js hasn't run, the plain text still shows. */
+[class*="-SortableListItem"] > [class*="-NestedObjectLabel"] {
+  grid-column: 2;
+  grid-row: 1;
+  display: block !important;
+  min-width: 0;
+  padding: 3px 0 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--ink) !important;
+  font-size: 14px !important;
+  cursor: pointer;
+}
+[class*="-SortableListItem"] > [class*="-NestedObjectLabel"]:has(.pd-row) {
+  font-size: 0 !important;
+  color: transparent !important;
+}
+.pd-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: 14px;
+}
+[data-row="pub"] .pd-row {
+  grid-template-columns: 58px minmax(0, 1fr);
+}
+.pd-row-tag {
+  justify-self: start;
+  align-self: start;
+  padding: 1px 8px;
+  border-radius: 5px;
+  background: #f1f2f4;
+  color: var(--muted);
+  font: 500 12.5px/1.5 var(--font);
+  font-variant-numeric: tabular-nums;
+}
+.pd-row-tag.is-empty {
+  visibility: hidden;
+}
+.pd-row-tag.is-year {
+  background: var(--navy-50);
+  color: var(--navy);
+  font-weight: 600;
+}
+.pd-row-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.pd-row-title {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  color: var(--ink);
+  font: 600 14px/1.45 var(--font);
+}
+.pd-row-meta {
+  overflow: hidden;
+  color: var(--muted);
+  font: 400 12.5px/1.5 var(--font);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.pd-row-authors::after {
+  content: ". ";
+}
+
+/* The open item's fields, under the row. */
+[class*="-SortableListItem"] > div:last-child:not([class*="-NestedObjectLabel"]):not([class*="-StyledListItemTopBar"]) {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  min-width: 0;
+  padding: 2px 0 6px !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+[class*="-SortableListItem"] > div:last-child [class*="-ControlContainer"] {
+  margin-top: 16px !important;
+}
+/* Publication: 标签 and 题目 share a line. */
+[data-row="pub"] > div:last-child > div {
+  display: grid;
+  grid-template-columns: 120px minmax(0, 1fr);
+  column-gap: 12px;
+}
+[data-row="pub"] > div:last-child > div > * {
+  grid-column: 1 / -1;
+}
+[data-row="pub"] > div:last-child > div > :nth-child(2) {
+  grid-column: 1;
+}
+[data-row="pub"] > div:last-child > div > :nth-child(3) {
+  grid-column: 2;
+}
+[data-row="pub"] > div:last-child > div > :nth-child(2) [class*="-ControlHint"] {
+  display: none;
+}
+
+/* A nested object (e.g. 链接) opens like a small section. */
+[aria-label="object field"] > [class*="-ControlTopbar"] + div {
+  border-top: 1px solid var(--rule) !important;
+  padding-top: 6px !important;
+}
+[aria-label="object field"] [class*="-TopBarContainer"] {
+  padding: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  color: var(--muted) !important;
+  font-size: 13px !important;
+  text-transform: none !important;
+}
+[aria-label="object field"] > [class*="-ControlTopbar"] + div > div:last-child {
+  border: 0 !important;
+  padding: 0 0 6px !important;
+}
+[class*="-ExpandButtonContainer"] {
+  text-transform: none !important;
+}
+
+/* Touch screens have no hover: keep drag and delete visible. */
+@media (hover: none) {
+  [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > [role="button"],
+  [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:last-child {
+    opacity: 1;
+  }
+}
+/* Narrow screens: nested fields use the full width, year sits above the title. */
+@media (max-width: 799px) {
+  [class*="-SortableListItem"] {
+    padding: 12px 4px 12px 2px !important;
+    column-gap: 4px;
+  }
+  [class*="-SortableListItem"] + [class*="-SortableListItem"]::before {
+    left: 10px;
+  }
+  [class*="-SortableListItem"] > div:last-child:not([class*="-NestedObjectLabel"]):not([class*="-StyledListItemTopBar"]) {
+    grid-column: 1 / -1;
+    padding: 2px 6px 6px !important;
+  }
+  [data-row="pub"] .pd-row {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 4px;
+  }
+  [data-row="pub"] > div:last-child > div {
+    grid-template-columns: 90px minmax(0, 1fr);
+  }
 }
 
 /* Markdown editor toolbar */
@@ -823,11 +1194,23 @@ body {
   background-color: var(--rule-strong) !important;
 }
 
-/* Photo field: show the portrait in the site's 4:5 frame. */
+/* Photo field: the portrait in the site's 4:5 frame, buttons beside it. */
+[aria-label="image field"] > [class*="-ControlTopbar"] + div > span > div {
+  display: flex;
+  align-items: flex-end;
+  gap: 16px;
+}
+[aria-label="image field"] > [class*="-ControlTopbar"] + div > span > div > div:last-child {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+}
 [class*="-ImageWrapper"] {
   width: 120px !important;
   height: 150px !important;
-  border-radius: var(--r-sm) !important;
+  margin: 0 !important;
+  border-radius: var(--r-field) !important;
   border: 1px solid var(--rule);
   box-shadow: none !important;
   overflow: hidden;
@@ -838,11 +1221,26 @@ body {
   object-fit: cover !important;
 }
 [class*="-FileWidgetButton"] {
-  border-radius: var(--r-sm) !important;
+  height: 32px;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border-radius: var(--r-field) !important;
+  font-size: 13px !important;
   font-weight: 500 !important;
   background: var(--paper) !important;
   color: var(--navy) !important;
   border: 1px solid var(--rule-strong) !important;
+}
+[class*="-FileWidgetButton"]:hover {
+  background: var(--navy-50) !important;
+}
+[class*="-FileWidgetButtonRemove"] {
+  background: transparent !important;
+  color: var(--red) !important;
+  border-color: transparent !important;
+}
+[class*="-FileWidgetButtonRemove"]:hover {
+  background: var(--red-bg) !important;
 }
 
 /* ---------- Photo library ---------- */
@@ -992,11 +1390,12 @@ body {
 }
 #nc-root .pd-doi-button {
   flex: 0 0 auto;
-  padding: 0 14px;
+  min-height: 40px;
+  padding: 0 16px;
   background: var(--navy);
   color: #fff;
   border: 0;
-  border-radius: var(--r-sm);
+  border-radius: var(--r-field);
   font: 500 13.5px/1 var(--font);
   cursor: pointer;
 }
