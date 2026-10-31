@@ -327,16 +327,27 @@ body {
 }
 [class*="-AppHeaderNavList"] > li {
   display: flex;
+  align-items: flex-end;
 }
+/* Sections are folder tabs: the open one is cut from the page below it, so
+   the bar and the page read as one sheet. */
 [class*="-AppHeaderNavLink"],
 [class*="-AppHeaderButton"] {
-  height: auto !important;
-  padding: 0 12px !important;
-  border-radius: 0;
-  border-bottom: 2px solid transparent !important;
+  position: relative;
+  display: inline-flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  justify-content: center;
+  height: 40px !important;
+  line-height: 1 !important;
+  margin: 0 !important;
+  padding: 0 18px !important;
+  border: 0 !important;
+  border-radius: var(--r) var(--r) 0 0 !important;
   color: var(--navy-text) !important;
   font-size: 14px !important;
   font-weight: 500 !important;
+  letter-spacing: 0.02em;
   background: transparent !important;
 }
 [class*="-AppHeaderNavLink"] [class*="-IconWrapper"],
@@ -346,10 +357,31 @@ body {
 [class*="-AppHeaderNavLink"]:hover,
 [class*="-AppHeaderButton"]:hover {
   color: #fff !important;
+  background: rgba(255, 255, 255, 0.06) !important;
 }
-[class*="-AppHeaderNavLink"].header-link-active {
-  color: #fff !important;
-  border-bottom-color: #fff !important;
+[class*="-AppHeaderNavLink"].header-link-active,
+[class*="-AppHeaderNavLink"].header-link-active:hover {
+  color: var(--navy) !important;
+  font-weight: 600 !important;
+  background: var(--canvas) !important;
+}
+/* Inverted corners where the open tab meets the bar. */
+[class*="-AppHeaderNavLink"].header-link-active::before,
+[class*="-AppHeaderNavLink"].header-link-active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  width: 8px;
+  height: 8px;
+  pointer-events: none;
+}
+[class*="-AppHeaderNavLink"].header-link-active::before {
+  left: -8px;
+  background: radial-gradient(circle at 0 0, transparent 7.5px, var(--canvas) 8px);
+}
+[class*="-AppHeaderNavLink"].header-link-active::after {
+  right: -8px;
+  background: radial-gradient(circle at 100% 0, transparent 7.5px, var(--canvas) 8px);
 }
 [class*="-AppHeaderSiteLink"] {
   font-family: var(--mono) !important;
@@ -408,25 +440,40 @@ body {
   box-shadow: var(--focus-ring) !important;
   outline: none;
 }
+/* Collections read like the board page's role list: plain rows, the open
+   one tinted navy. Decap's pen icon is swapped for a 4:5 portrait frame,
+   the same shape as the photo cards beside it. */
 [class*="-SidebarNavLink"] {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
   margin: 1px 0;
-  padding: 8px 10px !important;
+  padding: 9px 12px !important;
+  border: 0 !important;
   border-radius: var(--r-sm);
-  border-left: 2px solid transparent !important;
   color: var(--muted) !important;
   font-size: 14px !important;
   font-weight: 500 !important;
 }
-[class*="-SidebarNavLink"] svg path {
-  fill: currentColor;
+[class*="-SidebarNavLink"] [class*="-IconWrapper"] {
+  width: 14px !important;
+  height: 18px !important;
+  margin: 0 !important;
+  flex: none;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 18'%3E%3Cpath fill-rule='evenodd' d='M2 0h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2Zm0 1.5a.5.5 0 0 0-.5.5v14c0 .28.22.5.5.5h.3c.5-2.8 2.2-4.3 4.7-4.3s4.2 1.5 4.7 4.3h.3a.5.5 0 0 0 .5-.5V2a.5.5 0 0 0-.5-.5H2ZM7 4a2.75 2.75 0 1 1 0 5.5A2.75 2.75 0 0 1 7 4Z'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 18'%3E%3Cpath fill-rule='evenodd' d='M2 0h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2Zm0 1.5a.5.5 0 0 0-.5.5v14c0 .28.22.5.5.5h.3c.5-2.8 2.2-4.3 4.7-4.3s4.2 1.5 4.7 4.3h.3a.5.5 0 0 0 .5-.5V2a.5.5 0 0 0-.5-.5H2ZM7 4a2.75 2.75 0 1 1 0 5.5A2.75 2.75 0 0 1 7 4Z'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+[class*="-SidebarNavLink"] [class*="-IconWrapper"] svg {
+  display: none !important;
 }
 [class*="-SidebarNavLink"]:hover {
   background: #e9ecf0 !important;
   color: var(--ink) !important;
 }
-[class*="-SidebarNavLink"].sidebar-active {
-  background: var(--paper) !important;
-  border-left-color: var(--navy) !important;
+[class*="-SidebarNavLink"].sidebar-active,
+[class*="-SidebarNavLink"].sidebar-active:hover {
+  background: #e3eaf2 !important;
   color: var(--navy) !important;
   font-weight: 600 !important;
 }
