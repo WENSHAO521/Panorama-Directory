@@ -1,0 +1,85 @@
+---
+// Self-service editor: a scholar signs in (Google or an emailed link) and
+// edits their own entry. The sign-in and saving live in worker/selfservice.ts;
+// the form is built by src/scripts/edit.ts from what /api/me returns.
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Edit your profile" description="Scholars on the editorial board can sign in here to update their own profile.">
+  <meta slot="head" name="robots" content="noindex, nofollow" />
+
+  <section class="border-b border-rule bg-surface">
+    <div class="wrap py-10 md:py-12">
+      <p class="kicker mb-2">For board members · 编委自助编辑</p>
+      <h1 class="mb-3 text-3xl font-semibold tracking-tight md:text-[2.5rem]">Edit your profile</h1>
+      <p class="max-w-2xl text-muted">
+        Sign in with the email address the directory has on file for you. Your changes are sent to the editorial office and appear on the site once they have been reviewed.
+        <span class="mt-1 block text-sm">请用名录登记的邮箱登录。修改提交后由编辑部审核，通过后显示在网站上。</span>
+      </p>
+    </div>
+  </section>
+
+  <div class="wrap py-10 md:py-12">
+    <p id="status" class="text-muted" role="status">Loading… 加载中…</p>
+
+    <!-- Signed out -->
+    <div id="signin" class="hidden max-w-md">
+      <div id="signin-error" class="mb-5 hidden rounded-md border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800" role="alert"></div>
+      <div class="rounded-lg border border-rule p-6">
+        <h2 class="mb-1 text-lg font-semibold">Sign in · 登录</h2>
+        <p class="mb-5 text-sm text-muted">Only you can edit your own page. 只能编辑您本人的页面。</p>
+
+        <a id="google" href="/auth/google" class="btn-secondary hidden w-full">
+          <svg viewBox="0 0 48 48" class="size-4.5" aria-hidden="true">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z" />
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z" />
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z" />
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z" />
+          </svg>
+          Continue with Google · 用谷歌账号登录
+        </a>
+
+        <div id="or" class="my-5 hidden items-center gap-3 text-xs text-faint">
+          <span class="h-px flex-1 bg-rule"></span>or · 或<span class="h-px flex-1 bg-rule"></span>
+        </div>
+
+        <form id="email-form" class="hidden">
+          <label for="email" class="label mb-1.5 block">Email me a sign-in link · 发送登录链接到邮箱</label>
+          <input id="email" name="email" type="email" required autocomplete="email" class="mb-3 block w-full rounded-md border-rule text-sm focus:border-brand-600 focus:ring-brand-600" placeholder="you@university.edu" />
+          <button type="submit" class="btn-primary w-full">Send link · 发送链接</button>
+          <p id="email-sent" class="mt-3 hidden text-sm text-muted" role="status">
+            If this address is in the directory, a sign-in link is on its way. It works for 20 minutes.
+            <span class="block">如果该邮箱已在名录中登记，登录链接已发出，20 分钟内有效。</span>
+          </p>
+        </form>
+
+        <p id="none" class="hidden text-sm text-muted">Sign-in is not available yet. 登录功能尚未开通。</p>
+      </div>
+      <p class="mt-5 text-sm text-muted">
+        Not working? Write to <a class="link" href="mailto:directory.admin@panorama-sg.com">directory.admin@panorama-sg.com</a> and we will add the right address to your entry.
+        <span class="block">登录不了？请写信给上面的地址，我们会为您登记邮箱。</span>
+      </p>
+    </div>
+
+    <!-- Signed in -->
+    <div id="editor" class="hidden">
+      <div class="mb-8 flex flex-wrap items-center justify-between gap-4 border-b border-rule pb-5">
+        <p class="text-sm text-muted">Signed in as <strong id="who" class="font-medium text-ink"></strong> · <a id="view" class="link" href="#">View live page · 查看当前页面</a></p>
+        <form method="post" action="/auth/logout"><button class="btn-secondary py-1.5">Sign out · 退出</button></form>
+      </div>
+      <div id="pending" class="mb-8 hidden rounded-md border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-900">
+        Your last changes are waiting for review; you are editing that version. You can keep making changes.
+        <span class="block">您上次提交的修改正在等待审核，下面显示的是那个版本，可以继续修改。</span>
+      </div>
+      <form id="form" class="grid min-w-0 gap-10" novalidate></form>
+      <div class="sticky bottom-0 z-10 mt-10 flex flex-wrap items-center gap-4 border-t border-rule bg-paper/95 py-4 backdrop-blur">
+        <button id="save" type="button" class="btn-primary">Submit for review · 提交审核</button>
+        <p id="save-status" class="text-sm text-muted" role="status"></p>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  import "../scripts/edit";
+</script>

@@ -3,7 +3,8 @@
 Editorial directory for Panorama Scholarly Group, served at
 <https://profiles.panorama-sg.com>. Built with [Astro](https://astro.build) and
 Tailwind CSS v4, deployed as static assets on Cloudflare Workers (a small Worker
-only handles GitHub sign-in for the `/admin` editor).
+only handles sign-in for the `/admin` editor and the scholar self-service
+editor at `/edit`).
 
 ## Working on the site
 
@@ -75,6 +76,34 @@ do both in reverse.
   `npm run dev` and open <http://localhost:4321/admin/index.html>; saves go to
   your local files.
 
+### Scholars editing their own page (`/edit`)
+
+Scholars sign in at <https://profiles.panorama-sg.com/edit> with Google or with
+a one-time link mailed to them, and can edit only their own entry. They are
+matched by the `email` in their entry or any address under `loginEmails`
+(“自助编辑登录邮箱” in `/admin`), so to let someone in, add their address
+there. Each submission is committed by a GitHub App to the same branch and
+pull request Decap uses for that entry (`cms/scholars/<slug>`, labelled
+pending review), so it shows up in the `/admin` Workflow tab and goes live
+only when you publish it. Scholars cannot change `order`, `role`, `email`
+or `loginEmails`, and can write only their own entry and a new photo for it;
+the Worker enforces this.
+
+- Code: `worker/selfservice.ts` (routes, sessions), `worker/entry.ts`
+  (frontmatter and what a scholar may change; keep in sync with
+  `src/content.config.ts`), `worker/github.ts` (GitHub App),
+  `worker/mail.ts` (Alibaba Cloud DirectMail), `src/pages/edit.astro` +
+  `src/scripts/edit.ts` (the form).
+- Secrets on the Cloudflare project: `SESSION_SECRET` (any long random
+  string), `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY` (the downloaded .pem as
+  is), `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET`, `ALIYUN_ACCESS_KEY_ID`,
+  `ALIYUN_ACCESS_KEY_SECRET`. Vars in `wrangler.jsonc`: `ALIYUN_DM_ACCOUNT`
+  (the DirectMail sender address) and `ALIYUN_DM_REGION`. Google sign-in and
+  mailed links each switch on once their settings are present.
+- GitHub App: repository permissions Contents and Pull requests (read and
+  write), installed on this repository only. Google OAuth client: redirect
+  URI `https://profiles.panorama-sg.com/auth/google/callback`.
+
 ## Design
 
 Publisher editorial-board style (in the manner of Springer Nature or De Gruyter
@@ -107,6 +136,6 @@ src/
   styles/global.css   design tokens, fonts, shared utilities
 public/               files served as-is (fonts, favicon, verification file)
 public/admin/         the /admin editor (Decap CMS) and its config
-worker/               Worker entry and GitHub sign-in for /admin
-functions/            the same sign-in as a Pages Function
+worker/               Worker entry, GitHub sign-in for /admin, /edit back end
+functions/            the same routes as Pages Functions
 ```
