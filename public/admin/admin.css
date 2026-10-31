@@ -978,3 +978,37 @@ body {
     transition: none !important;
   }
 }
+
+/* ---------- "DOI 自动填写" on publication rows (doi.js) ---------- */
+
+.pd-doi-row {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+.pd-doi-row input {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+#nc-root .pd-doi-button {
+  flex: 0 0 auto;
+  padding: 0 14px;
+  background: var(--navy);
+  color: #fff;
+  border: 0;
+  border-radius: var(--r-sm);
+  font: 500 13.5px/1 var(--font);
+  cursor: pointer;
+}
+#nc-root .pd-doi-button:hover {
+  background: var(--navy-600);
+}
+#nc-root .pd-doi-button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+.pd-doi-message {
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 12.5px;
+}
