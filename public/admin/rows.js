@@ -62,12 +62,15 @@
       row.appendChild(body);
       item && item.setAttribute("data-row", "pub");
     } else {
-      var m = src.match(/^([^:：]{1,40})[:：]\s*(.+)$/);
+      // "ORCID: 0009-…" -> number as the title, the ID's name beneath.
+      var m = src.match(/^([^:：]{1,40})[:：](.*)$/);
       var body2 = span("pd-row-body");
-      if (m) {
-        body2.appendChild(span("pd-row-title", m[2]));
-        body2.appendChild(span("pd-row-meta", m[1]));
-      } else body2.appendChild(span("pd-row-title", src));
+      var name = m ? m[1].trim() : "";
+      var value = m ? m[2].trim() : "";
+      if (m && value) {
+        body2.appendChild(span("pd-row-title", value));
+        if (name) body2.appendChild(span("pd-row-meta", name));
+      } else body2.appendChild(span("pd-row-title", (m ? name : src.trim()) || "（未填写）"));
       row.appendChild(body2);
       item && item.setAttribute("data-row", "plain");
     }

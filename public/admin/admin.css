@@ -843,13 +843,16 @@ body {
 [class*="-ToggleContainer"][aria-checked="true"] [class*="-ToggleBackground"] {
   background-color: var(--navy) !important;
 }
+/* Decap slides the handle with translateX(20px); place it with left instead
+   so it lines up with the smaller track. */
 [class*="-ToggleHandle"] {
   width: 16px !important;
   height: 16px !important;
   top: 2px !important;
+  transform: none !important;
   box-shadow: 0 1px 2px rgba(14, 42, 71, 0.25) !important;
 }
-[class*="-ToggleContainer"][aria-checked="false"] [class*="-ToggleHandle"] {
+[class*="-ToggleContainer"]:not([aria-checked="true"]) [class*="-ToggleHandle"] {
   left: 2px !important;
 }
 [class*="-ToggleContainer"][aria-checked="true"] [class*="-ToggleHandle"] {
@@ -859,7 +862,7 @@ body {
 /* ---------- Lists (论文、学术 ID、板块…) ----------
    A list is one white rounded panel. rows.js turns each item's summary into
    a row: year badge, bold title, authors and journal underneath. Click the
-   row to open it; drag handle and delete appear on hover. The add button
+   row to open it; drag handle on the left, delete (×) on the right. The add button
    sits at the bottom of the panel. */
 
 [aria-label="list field"] > [class*="-ControlTopbar"] + div {
@@ -914,7 +917,7 @@ body {
   width: 100% !important;
   height: 46px !important;
   margin: 0 !important;
-  padding: 0 0 0 38px !important;
+  padding: 0 0 0 34px !important;
   background: transparent !important;
   color: var(--navy-600) !important;
   border: 0 !important;
@@ -959,7 +962,7 @@ body {
   content: "";
   position: absolute;
   top: 0;
-  left: 32px;
+  left: 34px;
   right: 0;
   border-top: 1px solid var(--rule);
 }
@@ -986,15 +989,6 @@ body {
 [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:last-child {
   grid-column: 4;
   grid-row: 1;
-}
-[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > [role="button"],
-[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:last-child {
-  opacity: 0;
-  transition: opacity 0.12s;
-}
-[class*="-SortableListItem"]:hover > [class*="-StyledListItemTopBar"] > *,
-[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > :focus-visible {
-  opacity: 1;
 }
 [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > * > span,
 [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button {
@@ -1146,13 +1140,6 @@ body {
   text-transform: none !important;
 }
 
-/* Touch screens have no hover: keep drag and delete visible. */
-@media (hover: none) {
-  [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > [role="button"],
-  [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:last-child {
-    opacity: 1;
-  }
-}
 /* Narrow screens: nested fields use the full width, year sits above the title. */
 @media (max-width: 799px) {
   [class*="-SortableListItem"] {
@@ -1173,6 +1160,20 @@ body {
   [data-row="pub"] > div:last-child > div {
     grid-template-columns: 90px minmax(0, 1fr);
   }
+}
+
+/* Markdown editor: one outer frame; drop Decap's inner grey borders. */
+[aria-label="markdown field"] > [class*="-ControlTopbar"] + div {
+  overflow: hidden;
+}
+[aria-label="markdown field"] > [class*="-ControlTopbar"] + div div:not([class*="-ToolbarContainer"]) {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  border-radius: 0 !important;
+}
+[aria-label="markdown field"] [class*="-ToolbarContainer"] {
+  border-radius: 0 !important;
 }
 
 /* Markdown editor toolbar */
