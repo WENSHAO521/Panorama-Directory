@@ -4,7 +4,9 @@ order: 4
 role: Editorial Board Member
 affiliation: Universiti Malaya
 photo: ../../assets/scholars/xuzhuo-zhang.jpg
-summary: Editorial Board Member for AI & Future Society. Researcher focusing on digital forensics, federated learning, deep learning frameworks, and ethical parameters in AI-driven investigations.
+summary: Editorial Board Member for AI & Future Society. Researcher focusing on
+  digital forensics, federated learning, deep learning frameworks, and ethical
+  parameters in AI-driven investigations.
 keywords:
   - Digital Forensics
   - Cybersecurity
@@ -12,6 +14,8 @@ keywords:
   - AI Ethics
   - Computer Science
 email: 601198201@qq.com
+loginEmails:
+  - 601198201@qq.com
 identifiers:
   - label: ORCID
     value: 0009-0001-5308-2893
@@ -26,12 +30,14 @@ sections:
     items:
       - type: publication
         label: "2026"
-        title: "When AI Weakens Evidence Traceability: Ethical Challenges for Credibility and Responsibility in Digital Forensics"
+        title: "When AI Weakens Evidence Traceability: Ethical Challenges for
+          Credibility and Responsibility in Digital Forensics"
         authors: Zhang, X.
         venue: AI & Future Society, 2(1), 19-25 (2026)
       - type: publication
         label: "2024"
-        title: "ASMF: Ambient social media forensics chain of custody with an intelligent digital investigation process using federated learning"
+        title: "ASMF: Ambient social media forensics chain of custody with an
+          intelligent digital investigation process using federated learning"
         authors: Khan, A. A., Zhang, X., Hajjej, F., Yang, J., Ku, C. S., & Por, L. Y.
         venue: Heliyon, 10(1) (2024)
       - type: publication
