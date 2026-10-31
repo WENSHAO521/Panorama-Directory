@@ -37,10 +37,14 @@ export async function handleSelfService(request: Request, env: SelfServiceEnv): 
   const url = new URL(request.url);
   const route = `${request.method} ${url.pathname}`;
   try {
-    if (!env.SESSION_SECRET || !githubConfigured(env) || !mailConfigured(env)) {
+    // Names only (never values), so the admin can see what is left to set.
+    const missing = (["SESSION_SECRET", "GITHUB_APP_ID", "GITHUB_APP_PRIVATE_KEY", "ALIYUN_DM_ACCOUNT", "ALIYUN_SMTP_PASSWORD"] as const).filter(
+      (name) => !env[name],
+    );
+    if (missing.length || !githubConfigured(env) || !mailConfigured(env)) {
       return request.method === "GET" && url.pathname.startsWith("/auth/")
         ? redirect("/edit?error=not_configured")
-        : json({ error: "not_configured" }, 503);
+        : json({ error: "not_configured", missing }, 503);
     }
     switch (route) {
       case "POST /auth/email":

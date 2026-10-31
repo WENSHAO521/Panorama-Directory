@@ -298,7 +298,11 @@ async function start() {
     $("status").classList.remove("hidden");
     return;
   }
-  if (data.error === "not_configured") return showSignIn(false, "not_configured");
+  if (data.error === "not_configured") {
+    showSignIn(false, "not_configured");
+    if (data.missing?.length) $("signin-error").append(h("span", { class: "mt-1 block text-xs" }, `Missing settings 缺少的设置: ${data.missing.join(", ")}`));
+    return;
+  }
   if (!data.signedIn) return showSignIn(true, error ?? data.error);
   showEditor(data);
 }
