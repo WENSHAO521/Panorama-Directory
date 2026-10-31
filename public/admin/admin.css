@@ -650,10 +650,29 @@ body {
   font-size: 12.5px !important;
   font-weight: 400 !important;
 }
-[class*="-ListCardTitle"]::first-line {
+[class*="-ListCardTitle"]:has(.pd-card) {
+  font-size: 0 !important;
+}
+[class*="-ListCardTitle"] {
+  flex: 1 1 auto;
+  margin-right: auto !important;
+  text-align: left !important;
+}
+.pd-card {
+  order: -1;
+  margin-right: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+.pd-card-name {
   color: var(--ink);
-  font-size: 14px;
-  font-weight: 600;
+  font: 600 14px/1.45 var(--font);
+}
+.pd-card-role {
+  color: var(--muted);
+  font: 400 12.5px/1.45 var(--font);
 }
 
 /* ---------- Editor: form on the left, live profile preview on the right ---------- */
@@ -702,7 +721,11 @@ body {
 }
 [class*="-ControlPaneContainer"] {
   padding: 4px 28px 120px !important;
-  border-right: 1px solid var(--rule) !important;
+}
+/* Keep the preview clear of the eye / scroll-sync buttons Decap floats at
+   its top right. */
+[class*="-PreviewPaneContainer "] {
+  padding-right: 60px !important;
 }
 [class*="-PreviewPaneFrame"] {
   background: var(--canvas) !important;
@@ -843,13 +866,16 @@ body {
 [class*="-ToggleContainer"][aria-checked="true"] [class*="-ToggleBackground"] {
   background-color: var(--navy) !important;
 }
+/* Decap slides the handle with translateX(20px); place it with left instead
+   so it lines up with the smaller track. */
 [class*="-ToggleHandle"] {
   width: 16px !important;
   height: 16px !important;
   top: 2px !important;
+  transform: none !important;
   box-shadow: 0 1px 2px rgba(14, 42, 71, 0.25) !important;
 }
-[class*="-ToggleContainer"][aria-checked="false"] [class*="-ToggleHandle"] {
+[class*="-ToggleContainer"]:not([aria-checked="true"]) [class*="-ToggleHandle"] {
   left: 2px !important;
 }
 [class*="-ToggleContainer"][aria-checked="true"] [class*="-ToggleHandle"] {
@@ -859,7 +885,7 @@ body {
 /* ---------- Lists (论文、学术 ID、板块…) ----------
    A list is one white rounded panel. rows.js turns each item's summary into
    a row: year badge, bold title, authors and journal underneath. Click the
-   row to open it; drag handle and delete appear on hover. The add button
+   row to open it; drag handle on the left, delete (×) on the right. The add button
    sits at the bottom of the panel. */
 
 [aria-label="list field"] > [class*="-ControlTopbar"] + div {
@@ -868,7 +894,7 @@ body {
   border: 1px solid var(--rule) !important;
   border-radius: var(--r-panel) !important;
   background: var(--paper) !important;
-  overflow: hidden;
+  /* not overflow: hidden, which would clip the "添加条目" type menu */
 }
 [aria-label="list field"] > [class*="-ControlTopbar"] + div:focus-within {
   border-color: var(--rule) !important;
@@ -914,7 +940,7 @@ body {
   width: 100% !important;
   height: 46px !important;
   margin: 0 !important;
-  padding: 0 0 0 38px !important;
+  padding: 0 0 0 34px !important;
   background: transparent !important;
   color: var(--navy-600) !important;
   border: 0 !important;
@@ -922,6 +948,14 @@ body {
   box-shadow: none !important;
   font: 500 13.5px/46px var(--font) !important;
   text-transform: none !important;
+}
+[aria-label="list field"] [class*="-AddButton"],
+[aria-label="list field"] [class*="-StyledDropdownButton"] {
+  border-radius: 0 0 calc(var(--r-panel) - 1px) calc(var(--r-panel) - 1px) !important;
+}
+[aria-label="list field"]:not(:has([class*="-SortableListItem"])) [class*="-AddButton"],
+[aria-label="list field"]:not(:has([class*="-SortableListItem"])) [class*="-StyledDropdownButton"] {
+  border-radius: calc(var(--r-panel) - 1px) !important;
 }
 [aria-label="list field"] [class*="-AddButton"]:hover,
 [aria-label="list field"] [class*="-StyledDropdownButton"]:hover {
@@ -959,12 +993,19 @@ body {
   content: "";
   position: absolute;
   top: 0;
-  left: 32px;
+  left: 34px;
   right: 0;
   border-top: 1px solid var(--rule);
 }
 [class*="-SortableListItem"]:has(> [class*="-NestedObjectLabel"]:hover) {
   background: #fafbfc !important;
+}
+[class*="-SortableListItem"]:first-child {
+  border-radius: calc(var(--r-panel) - 1px) calc(var(--r-panel) - 1px) 0 0 !important;
+}
+/* Single values (要点、段落、登录邮箱): the text itself, not bold. */
+.pd-row-title.is-value {
+  font-weight: 400;
 }
 [class*="-SortableListItem"] > [class*="-FieldLabel"] {
   display: none !important;
@@ -986,15 +1027,6 @@ body {
 [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:last-child {
   grid-column: 4;
   grid-row: 1;
-}
-[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > [role="button"],
-[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:last-child {
-  opacity: 0;
-  transition: opacity 0.12s;
-}
-[class*="-SortableListItem"]:hover > [class*="-StyledListItemTopBar"] > *,
-[class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > :focus-visible {
-  opacity: 1;
 }
 [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > * > span,
 [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button {
@@ -1146,13 +1178,6 @@ body {
   text-transform: none !important;
 }
 
-/* Touch screens have no hover: keep drag and delete visible. */
-@media (hover: none) {
-  [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > [role="button"],
-  [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:last-child {
-    opacity: 1;
-  }
-}
 /* Narrow screens: nested fields use the full width, year sits above the title. */
 @media (max-width: 799px) {
   [class*="-SortableListItem"] {
@@ -1173,6 +1198,20 @@ body {
   [data-row="pub"] > div:last-child > div {
     grid-template-columns: 90px minmax(0, 1fr);
   }
+}
+
+/* Markdown editor: one outer frame; drop Decap's inner grey borders. */
+[aria-label="markdown field"] > [class*="-ControlTopbar"] + div {
+  overflow: hidden;
+}
+[aria-label="markdown field"] > [class*="-ControlTopbar"] + div div:not([class*="-ToolbarContainer"]) {
+  border-left: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  border-radius: 0 !important;
+}
+[aria-label="markdown field"] [class*="-ToolbarContainer"] {
+  border-radius: 0 !important;
 }
 
 /* Markdown editor toolbar */
@@ -1410,4 +1449,71 @@ body {
   margin: 6px 0 0;
   color: var(--muted);
   font-size: 12.5px;
+}
+
+/* ---------- Details ---------- */
+
+/* Menu icons (e.g. 复制) in Decap's teal -> grey. */
+[class*="-MenuItemIconContainer"] svg path {
+  fill: var(--muted) !important;
+}
+/* Search results: a plain heading like the collection title, not a card. */
+[class*="-SearchResultContainer"] {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--rule) !important;
+  border-radius: 0 !important;
+  padding: 0 0 18px !important;
+  margin-bottom: 18px !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+[class*="-SearchResultHeading"] {
+  padding: 0 !important;
+  border: 0 !important;
+}
+[class*="-SearchResultHeading"] {
+  color: var(--ink) !important;
+  font-size: 22px !important;
+  font-weight: 600 !important;
+}
+/* Photo library: plain grey tiles instead of a checkerboard. */
+[class*="-CardImageWrapper"],
+[class*="-CardGridContainer"] [class*="-CardImage"] {
+  background-image: none !important;
+  background-color: var(--fill) !important;
+}
+[class*="-CardGridContainer"] [class*="-Card "] {
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--r-field) !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+[class*="-CardGridContainer"] [class*="-Card "]:hover {
+  border-color: var(--rule-strong) !important;
+}
+/* Library buttons: navy for upload / use, quiet grey for the rest. */
+[class*="-LibraryTop"] button,
+[class*="-ButtonsContainer"] button {
+  border-radius: var(--r-field) !important;
+  font: 500 13px/1 var(--font) !important;
+  box-shadow: none !important;
+}
+[class*="-UploadButton"],
+[class*="-InsertButton"] {
+  background: var(--navy) !important;
+  color: #fff !important;
+}
+[class*="-InsertButton"][class*="disabled"] {
+  background: var(--fill) !important;
+  color: var(--faint) !important;
+}
+[class*="-ActionButton"] {
+  background: var(--fill) !important;
+  color: var(--text) !important;
+}
+[class*="-CardText"] {
+  color: var(--muted) !important;
+  font-size: 12.5px !important;
 }
