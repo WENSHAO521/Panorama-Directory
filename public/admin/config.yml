@@ -145,6 +145,8 @@ collections:
                 label: 论文 / 著作
                 summary: "{{fields.label}} · {{fields.title}}"
                 fields:
+                  # Helper only (public/admin/doi.js): fills the fields below and is dropped on save.
+                  - { name: doi, label: DOI 自动填写, widget: doi, required: false, hint: "粘贴 DOI 后点“自动填写”，题目、作者、期刊、年份和链接会自动识别（Crossref / DataCite）" }
                   - { name: label, label: 标签, widget: string, hint: "通常是年份，也可以是 SSCI、AHCI、KCI、Book" }
                   - { name: title, label: 题目, widget: string }
                   - { name: authors, label: 作者, widget: string, required: false, hint: "例如 Shi, Q. (First Author)" }
