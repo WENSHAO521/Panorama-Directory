@@ -58,6 +58,9 @@ const scholars = defineCollection({
       summary: z.string(),
       keywords: z.array(z.string()),
       email: opt(z.email()),
+      // Extra addresses that may sign in at /edit to update this entry (the
+      // public email above always can). Never shown on the site.
+      loginEmails: z.preprocess((v) => (v === null ? undefined : v), z.array(z.email()).optional()),
       identifiers: z
         .array(z.object({ label: z.string(), value: z.string(), href: z.url() }))
         .optional(),

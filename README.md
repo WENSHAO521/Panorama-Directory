@@ -3,7 +3,8 @@
 Editorial directory for Panorama Scholarly Group, served at
 <https://profiles.panorama-sg.com>. Built with [Astro](https://astro.build) and
 Tailwind CSS v4, deployed as static assets on Cloudflare Workers (a small Worker
-only handles GitHub sign-in for the `/admin` editor).
+only handles sign-in for the `/admin` editor and the scholar self-service
+editor at `/edit`).
 
 ## Working on the site
 
@@ -75,6 +76,35 @@ do both in reverse.
   `npm run dev` and open <http://localhost:4321/admin/index.html>; saves go to
   your local files.
 
+### Scholars editing their own page (`/edit`)
+
+Scholars sign in at <https://profiles.panorama-sg.com/edit> with a one-time
+link mailed to them (Alibaba Cloud DirectMail). If an entry lists that address,
+in its `email` or under `loginEmails` (“自助编辑登录邮箱” in `/admin`), they
+can edit that entry only. Otherwise they get a blank form and can submit a
+new entry, which records the address in `loginEmails`. Each submission is
+committed by a GitHub App to the same branch and pull request Decap uses for
+that entry (`cms/scholars/<slug>`, labelled pending review), so it shows up in
+the `/admin` Workflow tab and goes live only when you publish it. Scholars
+cannot change `order`, `role`, `email` or `loginEmails` on an existing entry,
+and can write only their own entry and a new photo for it; the Worker
+enforces this. A new entry's position is the applicant's own wording, so
+check it (and the person) before publishing.
+
+- Code: `worker/selfservice.ts` (routes, sessions), `worker/entry.ts`
+  (frontmatter and what a scholar may change; keep in sync with
+  `src/content.config.ts`), `worker/github.ts` (GitHub App),
+  `worker/mail.ts` (Alibaba Cloud DirectMail), `src/pages/edit.astro` +
+  `src/scripts/edit.ts` (the form).
+- Secrets on the Cloudflare project: `SESSION_SECRET` (any long random
+  string), `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY` (the downloaded .pem as
+  is), `ALIYUN_ACCESS_KEY_ID`, `ALIYUN_ACCESS_KEY_SECRET`. Vars in
+  `wrangler.jsonc` (on Pages, set them in the dashboard): `ALIYUN_DM_ACCOUNT`
+  (the DirectMail sender address) and `ALIYUN_DM_REGION`. Until all are set,
+  `/edit` says sign-in is not available.
+- GitHub App: repository permissions Contents and Pull requests (read and
+  write), installed on this repository only.
+
 ## Design
 
 Publisher editorial-board style (in the manner of Springer Nature or De Gruyter
@@ -107,6 +137,6 @@ src/
   styles/global.css   design tokens, fonts, shared utilities
 public/               files served as-is (fonts, favicon, verification file)
 public/admin/         the /admin editor (Decap CMS) and its config
-worker/               Worker entry and GitHub sign-in for /admin
-functions/            the same sign-in as a Pages Function
+worker/               Worker entry, GitHub sign-in for /admin, /edit back end
+functions/            the same routes as Pages Functions
 ```

@@ -98,6 +98,15 @@ collections:
         widget: string
         required: false
         pattern: ['^$|^[^@\s]+@[^@\s]+\.[^@\s]+$', "请输入有效邮箱，或留空"]
+      - name: loginEmails
+        label: 自助编辑登录邮箱
+        label_singular: 登录邮箱
+        widget: list
+        required: false
+        field: { name: address, label: 邮箱, widget: string, pattern: ['^[^@\s]+@[^@\s]+\.[^@\s]+$', "请输入有效邮箱"] }
+        hint: >-
+          学者可在 /edit 用这些邮箱（以及上面的公开邮箱）登录，只能编辑自己的页面，提交后出现在“工作流”里等你发布。
+          不在网站上显示，但仓库是公开的。学者不能修改职位、排序、邮箱和这一栏。
       - name: identifiers
         label: 学术 ID（ORCID 等）
         label_singular: 学术 ID
