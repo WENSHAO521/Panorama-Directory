@@ -62,7 +62,12 @@ export async function handleSelfService(request: Request, env: SelfServiceEnv): 
   } catch (e) {
     if (e instanceof InvalidEntry) return json({ error: "invalid", message: e.message }, 400);
     console.error(e);
-    return json({ error: "server", message: e instanceof GitHubError ? "GitHub request failed" : "Unexpected error" }, 500);
+    // GitHub's own error text (status, endpoint, its message) holds no
+    // secrets and says which setting is wrong, so pass it on.
+    return json(
+      { error: "server", message: e instanceof GitHubError ? `GitHub request failed: ${e.message.slice(0, 300)}` : "Unexpected error" },
+      500,
+    );
   }
 }
 
