@@ -143,7 +143,7 @@ collections:
             types:
               - name: publication
                 label: 论文 / 著作
-                summary: "{{fields.label}} · {{fields.title}}"
+                summary: "{{fields.label}} | {{fields.title}} | {{fields.authors}} | {{fields.venue}}"
                 fields:
                   # Helper only (public/admin/doi.js): fills the fields below and is dropped on save.
                   - { name: doi, label: DOI 自动填写, widget: doi, required: false, hint: "粘贴 DOI 后点“自动填写”，题目、作者、期刊、年份和链接会自动识别（Crossref / DataCite）" }
