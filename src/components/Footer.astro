@@ -16,6 +16,7 @@ const year = new Date().getFullYear();
         <li><a class="hover:text-paper" href="/directory">Editorial Board</a></li>
         <li><a class="hover:text-paper" href="/about">About</a></li>
         <li><a class="hover:text-paper" href="/contact">Contact</a></li>
+        <li><a class="hover:text-paper" href="/edit">Board member sign-in</a></li>
       </ul>
     </div>
     <div class="md:col-span-4">
@@ -28,6 +29,9 @@ const year = new Date().getFullYear();
     </div>
   </div>
   <div class="border-t border-paper/10">
-    <p class="wrap py-5 text-xs text-paper/60">© {year} Panorama Scholarly Group Editorial Directory. All rights reserved.</p>
+    <div class="wrap flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-5 text-xs text-paper/60">
+      <p>© {year} Panorama Scholarly Group Editorial Directory. All rights reserved.</p>
+      <a class="hover:text-paper" href="/admin/">Editorial office</a>
+    </div>
   </div>
 </footer>

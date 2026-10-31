@@ -38,7 +38,7 @@ export async function handleSelfService(request: Request, env: SelfServiceEnv): 
   const route = `${request.method} ${url.pathname}`;
   try {
     // Names only (never values), so the admin can see what is left to set.
-    const missing = (["SESSION_SECRET", "GITHUB_APP_ID", "GITHUB_APP_PRIVATE_KEY", "ALIYUN_ACCESS_KEY_ID", "ALIYUN_ACCESS_KEY_SECRET", "ALIYUN_DM_ACCOUNT"] as const).filter(
+    const missing = (["SESSION_SECRET", "GITHUB_APP_ID", "GITHUB_APP_PRIVATE_KEY", "ALIYUN_DM_ACCOUNT", "ALIYUN_SMTP_PASSWORD"] as const).filter(
       (name) => !env[name],
     );
     if (missing.length || !githubConfigured(env) || !mailConfigured(env)) {

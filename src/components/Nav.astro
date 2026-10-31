@@ -52,9 +52,12 @@ const links = [
       }
     </ul>
 
-    <a href="/directory" class="btn-secondary hidden lg:inline-flex" aria-label="Search the editorial board">
-      <Icon name="search" /> Search members
-    </a>
+    <div class="hidden items-center gap-2 md:flex">
+      <a href="/directory" class="btn-secondary hidden lg:inline-flex" aria-label="Search the editorial board">
+        <Icon name="search" /> Search members
+      </a>
+      <a href="/edit" class="btn-primary">Member sign-in</a>
+    </div>
 
     <details class="group md:hidden">
       <summary class="flex size-10 cursor-pointer list-none items-center justify-center rounded-md border border-rule [&::-webkit-details-marker]:hidden" aria-label="Menu">
@@ -76,6 +79,9 @@ const links = [
             </li>
           ))
         }
+        <li class="py-3">
+          <a href="/edit" class="btn-primary w-full">Member sign-in</a>
+        </li>
       </ul>
     </details>
   </nav>

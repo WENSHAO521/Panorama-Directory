@@ -79,7 +79,7 @@ do both in reverse.
 ### Scholars editing their own page (`/edit`)
 
 Scholars sign in at <https://profiles.panorama-sg.com/edit> with a one-time
-link mailed to them (Alibaba Cloud DirectMail). If an entry lists that address,
+link mailed to them (Alibaba Cloud DirectMail, over SMTP). If an entry lists that address,
 in its `email` or under `loginEmails` (“自助编辑登录邮箱” in `/admin`), they
 can edit that entry only. Otherwise they get a blank form and can submit a
 new entry, which records the address in `loginEmails`. Each submission is
@@ -94,14 +94,15 @@ check it (and the person) before publishing.
 - Code: `worker/selfservice.ts` (routes, sessions), `worker/entry.ts`
   (frontmatter and what a scholar may change; keep in sync with
   `src/content.config.ts`), `worker/github.ts` (GitHub App),
-  `worker/mail.ts` (Alibaba Cloud DirectMail), `src/pages/edit.astro` +
+  `worker/mail.ts` (SMTP to DirectMail), `src/pages/edit.astro` +
   `src/scripts/edit.ts` (the form).
 - Secrets on the Cloudflare project: `SESSION_SECRET` (any long random
   string), `GITHUB_APP_ID`, `GITHUB_APP_PRIVATE_KEY` (the downloaded .pem as
-  is), `ALIYUN_ACCESS_KEY_ID`, `ALIYUN_ACCESS_KEY_SECRET`. Vars in
-  `wrangler.jsonc` (on Pages, set them in the dashboard): `ALIYUN_DM_ACCOUNT`
-  (the DirectMail sender address) and `ALIYUN_DM_REGION`. Until all are set,
-  `/edit` says sign-in is not available.
+  is), `ALIYUN_SMTP_PASSWORD` (the SMTP password of the DirectMail sender).
+  Var in `wrangler.jsonc` (on Pages, set it in the dashboard):
+  `ALIYUN_DM_ACCOUNT`, the sender address. Mail goes out over SMTP on port
+  465 to `smtpdm.aliyun.com`; set `ALIYUN_SMTP_HOST` if DirectMail is in
+  another region. Until all are set, `/edit` lists what is missing.
 - GitHub App: repository permissions Contents and Pull requests (read and
   write), installed on this repository only.
 

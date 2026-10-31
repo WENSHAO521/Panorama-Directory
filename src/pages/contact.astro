@@ -37,6 +37,14 @@ const channels = [
   </section>
 
   <div class="wrap grid gap-10 py-10 md:py-14 lg:grid-cols-12">
+    <div class="flex flex-col gap-4 rounded-lg border border-brand-600/20 bg-brand-50 p-5 sm:flex-row sm:items-center sm:justify-between lg:col-span-12">
+      <div>
+        <h2 class="mb-1 text-base font-semibold text-brand">Board members: update your own profile</h2>
+        <p class="text-sm text-muted">Sign in with a one-time link sent to your email. New members can submit a profile there too; every change is reviewed before it goes live.</p>
+      </div>
+      <a href="/edit" class="btn-primary shrink-0">Edit your profile</a>
+    </div>
+
     <div class="grid gap-4 md:grid-cols-3 lg:col-span-12">
       {
         channels.map((c) => (
