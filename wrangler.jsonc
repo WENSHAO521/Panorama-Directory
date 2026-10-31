@@ -12,8 +12,8 @@
     "ALLOWED_GITHUB_USERS": "WENSHAO521",
     // Alibaba Cloud DirectMail (邮件推送) sender for the /edit login links:
     // the 发信地址 set up in the DirectMail console, and its region
-    // (cn-hangzhou, ap-southeast-1, ...). Fill in after setting it up.
-    "ALIYUN_DM_ACCOUNT": "",
+    // (cn-hangzhou, ap-southeast-1, ...).
+    "ALIYUN_DM_ACCOUNT": "noreply@mail.panorama-sg.com",
     "ALIYUN_DM_REGION": "cn-hangzhou"
   },
   "observability": {
