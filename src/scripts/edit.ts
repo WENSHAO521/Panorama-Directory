@@ -111,12 +111,17 @@ const FIELDS: Field[] = [
   },
 ];
 
+const ROLE: Field = {
+  key: "role",
+  label: "Your position on the board · 您在编委会的职位",
+  kind: "string",
+  required: true,
+  hint: "e.g. Editorial Board Member, Executive Editorial Board Member. 例如 Editorial Board Member。",
+};
+
 const ERRORS: Record<string, string> = {
-  no_match: "This address is not on file for any scholar. Use the address the directory has for you, or write to us. 该邮箱未在名录中登记。",
-  expired: "Sign-in took too long or was interrupted. Please try again. 登录超时，请重试。",
+  removed: "This address no longer has access to that page. Please write to us. 该邮箱已无权编辑这一页，请联系编辑部。",
   link_expired: "This sign-in link has expired. Request a new one below. 链接已过期，请重新获取。",
-  google_failed: "Google sign-in did not complete, or the address is not verified. 谷歌登录未完成。",
-  google_off: "Google sign-in is not available. 谷歌登录未开通。",
   not_configured: "Sign-in is not available yet. 登录功能尚未开通。",
 };
 
@@ -293,20 +298,18 @@ async function start() {
     $("status").classList.remove("hidden");
     return;
   }
-  if (!data.signedIn) return showSignIn(data.methods ?? {}, error ?? data.error);
+  if (data.error === "not_configured") return showSignIn(false, "not_configured");
+  if (!data.signedIn) return showSignIn(true, error ?? data.error);
   showEditor(data);
 }
 
-function showSignIn(methods: { google?: boolean; email?: boolean }, error?: string) {
+function showSignIn(available: boolean, error?: string) {
   $("signin").classList.remove("hidden");
   if (error) {
     $("signin-error").textContent = ERRORS[error] ?? ERRORS.not_configured;
     $("signin-error").classList.remove("hidden");
   }
-  if (methods.google) $("google").classList.replace("hidden", "flex");
-  if (methods.email) $("email-form").classList.remove("hidden");
-  if (methods.google && methods.email) $("or").classList.replace("hidden", "flex");
-  if (!methods.google && !methods.email) $("none").classList.remove("hidden");
+  $(available ? "email-form" : "none").classList.remove("hidden");
 
   $("email-form").addEventListener("submit", async (e) => {
     e.preventDefault();
@@ -322,25 +325,35 @@ function showSignIn(methods: { google?: boolean; email?: boolean }, error?: stri
   });
 }
 
-function showEditor(data: { email: string; slug: string; data: Obj; body: string; photoUrl: string | null; pending: unknown }) {
+function showEditor(data: { email: string; slug: string | null; isNew: boolean; data: Obj; body: string; photoUrl: string | null; pending: unknown }) {
   $("editor").classList.remove("hidden");
   $("who").textContent = data.email;
-  $<HTMLAnchorElement>("view").href = `/board/${data.slug}`;
+  if (!data.isNew) {
+    $<HTMLAnchorElement>("view").href = `/board/${data.slug}`;
+    $("view-wrap").classList.remove("hidden");
+  }
+  if (data.isNew && !data.pending) $("new").classList.remove("hidden");
   if (data.pending) $("pending").classList.remove("hidden");
 
   const form = $("form");
   const d = data.data;
+  // A new profile states its own position; the editorial office confirms it.
+  const role = data.isNew ? bind(ROLE, d.role) : undefined;
 
-  // Admin-only details, shown for reference.
-  const fixed = h("dl", { class: "grid gap-x-8 gap-y-3 rounded-md bg-surface p-4 text-sm sm:grid-cols-3" });
-  for (const [label, value] of [
-    ["Position · 职位", d.role],
-    ["Public email · 公开邮箱", d.email || "—"],
-    ["Listing order · 排序", d.order],
-  ]) fixed.append(h("div", {}, h("dt", { class: "label" }, String(label)), h("dd", { class: "mt-0.5 break-words" }, String(value ?? "—"))));
-  form.append(
-    section("Set by the editorial office · 由编辑部设置", fixed, "To change these, write to directory.admin@panorama-sg.com. 如需修改，请联系编辑部。"),
-  );
+  if (role) {
+    form.append(section("Position · 职位", role.el, "The editorial office will confirm it. 编辑部审核时会确认。"));
+  } else {
+    // Admin-only details, shown for reference.
+    const fixed = h("dl", { class: "grid gap-x-8 gap-y-3 rounded-md bg-surface p-4 text-sm sm:grid-cols-3" });
+    for (const [label, value] of [
+      ["Position · 职位", d.role],
+      ["Public email · 公开邮箱", d.email || "—"],
+      ["Listing order · 排序", d.order],
+    ]) fixed.append(h("div", {}, h("dt", { class: "label" }, String(label)), h("dd", { class: "mt-0.5 break-words" }, String(value ?? "—"))));
+    form.append(
+      section("Set by the editorial office · 由编辑部设置", fixed, "To change these, write to directory.admin@panorama-sg.com. 如需修改，请联系编辑部。"),
+    );
+  }
 
   // Photo
   const img = h("img", { alt: "", class: "aspect-[4/5] w-32 rounded-md bg-surface object-cover" }) as HTMLImageElement;
@@ -375,7 +388,7 @@ function showEditor(data: { email: string; slug: string; data: Obj; body: string
   $("save").addEventListener("click", async () => {
     const status = $("save-status");
     const button = $<HTMLButtonElement>("save");
-    const entry = { ...(main.get() as Obj), identifiers: ids.get(), sections: sections.get() };
+    const entry = { ...(main.get() as Obj), identifiers: ids.get(), sections: sections.get(), ...(role ? { role: role.get() } : {}) };
     button.disabled = true;
     status.textContent = "Submitting… 提交中…";
     const res = await fetch("/api/me", {
@@ -393,6 +406,7 @@ function showEditor(data: { email: string; slug: string; data: Obj; body: string
       status.textContent = "Nothing has changed. 没有修改。";
     } else {
       photo = undefined;
+      $("new").classList.add("hidden");
       $("pending").classList.remove("hidden");
       status.textContent = "Submitted. The editorial office will review it before it goes live. 已提交，审核通过后上线。";
     }

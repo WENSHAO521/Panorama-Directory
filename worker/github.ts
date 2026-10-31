@@ -111,6 +111,10 @@ export class Repo {
     return pulls[0];
   }
 
+  async openPulls(base: string): Promise<PullRequest[]> {
+    return this.request<PullRequest[]>("GET", `/repos/${this.full}/pulls?state=open&base=${encodeURIComponent(base)}&per_page=100`);
+  }
+
   /**
    * One commit on `branch` with the given files. If the branch has an open
    * pull request the commit goes on top of it; otherwise the branch is
@@ -173,6 +177,7 @@ export interface PullRequest {
   number: number;
   html_url: string;
   updated_at: string;
+  head: { ref: string; sha: string };
 }
 
 async function installationToken(env: GitHubEnv, repo: string): Promise<string> {
