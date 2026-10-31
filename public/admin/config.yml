@@ -164,16 +164,17 @@ collections:
                 summary: "{{fields.title}}"
                 fields:
                   - { name: title, label: 标题, widget: string }
-                  - { name: meta, label: 副信息（每行一条）, widget: list, required: false, field: { name: line, label: 内容, widget: string } }
-                  - { name: text, label: 段落, widget: list, required: false, field: { name: line, label: 段落, widget: text } }
-                  - { name: list, label: 要点列表, widget: list, required: false, field: { name: line, label: 要点, widget: string } }
+                  - { name: meta, label: 副信息, label_singular: 副信息, widget: list, required: false, hint: 每条单独一行显示, field: { name: line, label: 副信息, widget: string } }
+                  - { name: text, label: 段落, label_singular: 段落, widget: list, required: false, field: { name: line, label: 段落, widget: text } }
+                  - { name: list, label: 要点列表, label_singular: 要点, widget: list, required: false, field: { name: line, label: 要点, widget: string } }
                   - name: entries
                     label: 条目（标题 + 说明）
+                    label_singular: 条目
                     widget: list
                     required: false
                     fields:
                       - { name: title, label: 标题, widget: string }
                       - { name: meta, label: 说明, widget: string }
-                  - { name: icon, label: 图标名（可选）, widget: string, required: false, hint: 当前设计不显示图标，可留空。 }
+                  - { name: icon, label: 图标名, widget: string, required: false, hint: 当前设计不显示图标，可留空。 }
                   - { name: centered, label: 居中, widget: boolean, required: false, default: false }
       - { name: body, label: 个人简介（正文）, widget: markdown, buttons: [bold, italic, link, bulleted-list, numbered-list], editor_components: [] }
