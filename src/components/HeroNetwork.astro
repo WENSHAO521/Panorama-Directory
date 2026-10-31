@@ -26,7 +26,7 @@
     let visible = true;
 
     const seed = () => {
-      const count = Math.round(Math.min(90, Math.max(28, (w * h) / 11000)));
+      const count = Math.round(Math.min(60, Math.max(24, (w * h) / 14000)));
       nodes = Array.from({ length: count }, (_, i) => {
         const hub = i % 9 === 0;
         return {
@@ -42,7 +42,7 @@
     };
 
     const resize = () => {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
       const rect = canvas.getBoundingClientRect();
       w = rect.width;
       h = rect.height;
@@ -53,23 +53,35 @@
       draw(0);
     };
 
+    // Links are batched into a few opacity buckets: one stroke() per bucket
+    // instead of one per link keeps each frame cheap on slow phones.
+    const BUCKETS = 4;
     const draw = (t: number) => {
       ctx.clearRect(0, 0, w, h);
+      const paths = Array.from({ length: BUCKETS * 2 }, () => new Path2D());
       for (let i = 0; i < nodes.length; i++) {
         const a = nodes[i];
         for (let j = i + 1; j < nodes.length; j++) {
           const b = nodes[j];
-          const d = Math.hypot(a.x - b.x, a.y - b.y);
-          if (d > LINK) continue;
-          const k = 1 - d / LINK;
-          ctx.strokeStyle = `rgba(160, 196, 232, ${(a.hub || b.hub ? 0.42 : 0.26) * k})`;
-          ctx.lineWidth = a.hub || b.hub ? 0.9 : 0.6;
-          ctx.beginPath();
-          ctx.moveTo(a.x, a.y);
-          ctx.lineTo(b.x, b.y);
-          ctx.stroke();
+          const dx = a.x - b.x;
+          const dy = a.y - b.y;
+          const d2 = dx * dx + dy * dy;
+          if (d2 > LINK * LINK) continue;
+          const k = 1 - Math.sqrt(d2) / LINK;
+          const path = paths[(a.hub || b.hub ? BUCKETS : 0) + Math.min(BUCKETS - 1, Math.floor(k * BUCKETS))];
+          path.moveTo(a.x, a.y);
+          path.lineTo(b.x, b.y);
         }
       }
+      for (let i = 0; i < paths.length; i++) {
+        const hub = i >= BUCKETS;
+        const k = ((i % BUCKETS) + 0.5) / BUCKETS;
+        ctx.strokeStyle = `rgba(160, 196, 232, ${(hub ? 0.42 : 0.26) * k})`;
+        ctx.lineWidth = hub ? 0.9 : 0.6;
+        ctx.stroke(paths[i]);
+      }
+      const dots = new Path2D();
+      const hubs = new Path2D();
       for (const n of nodes) {
         if (n.hub) {
           const pulse = 0.5 + 0.5 * Math.sin(t / 900 + n.phase);
@@ -77,25 +89,36 @@
           ctx.beginPath();
           ctx.arc(n.x, n.y, n.r + 4 + 3 * pulse, 0, Math.PI * 2);
           ctx.fill();
+          hubs.moveTo(n.x + n.r, n.y);
+          hubs.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+        } else {
+          dots.moveTo(n.x + n.r, n.y);
+          dots.arc(n.x, n.y, n.r, 0, Math.PI * 2);
         }
-        ctx.fillStyle = n.hub ? "rgba(214, 232, 255, 0.9)" : "rgba(180, 208, 238, 0.65)";
-        ctx.beginPath();
-        ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
-        ctx.fill();
       }
+      ctx.fillStyle = "rgba(180, 208, 238, 0.65)";
+      ctx.fill(dots);
+      ctx.fillStyle = "rgba(214, 232, 255, 0.9)";
+      ctx.fill(hubs);
     };
 
+    // The drift is slow, so 30 frames a second looks the same as 60 and
+    // halves the work; speeds are per 60 Hz frame, hence the * 2.
+    const FRAME_MS = 1000 / 30;
+    let last = 0;
     const step = (t: number) => {
+      frame = requestAnimationFrame(step);
+      if (t - last < FRAME_MS - 2) return;
+      last = t;
       for (const n of nodes) {
-        n.x += n.vx;
-        n.y += n.vy;
+        n.x += n.vx * 2;
+        n.y += n.vy * 2;
         if (n.x < -20) n.x = w + 20;
         else if (n.x > w + 20) n.x = -20;
         if (n.y < -20) n.y = h + 20;
         else if (n.y > h + 20) n.y = -20;
       }
       draw(t);
-      frame = requestAnimationFrame(step);
     };
 
     const run = () => {

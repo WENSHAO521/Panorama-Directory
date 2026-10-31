@@ -548,14 +548,17 @@ body {
 }
 
 /* Photo cards: the Editorial Board page in miniature. */
-[class*="-CardsGrid"]:has(> [class*="-GridCard"]) {
+[class*="-CardsGrid"]:has(> [class*="-GridCard-"]) {
   display: grid !important;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   gap: 14px;
   margin: 0 !important;
   padding: 0 !important;
 }
-[class*="-GridCard"] {
+/* Trailing dash: the card is "-GridCard-card", its link "-GridCardLink".
+   Matching the link too gave it a second border that stopped short of the
+   row height, so cards with a one-line role showed a strip below them. */
+[class*="-GridCard-"] {
   width: auto !important;
   height: auto !important;
   margin: 0 !important;
@@ -565,14 +568,14 @@ body {
   box-shadow: none !important;
   overflow: hidden;
 }
-[class*="-GridCard"]:hover {
+[class*="-GridCard-"]:hover {
   border-color: var(--navy-600) !important;
   box-shadow: 0 0 0 1px var(--navy-600) !important;
 }
 [class*="-GridCardLink"] {
   display: flex !important;
   flex-direction: column;
-  height: 100%;
+  height: 100% !important;
 }
 [class*="-GridCard"] [class*="-StyledImage"] {
   order: -1;
@@ -584,6 +587,7 @@ body {
   background-color: #d9dde2;
 }
 [class*="-GridCard"] [class*="-CardBody"] {
+  flex-grow: 1;
   height: auto !important;
   padding: 9px 11px 11px !important;
 }
@@ -963,7 +967,7 @@ body {
   [class*="-CollectionContainer"] {
     margin-top: 16px !important;
   }
-  [class*="-CardsGrid"]:has(> [class*="-GridCard"]) {
+  [class*="-CardsGrid"]:has(> [class*="-GridCard-"]) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
