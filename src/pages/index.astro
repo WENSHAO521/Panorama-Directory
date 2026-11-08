@@ -9,7 +9,18 @@ import { getScholars, getBoard, publicationCount } from "../lib/scholars";
 
 const scholars = await getScholars();
 const board = await getBoard();
-const chiefs = board.find((g) => g.key === "chief")?.members ?? [];
+const allChiefs = board.find((g) => g.key === "chief")?.members ?? [];
+// The home page shows one row: members with a photo first (editors-in-chief
+// before co- and deputy editors), then the rest in editorial order.
+const HOME_CHIEFS = 4;
+const chiefs = [...allChiefs]
+  .sort(
+    (a, b) =>
+      Number(!a.data.photo) - Number(!b.data.photo) ||
+      Number(!/^editor-in-chief/i.test(a.data.role)) - Number(!/^editor-in-chief/i.test(b.data.role)) ||
+      a.data.order - b.data.order,
+  )
+  .slice(0, HOME_CHIEFS);
 
 // Research fields ranked by how many members list them.
 const fieldCounts = new Map<string, { label: string; n: number }>();
@@ -91,7 +102,7 @@ const journals = [
 
   <section class="wrap py-14 md:py-20">
     <SectionHeading kicker="Leadership" title="Editors-in-Chief">
-      <a href="/directory" class="link text-sm font-medium">View full editorial board</a>
+      <a href="/directory" class="link text-sm font-medium">View all {allChiefs.length} editors-in-chief and the full board</a>
     </SectionHeading>
     <div class="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
       {chiefs.map((s, i) => <ScholarCard scholar={s} eager={i < 4} />)}
