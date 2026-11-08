@@ -90,7 +90,7 @@ collections:
           含 “Editorial Board Member” → 编委；其他 → 编辑部与研究。
       - { name: affiliation, label: 单位, widget: string }
       - { name: headline, label: 个人页副标题, widget: string, required: false, hint: 与单位不同时显示在个人页姓名下方，可留空。 }
-      - { name: photo, label: 照片, widget: image, choose_url: false, hint: 建议竖版人像，网站统一按 4:5 居中裁切。 }
+      - { name: photo, label: 照片, widget: image, choose_url: false, required: false, hint: 建议竖版人像，网站统一按 4:5 居中裁切；留空则显示空白头像。 }
       - { name: summary, label: 简介（一两句）, widget: text, hint: 显示在名录卡片和搜索结果里。 }
       - { name: keywords, label: 研究方向关键词, widget: list, hint: 用英文逗号分隔，例如 Dance Education, Choreography }
       - name: email

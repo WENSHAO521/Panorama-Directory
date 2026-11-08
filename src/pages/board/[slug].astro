@@ -31,7 +31,7 @@ const anchors = [
   { id: "biography", title: "Biography" },
   ...d.sections.map((sec, i) => ({ id: `section-${i + 1}`, title: sec.title ?? "Areas of Expertise" })),
 ];
-const og = await getImage({ src: d.photo, width: 800, format: "jpg" });
+const og = d.photo ? await getImage({ src: d.photo, width: 800, format: "jpg" }) : undefined;
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -41,7 +41,7 @@ const jsonLd = {
   jobTitle: d.role,
   affiliation: { "@type": "Organization", name: d.affiliation },
   description: d.summary,
-  image: new URL(og.src, Astro.site).href,
+  ...(og && { image: new URL(og.src, Astro.site).href }),
   url: new URL(`/board/${scholar.id}`, Astro.site).href,
   knowsAbout: d.keywords,
   sameAs: d.identifiers?.map((i) => i.href),
@@ -49,7 +49,7 @@ const jsonLd = {
 };
 ---
 
-<BaseLayout title={`${d.name} | Academic Profile`} description={d.summary} active="directory" image={og.src} type="profile">
+<BaseLayout title={`${d.name} | Academic Profile`} description={d.summary} active="directory" image={og?.src} type="profile">
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
   <div class="border-b border-rule bg-surface">

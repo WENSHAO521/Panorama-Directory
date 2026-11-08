@@ -54,7 +54,8 @@ const scholars = defineCollection({
       affiliation: z.string(),
       // Shown under the name on the profile when it differs from affiliation.
       headline: opt(z.string()),
-      photo: image(),
+      // Optional: members without a photo get a blank avatar (Portrait.astro).
+      photo: z.preprocess(blank, image().optional()),
       summary: z.string(),
       keywords: z.array(z.string()),
       email: opt(z.email()),

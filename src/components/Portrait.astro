@@ -1,5 +1,6 @@
 ---
 // A scholar's photo in a fixed 4:5 frame, the same size in every row.
+// Without a photo it shows a blank avatar in the same frame.
 import { Image } from "astro:assets";
 import type { Scholar } from "../lib/scholars";
 
@@ -16,13 +17,28 @@ const { name, photo } = scholar.data;
 ---
 
 <div class:list={["aspect-[4/5] shrink-0 self-start overflow-hidden bg-surface", className]}>
-  <Image
-    src={photo}
-    alt={`Portrait of ${name}`}
-    widths={widths}
-    sizes={sizes}
-    class="h-full w-full object-cover"
-    loading={loading}
-    fetchpriority={fetchpriority}
-  />
+  {
+    photo ? (
+      <Image
+        src={photo}
+        alt={`Portrait of ${name}`}
+        widths={widths}
+        sizes={sizes}
+        class="h-full w-full object-cover"
+        loading={loading}
+        fetchpriority={fetchpriority}
+      />
+    ) : (
+      <svg
+        viewBox="0 0 80 100"
+        class="h-full w-full text-rule"
+        role="img"
+        aria-label={`No photo of ${name}`}
+        fill="currentColor"
+      >
+        <circle cx="40" cy="38" r="15" />
+        <path d="M12 100c0-17 12.5-30 28-30s28 13 28 30z" />
+      </svg>
+    )
+  }
 </div>
