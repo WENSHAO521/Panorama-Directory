@@ -80,6 +80,10 @@ sections:
         title: Health Nexus
         meta:
           - Youth Editorial Board Member
+      - type: card
+        title: "Health Nexus: Digital Health and Medical AI"
+        meta:
+          - Deputy Editor
 ---
 
 Siheng Ma is a psychiatry and mental health researcher currently completing his Master of Medicine at Xi'an Medical University. Building upon a robust clinical foundation established during his MBBS, his scholarship focuses on adolescent depression, non-invasive neuromodulation, digital mental health, and translational clinical research.

@@ -49,6 +49,8 @@ sections:
         entries:
           - title: Silence
             meta: Editorial Board Member
+          - title: Health Nexus
+            meta: Early-Career Editorial Board Member
 ---
 
 Yunze Lu is a researcher at China Pharmaceutical University, focusing on epidemiology and data-driven biomedical research. His work centers on the integration of advanced statistical methodologies with biological and clinical insights, aiming to uncover the complex mechanisms underlying human diseases.

@@ -56,6 +56,19 @@ sections:
         title: Choreography & Stage Design
         text:
           - Extensive background in dance performance and choreography. Experienced in integrating projection mapping and motion visualization for digital interactive stage design.
+  - eyebrow: Academic Leadership
+    title: Current Appointments
+    layout: grid
+    columns: 2
+    items:
+      - type: card
+        title: "Global Review of Humanities, Arts, and Society"
+        meta:
+          - Co-Editor-in-Chief
+      - type: card
+        title: "Journal of Dance and Embodied Structure"
+        meta:
+          - Editor-in-Chief
 ---
 
 Xinhuan Zeng is a Ph.D. candidate in the Department of Dance at Hanyang University, where he also earned his Bachelor's and Master's degrees in Dance. His pioneering research explores the intersection of artificial intelligence and dance science, specifically focusing on the visualization and analysis of dance movements (such as Chinese classical dance and ballet) using advanced AI technologies like OpenPose and Mediapipe.

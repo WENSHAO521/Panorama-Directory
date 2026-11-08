@@ -255,7 +255,8 @@ async function saveEntry(request: Request, url: URL, env: SelfServiceEnv): Promi
     next.photo = PHOTO_PREFIX + file;
   }
 
-  if (!next.photo) return json({ error: "invalid", message: "Please add a photo." }, 400);
+  // New applicants need a photo; imported members without one keep a blank avatar.
+  if (entry.isNew && !next.photo) return json({ error: "invalid", message: "Please add a photo." }, 400);
 
   const text = serializeEntry(next, body);
   if (text === entry.text && !files.length) return json({ ok: true, unchanged: true });
