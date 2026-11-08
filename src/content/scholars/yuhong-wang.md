@@ -1,10 +1,10 @@
 ---
 name: Yuhong Wang
 order: 13
-role: Deputy Editor-in-Chief
+role: Associate Editor
 affiliation: North China Electric Power University
 photo: ../../assets/scholars/yuhong-wang.jpg
-summary: Deputy Editor-in-Chief for AI & Future Society. Researcher specializing in psychoanalysis and the philosophy of technology, bridging cutting-edge AI issues with Lacanian theory.
+summary: Associate Editor for AI & Future Society. Researcher specializing in psychoanalysis and the philosophy of technology, bridging cutting-edge AI issues with Lacanian theory.
 keywords:
   - Psychoanalysis
   - Philosophy of Technology
@@ -54,7 +54,7 @@ sections:
         title: Editorial Board Roles
         entries:
           - title: AI & Future Society
-            meta: Deputy Editor-in-Chief
+            meta: Associate Editor
           - title: Psychoanalysis, Culture & Society
             meta: Peer Reviewer
       - type: card
@@ -73,4 +73,4 @@ Yuhong Wang is a researcher affiliated with the School of Foreign Languages at N
 
 His research provides unique, critical insights into cutting-edge technological paradigms. This is exemplified by his recent contribution to *Science*, where he published an eLetter analyzing the reasoning pathways of artificial intelligence (DeepSeek) through the lens of Lacanian psychoanalysis. His broader academic output includes publications and accepted manuscripts in prominent international journals across philosophy and psychiatry, such as *Philosophies*, *Philosophy & Technology*, and the *International Journal of Social Psychiatry*.
 
-Demonstrating significant academic leadership, he serves as the Deputy Editor-in-Chief for *AI & Future Society*. He also contributes to the global scholarly community as a peer reviewer for *Psychoanalysis, Culture & Society*, and maintains active memberships with the Chinese Information Processing Society of China (CIPS), the Universal Esperanto Association (UEA), and the American Psychological Association (APA).
+Demonstrating significant academic leadership, he serves as an Associate Editor for *AI & Future Society*. He also contributes to the global scholarly community as a peer reviewer for *Psychoanalysis, Culture & Society*, and maintains active memberships with the Chinese Information Processing Society of China (CIPS), the Universal Esperanto Association (UEA), and the American Psychological Association (APA).
