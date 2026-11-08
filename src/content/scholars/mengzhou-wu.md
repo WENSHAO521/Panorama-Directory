@@ -47,6 +47,10 @@ sections:
         title: International Review of Education & Learning Sciences
         meta:
           - Editor-in-Chief
+      - type: card
+        title: Contemporary Review of Political Thought
+        meta:
+          - Editor-in-Chief
 ---
 
 Mengzhou Wu is a dedicated researcher specializing in Marxist Principles and the study of Chinese Modernization. Her scholarly work provides critical insights into the intersection of classical philosophical foundations and contemporary socio-political frameworks in modern China.

@@ -83,6 +83,8 @@ sections:
         entries:
           - title: Silence
             meta: Editorial Board Member
+          - title: Health Nexus
+            meta: Early-Career Editorial Board Member
 ---
 
 Sichen Xia is a medical researcher in Stomatology at Nanjing Medical University, China, currently undertaking his clinical training at the Affiliated Stomatological Hospital.

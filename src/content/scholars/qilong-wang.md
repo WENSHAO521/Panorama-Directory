@@ -108,6 +108,8 @@ sections:
             meta: Editorial Board Member
           - title: Health Nexus
             meta: Youth Editorial Board Member
+          - title: "Health Nexus: Digital Health and Medical AI"
+            meta: Editor-in-Chief
       - type: card
         title: Invited Peer Reviewer
         entries:
