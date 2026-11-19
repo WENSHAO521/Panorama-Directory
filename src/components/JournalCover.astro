@@ -1,31 +1,30 @@
 ---
-// A journal's real cover (served by the publishing platform), with the
-// number of board members on this site who serve it. The one rich object on
-// the home page; everything around it stays quiet. If the image cannot load,
-// the frame keeps the journal's colour and title so nothing breaks.
+// A journal's front cover with the number of board members on this site who
+// serve it. The one rich object on the home page; everything around it stays
+// quiet. Covers live in src/assets/journals/<key>.jpg.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+const covers = import.meta.glob<{ default: ImageMetadata }>("../assets/journals/*.jpg", { eager: true });
+
 interface Props {
+  key: string;
   title: string;
-  cover: string;
-  thumb?: string;
   cloth: string;
   count: number;
   href: string;
 }
-const { title, cover, thumb, cloth, count, href } = Astro.props;
+const { key, title, cloth, count, href } = Astro.props;
+const cover = covers[`../assets/journals/${key}.jpg`]?.default;
 ---
 
 <a href={href} class="cover group block" aria-label={`${title}: ${count} board members`}>
   <span class="cover-frame" style={`--cloth:${cloth}`}>
-    <span class="cover-fallback" aria-hidden="true">{title}</span>
-    <img
-      src={cover}
-      data-fallback={thumb || undefined}
-      alt=""
-      loading="eager"
-      decoding="async"
-      referrerpolicy="no-referrer"
-      onerror="const f=this.dataset.fallback;if(f){this.removeAttribute('data-fallback');this.src=f}else this.remove()"
-    />
+    {
+      cover && (
+        <Image src={cover} alt="" widths={[240, 360, 480, 720]} sizes="(min-width: 1024px) 168px, (min-width: 640px) 25vw, 45vw" loading="eager" />
+      )
+    }
   </span>
   <span class="mt-3 block text-sm leading-snug font-medium text-ink italic transition-colors group-hover:text-brand-600">{title}</span>
   <span class="tabular mt-1 block text-xs text-faint">{count} {count === 1 ? "editor" : "editors"} listed</span>
@@ -35,40 +34,29 @@ const { title, cover, thumb, cloth, count, href } = Astro.props;
   .cover-frame {
     position: relative;
     display: block;
-    aspect-ratio: 5 / 7;
+    aspect-ratio: 210 / 297;
     overflow: hidden;
-    border-radius: 4px;
+    border-radius: 3px;
     background: var(--cloth);
     box-shadow:
       0 1px 2px rgb(0 0 0 / 0.1),
       0 16px 32px -16px rgb(0 0 0 / 0.35);
     transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
   }
-  .cover-frame img {
+  .cover-frame :global(img) {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Issue covers are full wraps (back, spine, front): show the front,
-       which is the right-hand part. Front-only thumbnails are unaffected. */
-    object-position: right center;
   }
   /* A faint spine highlight so the cover reads as a printed object. */
   .cover-frame::after {
     content: "";
     position: absolute;
     inset: 0;
-    background: linear-gradient(90deg, rgb(0 0 0 / 0.18) 0, rgb(255 255 255 / 0.12) 3px, transparent 8px);
+    background: linear-gradient(90deg, rgb(0 0 0 / 0.14) 0, rgb(255 255 255 / 0.1) 3px, transparent 8px);
     pointer-events: none;
-  }
-  .cover-fallback {
-    position: absolute;
-    inset: 16px;
-    color: rgb(255 255 255 / 0.9);
-    font-size: 15px;
-    line-height: 1.25;
-    font-weight: 500;
   }
   .cover:hover .cover-frame {
     transform: translateY(-4px);

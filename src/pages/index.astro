@@ -97,7 +97,7 @@ const stats = [
           {
             journals.map((j) => (
               <li>
-                <JournalCover title={j.title} cover={j.cover} thumb={j.thumb} cloth={j.cloth} count={j.count} href={`/directory?q=${encodeURIComponent(j.match)}`} />
+                <JournalCover key={j.key} title={j.title} cloth={j.cloth} count={j.count} href={`/directory?q=${encodeURIComponent(j.match)}`} />
               </li>
             ))
           }
