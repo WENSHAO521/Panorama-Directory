@@ -2,7 +2,7 @@
 name: Qin Shi
 order: 5
 role: Editorial Board Member
-affiliation: Panorama Scholarly Group
+affiliation: "College of Art and Culture, Kangwon National University, Chuncheon, South Korea; Panorama Scholarly Group"
 photo: ../../assets/scholars/qin-shi.jpg
 summary: Editorial Board Member for GRHAS. Award-winning choreographer and researcher focusing on the cultural inheritance, pedagogy, and digital preservation of Chinese ethnic and folk dances.
 keywords:
