@@ -24,11 +24,11 @@ sections:
         meta:
           - Guest Editor
       - type: card
-        title: "Global Review of Humanities, Arts, & Society"
+        title: "Global Review of Humanities, Arts, and Society"
         meta:
           - International Advisory Board Member
 ---
 
 Yosuke Uchiyama is affiliated with the Department of Urban and Regional Planning, Chulalongkorn University, Bangkok, Thailand. Their research interests include Digital Platform Governance, Transportation Policy, Gig Economy and Sociology of Labour.
 
-Within Panorama Scholarly Group, Yosuke Uchiyama serves as Editorial Board Member of *PoliEcoM Administration Review*, Guest Editor of *Journal of Law, Psychology, and Communication Studies* and International Advisory Board Member of *Global Review of Humanities, Arts, & Society*.
+Within Panorama Scholarly Group, Yosuke Uchiyama serves as Editorial Board Member of *PoliEcoM Administration Review*, Guest Editor of *Journal of Law, Psychology, and Communication Studies* and International Advisory Board Member of *Global Review of Humanities, Arts, and Society*.

@@ -3,7 +3,7 @@ name: "Youqian Zhong"
 order: 169
 role: Editorial Board Member
 affiliation: "College of Liberal Arts, Jinan University, Guangzhou, China"
-summary: "Editorial Board Member of Global Review of Humanities, Arts, & Society, and on the boards of 1 more Panorama journal. Research interests: Literary Theory and Cultural History."
+summary: "Editorial Board Member of Global Review of Humanities, Arts, and Society, and on the boards of 1 more Panorama journal. Research interests: Literary Theory and Cultural History."
 keywords:
   - "Literary Theory"
   - "Cultural History"
@@ -14,7 +14,7 @@ sections:
     columns: 2
     items:
       - type: card
-        title: "Global Review of Humanities, Arts, & Society"
+        title: "Global Review of Humanities, Arts, and Society"
         meta:
           - Editorial Board Member
       - type: card
@@ -25,4 +25,4 @@ sections:
 
 Youqian Zhong is affiliated with the College of Liberal Arts, Jinan University, Guangzhou, China. Their research interests include Literary Theory and Cultural History.
 
-Within Panorama Scholarly Group, Youqian Zhong serves as Editorial Board Member of *Global Review of Humanities, Arts, & Society* and Guest Editor of *Journal of Law, Psychology, and Communication Studies*.
+Within Panorama Scholarly Group, Youqian Zhong serves as Editorial Board Member of *Global Review of Humanities, Arts, and Society* and Guest Editor of *Journal of Law, Psychology, and Communication Studies*.

@@ -2,7 +2,7 @@
 name: Jiale Li
 nativeName: 李嘉乐
 order: 99
-role: Editor-in-chief
+role: Editor-in-Chief
 affiliation: Midwest University
 photo: ../../assets/scholars/jiale-li-20261031073025.jpg
 summary: >-

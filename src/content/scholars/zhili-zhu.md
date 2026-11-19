@@ -1,7 +1,7 @@
 ---
 name: Zhili Zhu
 order: 8
-role: Assistant Editor & Reviewer
+role: Assistant Editor
 affiliation: Xiamen University
 photo: ../../assets/scholars/zhili-zhu.jpg
 summary: Assistant Editor and Reviewer for GRHAS. Postgraduate researcher specializing in Marxist spatial theory, Foreign Marxism, urban Marxism, and contemporary radical left-wing thought.
@@ -44,7 +44,7 @@ sections:
       - type: card
         title: Global Review of Humanities, Arts, and Society
         meta:
-          - Assistant Editor & Reviewer
+          - Assistant Editor
 ---
 
 Zhili Zhu is a postgraduate researcher in Marxist Philosophy at Xiamen University, studying under the supervision of Professor Lin Mi. His academic foundation is deeply rooted in the study of Marxist Basic Principles and Foreign Marxism.

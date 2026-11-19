@@ -2,7 +2,7 @@
 name: "Jacques Diderot"
 order: 208
 role: Editor-in-Chief
-affiliation: "Silence"
+affiliation: "Silence Editorial Office"
 summary: "Editor-in-Chief of Silence. Research interests: Artificial Intelligence."
 keywords:
   - "Artificial Intelligence"

@@ -22,11 +22,11 @@ sections:
         meta:
           - Co-Editor-in-Chief
       - type: card
-        title: "Global Review of Humanities, Arts, & Society"
+        title: "Global Review of Humanities, Arts, and Society"
         meta:
           - Associate Editor
 ---
 
 Haoqi Luo is affiliated with the School of Public Policy & Administration, Chongqing University, Chongqing, China. Their research interests include Public Policy Analysis, Urban Governance, Local Government Management, Policy Evaluation, Public Management and Social Policy.
 
-Within Panorama Scholarly Group, Haoqi Luo serves as Co-Editor-in-Chief of *PoliEcoM Administration Review* and Associate Editor of *Global Review of Humanities, Arts, & Society*.
+Within Panorama Scholarly Group, Haoqi Luo serves as Co-Editor-in-Chief of *PoliEcoM Administration Review* and Associate Editor of *Global Review of Humanities, Arts, and Society*.

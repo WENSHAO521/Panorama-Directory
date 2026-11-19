@@ -3,7 +3,7 @@ name: "Jiaxin Li"
 order: 198
 role: Editorial Board Member
 affiliation: "Department of Musicology, Gnessin Russian Academy of Music, Moscow, Russia"
-summary: "Editorial Board Member of Resonance. Research interests: Musicology, Comparative Music Studies and Cross-Cultural Music Research."
+summary: "Editorial Board Member of Resonance: Journal of Global Music Studies. Research interests: Musicology, Comparative Music Studies and Cross-Cultural Music Research."
 keywords:
   - "Musicology"
   - "Comparative Music Studies"
@@ -15,11 +15,11 @@ sections:
     columns: 2
     items:
       - type: card
-        title: "Resonance"
+        title: "Resonance: Journal of Global Music Studies"
         meta:
           - Editorial Board Member
 ---
 
 Jiaxin Li is affiliated with the Department of Musicology, Gnessin Russian Academy of Music, Moscow, Russia. Their research interests include Musicology, Comparative Music Studies and Cross-Cultural Music Research.
 
-Within Panorama Scholarly Group, Jiaxin Li serves as Editorial Board Member of *Resonance*.
+Within Panorama Scholarly Group, Jiaxin Li serves as Editorial Board Member of *Resonance: Journal of Global Music Studies*.
