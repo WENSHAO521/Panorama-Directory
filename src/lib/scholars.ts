@@ -73,18 +73,23 @@ export async function getBoard() {
 
 export const orcidOf = (s: Scholar) => s.data.identifiers?.find((i) => i.label === "ORCID");
 
-/** The group's journals. Covers are the thumbnails on panorama-sg.com/journals
- *  (re-copy the URLs there if the platform is rebuilt and they change);
+/** The group's journals. cover is the full-size current-issue cover from the
+ *  journal platform where there is one (GRHAS has none, so its panorama-sg.com
+ *  thumbnail); thumb is the panorama-sg.com/journals thumbnail, used if cover fails;
  *  cloth is the colour shown while a cover loads or if it fails. */
 export const JOURNALS = [
   { key: "grhas", title: "Global Review of Humanities, Arts, and Society", match: "Global Review of Humanities", cloth: "#0e2a47",
-    cover: "https://panorama-sg.com/_astro/GRAHS.BtHTsGij_Zoz362.webp" },
+    cover: "https://panorama-sg.com/_astro/GRAHS.BtHTsGij_Zoz362.webp",
+    thumb: "" },
   { key: "health-nexus", title: "Health Nexus", match: "Health Nexus", cloth: "#1f4a3d",
-    cover: "https://panorama-sg.com/_astro/HealthNexus.DCOkz9l5_Z11Civ3.webp" },
+    cover: "https://journals.panorama-sg.com/public/journals/8/cover_issue_33_en.jpg",
+    thumb: "https://panorama-sg.com/_astro/HealthNexus.DCOkz9l5_Z11Civ3.webp" },
   { key: "silence", title: "Silence", match: "Silence", cloth: "#5e2230",
-    cover: "https://panorama-sg.com/_astro/Silence.IojSUrbS_Z1mER13.webp" },
+    cover: "https://journals.panorama-sg.com/public/journals/16/cover_issue_36_en.jpg",
+    thumb: "https://panorama-sg.com/_astro/Silence.IojSUrbS_Z1mER13.webp" },
   { key: "jscc", title: "Journal of Social Cognition and Communication", match: "Social Cognition and Communication", cloth: "#7a5420",
-    cover: "https://panorama-sg.com/_astro/JSCC.DfN3giso_tTPst.webp" },
+    cover: "https://journals.panorama-sg.com/public/journals/19/cover_issue_39_en.jpg",
+    thumb: "https://panorama-sg.com/_astro/JSCC.DfN3giso_tTPst.webp" },
 ] as const;
 
 /** Journals a scholar's profile names (summary, body or appointments). */
