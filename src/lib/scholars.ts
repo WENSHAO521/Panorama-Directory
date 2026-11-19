@@ -40,10 +40,10 @@ export function inline(text: string): string {
 
 /** Editorial board tiers, in display order, and the roles that belong to each. */
 export const TIERS = [
-  { key: "chief", title: "Editors-in-Chief", match: /editor-in-chief/i },
-  { key: "executive", title: "Executive Editorial Board", match: /^executive editorial board/i },
-  { key: "board", title: "Editorial Board", match: /editorial board member/i },
-  { key: "office", title: "Editorial Office & Research", match: /./ },
+  { key: "chief", title: "Editors-in-chief", match: /editor-in-chief/i },
+  { key: "executive", title: "Executive editorial board", match: /^executive editorial board/i },
+  { key: "board", title: "Editorial board", match: /editorial board member/i },
+  { key: "office", title: "Editorial office and research", match: /./ },
 ] as const;
 
 export type TierKey = (typeof TIERS)[number]["key"];

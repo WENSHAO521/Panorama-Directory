@@ -4,8 +4,8 @@ import ScholarCard from "../components/ScholarCard.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import SearchIndex from "../components/SearchIndex.astro";
 import Icon from "../components/Icon.astro";
-import HeroNetwork from "../components/HeroNetwork.astro";
-import { getScholars, getBoard, publicationCount } from "../lib/scholars";
+import Portrait from "../components/Portrait.astro";
+import { getScholars, getBoard, publicationCount, orcidOf, profileUrl } from "../lib/scholars";
 
 const scholars = await getScholars();
 const board = await getBoard();
@@ -33,6 +33,11 @@ for (const s of scholars)
     fieldCounts.set(key, e);
   }
 const fields = [...fieldCounts.values()].sort((a, b) => b.n - a.n || a.label.localeCompare(b.label));
+// Hero excerpt: the members of one well-populated field, photos first.
+const field = fields.find((f) => f.label.toLowerCase() === "public health") ?? fields[0];
+const fieldMembers = scholars
+  .filter((s) => s.data.keywords.some((k) => k.toLowerCase() === field.label.toLowerCase()))
+  .sort((a, b) => Number(!a.data.photo) - Number(!b.data.photo) || a.data.order - b.data.order);
 const stats = [
   { value: scholars.length, label: "Board members" },
   { value: new Set(scholars.map((s) => s.data.affiliation)).size, label: "Affiliations" },
@@ -52,47 +57,94 @@ const journals = [
   description="Discover the international network of scholars, principal investigators and editorial board members of Panorama Scholarly Group."
   active="home"
 >
-  <section class="relative isolate bg-brand text-paper">
-    <HeroNetwork />
-    <div class="wrap relative z-20 py-14 md:py-20">
-      <p class="mb-3 text-xs font-semibold tracking-[0.08em] text-paper/70 uppercase">Official Researcher Database</p>
-      <h1 class="mb-5 max-w-3xl text-4xl font-semibold tracking-tight md:text-[3.5rem] md:leading-[1.08]">Global Editorial Directory</h1>
-      <p class="mb-10 max-w-2xl text-lg leading-relaxed text-paper/80">
-        Discover the international network of scholars, principal investigators, and editorial board members driving rigorous peer review across our publishing group.
-      </p>
+  <section class="bg-brand text-paper">
+    <div class="wrap grid items-center gap-12 py-16 md:py-24 lg:grid-cols-12 lg:gap-16">
+      <div class="min-w-0 lg:col-span-6">
+        <p class="mb-4 text-sm text-paper/70">Panorama Scholarly Group · Editorial directory</p>
+        <h1 class="mb-6 text-4xl leading-[1.08] font-medium tracking-[-0.02em] md:text-[3.5rem] md:leading-[1.05] md:tracking-[-0.03em]">
+          Who edits and reviews for Panorama journals
+        </h1>
+        <p class="mb-10 max-w-xl text-lg leading-relaxed text-paper/75">
+          Editors-in-chief, board members and editorial staff, each with their affiliation, research fields and ORCID iD.
+        </p>
 
-      <div class="relative max-w-2xl" id="home-search">
-        <label for="global-search" class="sr-only">Search scholars by name, affiliation, research field or publication</label>
-        <div class="flex items-center rounded-md bg-paper pr-1.5 pl-4 text-ink shadow-lg focus-within:ring-4 focus-within:ring-paper/25">
-          <Icon name="search" class="text-faint" />
-          <input
-            type="search"
-            id="global-search"
-            autocomplete="off"
-            role="combobox"
-            aria-expanded="false"
-            aria-controls="search-results"
-            aria-autocomplete="list"
-            class="w-full border-0 bg-transparent px-3 py-3.5 text-base placeholder:text-faint focus:ring-0 focus:outline-none"
-            placeholder="Search by name, institution, research field or publication"
-          />
-          <kbd class="mr-2 hidden rounded-sm border border-rule px-1.5 py-0.5 font-mono text-xs text-faint md:block">/</kbd>
+        <div class="relative max-w-xl" id="home-search">
+          <label for="global-search" class="sr-only">Search scholars by name, affiliation, research field or publication</label>
+          <div class="flex h-12 items-center rounded-md bg-paper pr-2 pl-4 text-ink focus-within:ring-4 focus-within:ring-paper/20">
+            <Icon name="search" class="text-faint" />
+            <input
+              type="search"
+              id="global-search"
+              autocomplete="off"
+              role="combobox"
+              aria-expanded="false"
+              aria-controls="search-results"
+              aria-autocomplete="list"
+              class="h-full w-full border-0 bg-transparent px-3 text-base focus:ring-0 focus:outline-none"
+              placeholder="Name, institution or research field"
+            />
+            <kbd class="hidden h-6 min-w-6 items-center justify-center rounded-sm border border-rule px-1.5 font-mono text-xs text-faint md:inline-flex">/</kbd>
+          </div>
+          <ul
+            id="search-results"
+            role="listbox"
+            class="absolute top-full right-0 left-0 z-40 mt-2 hidden max-h-[26rem] overflow-y-auto rounded-lg border border-rule bg-paper text-ink shadow-[0_8px_24px_rgb(0_0_0/0.12)]"
+          >
+          </ul>
         </div>
-        <ul
-          id="search-results"
-          role="listbox"
-          class="absolute top-full right-0 left-0 z-40 mt-1.5 hidden max-h-[26rem] overflow-y-auto rounded-md border border-rule bg-paper text-ink shadow-xl"
-        >
-        </ul>
+        <a href="/directory" class="mt-5 inline-flex items-center gap-1 text-sm text-paper/75 transition-colors hover:text-paper">
+          Browse the full board by role <Icon name="chevron_right" class="text-base!" />
+        </a>
       </div>
+
+      <!-- A real excerpt of the directory: one research field and its members. -->
+      <figure class="min-w-0 lg:col-span-6" aria-label={`Members working on ${field.label}`}>
+        <div class="rounded-xl bg-paper text-ink shadow-[0_24px_48px_-16px_rgb(0_0_0/0.45)]">
+          <div class="flex items-baseline justify-between gap-4 border-b border-rule px-6 pt-5 pb-4">
+            <div>
+              <p class="label mb-1">Research field</p>
+              <p class="text-lg font-medium">{field.label}</p>
+            </div>
+            <p class="tabular text-sm text-faint">{fieldMembers.length} members</p>
+          </div>
+          <ul class="divide-y divide-rule">
+            {
+              fieldMembers.slice(0, 4).map((s) => {
+                const orcid = orcidOf(s);
+                return (
+                  <li class="relative flex items-center gap-4 px-6 py-4 transition-colors hover:bg-surface">
+                    <Portrait scholar={s} widths={[80, 120]} sizes="40px" class="w-10 rounded-sm" />
+                    <div class="min-w-0 grow">
+                      <p class="truncate font-medium">
+                        <a href={profileUrl(s)} class="after:absolute after:inset-0">{s.data.name}</a>
+                      </p>
+                      <p class="truncate text-sm text-muted">{s.data.role} · {s.data.affiliation}</p>
+                    </div>
+                    {orcid && (
+                      <span class="hidden shrink-0 items-center gap-1.5 text-xs text-faint sm:inline-flex">
+                        <span class="size-2 rounded-full bg-orcid" aria-hidden="true" />
+                        <span class="idnum">{orcid.value}</span>
+                      </span>
+                    )}
+                  </li>
+                );
+              })
+            }
+          </ul>
+          <a href={`/directory?q=${encodeURIComponent(field.label)}`} class="flex items-center justify-between rounded-b-xl border-t border-rule px-6 py-4 text-sm text-brand-600 transition-colors hover:bg-surface">
+            All members in {field.label}
+            <Icon name="chevron_right" class="text-base!" />
+          </a>
+        </div>
+      </figure>
     </div>
-    <div class="relative z-10 border-t border-paper/10 bg-brand/75">
+    <div class="border-t border-paper/10">
       <dl class="wrap grid grid-cols-2 md:grid-cols-4">
         {
           stats.map((s, i) => (
-            <div class:list={["py-5 md:py-6", i % 2 === 1 && "pl-5 md:pl-0", i > 0 && "md:border-l md:border-paper/10 md:pl-6", i > 1 && "border-t border-paper/10 md:border-t-0"]}>
-              <dd class="tabular text-2xl font-semibold md:text-3xl">{s.value}</dd>
-              <dt class="text-sm text-paper/70">{s.label}</dt>
+            <div class:list={["flex flex-col-reverse gap-1 py-6", i % 2 === 1 && "pl-6 md:pl-0", i > 0 && "md:border-l md:border-paper/10 md:pl-6", i > 1 && "border-t border-paper/10 md:border-t-0"]}>
+              <dt class="text-sm text-paper/65">{s.label}</dt>
+              <dd class="tabular text-3xl font-medium">{s.value}</dd>
             </div>
           ))
         }
@@ -100,9 +152,9 @@ const journals = [
     </div>
   </section>
 
-  <section class="wrap py-14 md:py-20">
-    <SectionHeading kicker="Leadership" title="Editors-in-Chief">
-      <a href="/directory" class="link text-sm font-medium">View all {allChiefs.length} editors-in-chief and the full board</a>
+  <section class="wrap py-16 md:py-24">
+    <SectionHeading kicker="Leadership" title="Editors-in-chief">
+      <a href="/directory" class="link text-sm">All {allChiefs.length} editors-in-chief</a>
     </SectionHeading>
     <div class="grid gap-4 sm:grid-cols-2 md:gap-6 lg:grid-cols-4">
       {chiefs.map((s, i) => <ScholarCard scholar={s} eager={i < 4} />)}
@@ -110,14 +162,14 @@ const journals = [
   </section>
 
   <section class="border-y border-rule bg-surface">
-    <div class="wrap grid gap-12 py-14 md:py-20 lg:grid-cols-12">
+    <div class="wrap grid gap-12 py-16 md:py-24 lg:grid-cols-12">
       <div class="lg:col-span-7">
         <SectionHeading kicker="Browse" title="Research fields" />
         <ul class="flex flex-wrap gap-2">
           {
             fields.slice(0, 28).map((f) => (
               <li>
-                <a href={`/directory?q=${encodeURIComponent(f.label)}`} class="tag gap-1.5 py-1 text-sm text-ink transition-colors hover:border-brand-600 hover:text-brand-600">
+                <a href={`/directory?q=${encodeURIComponent(f.label)}`} class="tag h-8 gap-2 px-3 text-sm text-ink transition-colors duration-150 hover:border-ink/25 hover:bg-surface">
                   {f.label}
                   {f.n > 1 && <span class="tabular text-faint">{f.n}</span>}
                 </a>
@@ -131,9 +183,9 @@ const journals = [
         <ul class="divide-y divide-rule rounded-lg border border-rule bg-paper">
           {
             journals.map((j) => (
-              <li class="flex items-center gap-3 px-4 py-3.5">
-                <Icon name="menu_book" class="text-brand-600" />
-                <span class="text-sm font-medium italic">{j}</span>
+              <li class="flex items-center gap-3 px-5 py-4">
+                <Icon name="menu_book" class="text-faint" />
+                <span class="text-sm italic">{j}</span>
               </li>
             ))
           }
@@ -145,18 +197,21 @@ const journals = [
     </div>
   </section>
 
-  <section class="wrap py-14 md:py-20">
-    <div class="flex flex-col gap-6 rounded-lg border border-rule p-6 md:flex-row md:items-center md:justify-between md:p-10">
-      <div class="max-w-2xl">
+  <section class="wrap py-16 md:py-24">
+    <div class="grid gap-8 border-t-2 border-brand pt-8 md:grid-cols-12 md:gap-12">
+      <div class="md:col-span-7">
         <p class="kicker mb-2">Join the network</p>
-        <h2 class="mb-2 text-2xl font-semibold tracking-tight">Panorama Scholarly Group Editorial Directory</h2>
-        <p class="text-muted">
+        <h2 class="mb-3 text-2xl font-medium tracking-tight md:text-[1.75rem]">Joining the editorial board</h2>
+        <p class="max-w-xl leading-relaxed text-muted">
           If you are an academic interested in joining our editorial board or have inquiries regarding our scholarly network, please contact the directory administration.
         </p>
       </div>
-      <div class="flex shrink-0 flex-col gap-2">
-        <a href="mailto:directory.admin@panorama-sg.com" class="btn-primary"><Icon name="mail" /> directory.admin@panorama-sg.com</a>
-        <a href="/contact" class="btn-secondary">All contact options</a>
+      <div class="flex flex-col items-start gap-3 md:col-span-5 md:items-end md:justify-end">
+        <div class="flex flex-wrap gap-3">
+          <a href="mailto:directory.admin@panorama-sg.com" class="btn-primary"><Icon name="mail" class="text-lg!" /> Email the directory office</a>
+          <a href="/contact" class="btn-secondary">All contact options</a>
+        </div>
+        <p class="text-sm text-faint">directory.admin@panorama-sg.com</p>
       </div>
     </div>
   </section>
@@ -192,11 +247,11 @@ const journals = [
       ? matches
           .map(
             (m, i) => `<li role="option" id="opt-${i}"><a href="${m.url}" class="block border-b border-rule px-4 py-3 transition-colors hover:bg-surface">
-              <span class="block font-semibold text-ink">${highlight(m.name, q)}</span>
+              <span class="block font-medium text-ink">${highlight(m.name, q)}</span>
               <span class="mt-0.5 block text-sm text-muted">${highlight(m.affiliation, q)}</span></a></li>`,
           )
           .join("") +
-        `<li><a href="/directory?q=${encodeURIComponent(q)}" class="block px-4 py-3 text-sm font-medium text-brand-600 hover:underline">Show all results in the directory →</a></li>`
+        `<li><a href="/directory?q=${encodeURIComponent(q)}" class="block px-4 py-3 text-sm font-medium text-brand-600 hover:underline">Show all results in the directory</a></li>`
       : `<li class="px-4 py-4 text-sm text-muted">No matches. Browse the <a class="link" href="/directory">full directory</a>.</li>`;
     active = -1;
     open(true);

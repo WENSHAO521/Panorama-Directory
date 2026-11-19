@@ -4,7 +4,7 @@ import Portrait from "../../components/Portrait.astro";
 import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProfileSection from "../../components/ProfileSection.astro";
-import ScholarCard from "../../components/ScholarCard.astro";
+import MemberEntry from "../../components/MemberEntry.astro";
 import SectionHeading from "../../components/SectionHeading.astro";
 import IdBadges from "../../components/IdBadges.astro";
 import Icon from "../../components/Icon.astro";
@@ -53,11 +53,11 @@ const jsonLd = {
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
   <div class="border-b border-rule bg-surface">
-    <nav class="wrap py-3" aria-label="Breadcrumb">
+    <nav class="wrap flex h-10 items-center" aria-label="Breadcrumb">
       <ol class="flex flex-wrap items-center gap-1 text-sm text-muted">
-        <li><a href="/" class="hover:text-brand-600">Home</a></li>
+        <li><a href="/" class="transition-colors hover:text-ink">Home</a></li>
         <li aria-hidden="true"><Icon name="chevron_right" class="text-base!" /></li>
-        <li><a href="/directory" class="hover:text-brand-600">Editorial Board</a></li>
+        <li><a href="/directory" class="transition-colors hover:text-ink">Editorial board</a></li>
         <li aria-hidden="true"><Icon name="chevron_right" class="text-base!" /></li>
         <li class="text-ink" aria-current="page">{d.name}</li>
       </ol>
@@ -70,19 +70,19 @@ const jsonLd = {
         scholar={scholar}
         widths={[288, 384, 576]}
         sizes="(min-width: 768px) 192px, 144px"
-        class="w-36 rounded-lg md:w-48"
+        class="w-36 rounded-md md:w-48"
         loading="eager"
         fetchpriority="high"
       />
       <div class="min-w-0">
         <p class="kicker mb-2">{d.role}</p>
-        <h1 class="mb-1 text-3xl font-semibold tracking-tight md:text-[2.75rem] md:leading-tight">
+        <h1 class="mb-2 text-3xl font-medium tracking-[-0.02em] md:text-[2.75rem] md:leading-tight">
           {d.name}
           {d.nativeName && <span class="ml-2 text-2xl font-normal text-muted md:text-3xl" lang="zh">{d.nativeName}</span>}
         </h1>
-        <p class="mb-4 text-lg text-muted">{d.headline ?? d.affiliation}</p>
+        <p class="mb-5 max-w-3xl text-lg text-muted">{d.headline ?? d.affiliation}</p>
         <div class="mb-5"><IdBadges scholar={scholar} size="md" email={false} /></div>
-        <ul class="mb-6 flex flex-wrap gap-1.5" aria-label="Research fields">
+        <ul class="mb-6 flex flex-wrap gap-2" aria-label="Research fields">
           {d.keywords.map((k) => <li class="tag">{k}</li>)}
         </ul>
         {
@@ -96,12 +96,12 @@ const jsonLd = {
     </div>
   </section>
 
-  <nav class="sticky top-16 z-40 border-b border-rule bg-paper md:top-[4.5rem]" aria-label="On this page">
+  <nav class="sticky top-16 z-40 border-b border-rule bg-paper" aria-label="On this page">
     <ul class="wrap no-scrollbar flex gap-6 overflow-x-auto text-sm">
       {
         anchors.map((a) => (
           <li class="shrink-0">
-            <a href={`#${a.id}`} class="block border-b-2 border-transparent py-3 text-muted transition-colors hover:border-brand-600 hover:text-brand-600">
+            <a href={`#${a.id}`} class="flex h-12 items-center border-b-2 border-transparent text-muted transition-colors hover:border-ink/25 hover:text-ink">
               {a.title}
             </a>
           </li>
@@ -111,7 +111,7 @@ const jsonLd = {
   </nav>
 
   <div class="wrap grid gap-12 py-10 md:py-14 lg:grid-cols-12">
-    <div class="space-y-14 lg:col-span-8">
+    <div class="space-y-16 lg:col-span-8">
       <section id="biography" class="scroll-mt-28">
         <SectionHeading kicker="Profile" title="Biography" />
         <div class="prose-bio max-w-[44rem] text-[1.0625rem] leading-relaxed text-ink/90">
@@ -122,9 +122,9 @@ const jsonLd = {
     </div>
 
     <aside class="lg:col-span-4">
-      <div class="space-y-5 lg:sticky lg:top-36">
+      <div class="space-y-4 lg:sticky lg:top-32">
         <div class="rounded-lg border border-rule">
-          <p class="border-b border-rule bg-surface px-5 py-3 text-sm font-semibold">Editorial role</p>
+          <p class="border-b border-rule px-5 py-3 text-sm font-medium">Editorial role</p>
           <dl class="space-y-3 px-5 py-4 text-sm">
             <div>
               <dt class="label">Position</dt>
@@ -143,13 +143,13 @@ const jsonLd = {
         {
           (d.identifiers || d.email) && (
             <div class="rounded-lg border border-rule">
-              <p class="border-b border-rule bg-surface px-5 py-3 text-sm font-semibold">Identifiers &amp; contact</p>
+              <p class="border-b border-rule px-5 py-3 text-sm font-medium">Identifiers and contact</p>
               <dl class="space-y-3 px-5 py-4 text-sm">
                 {d.identifiers?.map((id) => (
                   <div>
                     <dt class="label">{id.label}</dt>
                     <dd>
-                      <a href={id.href} target="_blank" rel="noopener noreferrer" class="link tabular font-mono text-[0.8125rem]">{id.value}</a>
+                      <a href={id.href} target="_blank" rel="noopener noreferrer" class="link idnum">{id.value}</a>
                     </dd>
                   </div>
                 ))}
@@ -170,12 +170,12 @@ const jsonLd = {
   </div>
 
   <section class="border-t border-rule bg-surface">
-    <div class="wrap py-12 md:py-16">
+    <div class="wrap py-16">
       <SectionHeading kicker="Editorial network" title="More from the board">
-        <a href="/directory" class="link text-sm font-medium">View full editorial board</a>
+        <a href="/directory" class="link text-sm">Full editorial board</a>
       </SectionHeading>
-      <div class="grid gap-4 sm:grid-cols-3 md:gap-6">
-        {more.map((s) => <ScholarCard scholar={s} />)}
+      <div class="grid gap-4 md:grid-cols-3">
+        {more.map((s) => <div class="rounded-lg border border-rule bg-paper px-5 transition-colors duration-150 hover:border-ink/25"><MemberEntry scholar={s} /></div>)}
       </div>
     </div>
   </section>

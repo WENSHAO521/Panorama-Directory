@@ -9,26 +9,17 @@ interface Props {
 const { active } = Astro.props;
 const links = [
   { key: "home", label: "Home", href: "/" },
-  { key: "directory", label: "Editorial Board", href: "/directory" },
+  { key: "directory", label: "Editorial board", href: "/directory" },
   { key: "about", label: "About", href: "/about" },
   { key: "contact", label: "Contact", href: "/contact" },
 ] as const;
 ---
 
-<div class="bg-brand text-paper/80">
-  <div class="wrap flex h-9 items-center justify-between text-xs">
-    <span class="truncate">Panorama Scholarly Group · Open Access Publishing</span>
-    <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="hidden shrink-0 items-center gap-1 hover:text-paper sm:inline-flex">
-      Journals &amp; publishing platform <Icon name="open_in_new" class="text-sm!" />
-    </a>
-  </div>
-</div>
-
-<header class="sticky top-0 z-50 border-b border-rule bg-paper">
-  <nav class="wrap flex h-16 items-center justify-between gap-6 md:h-[4.5rem]" aria-label="Main">
+<header class="sticky top-0 z-50 border-b border-rule bg-paper/95 backdrop-blur-sm supports-[backdrop-filter]:bg-paper/90">
+  <nav class="wrap flex h-16 items-center justify-between gap-6" aria-label="Main">
     <a href="/" class="flex shrink-0 items-center gap-3" aria-label="Panorama Scholarly Group Editorial Directory, home">
-      <Image src={logo} alt="" class="h-11 w-auto md:h-12" height={96} loading="eager" />
-      <span class="hidden border-l border-rule pl-3 text-sm leading-tight font-semibold text-brand lg:block">
+      <Image src={logo} alt="" class="h-10 w-auto" height={80} loading="eager" />
+      <span class="hidden border-l border-rule pl-3 text-sm leading-tight font-medium text-brand lg:block">
         Editorial<br />Directory
       </span>
     </a>
@@ -41,8 +32,8 @@ const links = [
               href={l.href}
               aria-current={active === l.key ? "page" : undefined}
               class:list={[
-                "flex items-center border-b-2 px-3 text-sm font-medium transition-colors",
-                active === l.key ? "border-brand text-brand" : "border-transparent text-muted hover:text-brand",
+                "flex items-center border-b-2 px-3 text-sm transition-colors duration-150",
+                active === l.key ? "border-brand font-medium text-brand" : "border-transparent text-muted hover:text-ink",
               ]}
             >
               {l.label}
@@ -52,11 +43,12 @@ const links = [
       }
     </ul>
 
-    <div class="hidden items-center gap-2 md:flex">
-      <a href="/directory" class="btn-secondary hidden lg:inline-flex" aria-label="Search the editorial board">
-        <Icon name="search" /> Search members
+    <div class="hidden items-center gap-5 md:flex">
+      <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="hidden items-center gap-1 text-sm text-muted transition-colors hover:text-ink lg:inline-flex">
+        Journals <Icon name="open_in_new" class="text-base! text-faint" />
       </a>
-      <a href="/edit" class="btn-primary">Member sign-in</a>
+      <a href="/edit" class="text-sm text-muted transition-colors hover:text-ink">Member sign-in</a>
+      <a href="/directory" class="btn-primary h-9">Search the board</a>
     </div>
 
     <details class="group md:hidden">
@@ -64,14 +56,14 @@ const links = [
         <Icon name="menu" class="group-open:hidden" />
         <Icon name="close" class="hidden group-open:inline-block" />
       </summary>
-      <ul class="absolute inset-x-0 top-full border-b border-rule bg-paper px-5 py-2 shadow-lg">
+      <ul class="absolute inset-x-0 top-full border-b border-rule bg-paper px-5 py-2 shadow-[0_8px_24px_rgb(0_0_0/0.06)]">
         {
           links.map((l) => (
             <li class="border-b border-rule last:border-0">
               <a
                 href={l.href}
                 aria-current={active === l.key ? "page" : undefined}
-                class:list={["flex items-center justify-between py-3.5 font-medium", active === l.key ? "text-brand" : "text-ink"]}
+                class:list={["flex h-12 items-center justify-between", active === l.key ? "font-medium text-brand" : "text-ink"]}
               >
                 {l.label}
                 <Icon name="chevron_right" class="text-faint" />
@@ -79,8 +71,14 @@ const links = [
             </li>
           ))
         }
-        <li class="py-3">
-          <a href="/edit" class="btn-primary w-full">Member sign-in</a>
+        <li class="border-t border-rule">
+          <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="flex h-12 items-center justify-between text-ink">
+            Journals <Icon name="open_in_new" class="text-faint" />
+          </a>
+        </li>
+        <li class="flex gap-2 py-3">
+          <a href="/directory" class="btn-primary flex-1">Search the board</a>
+          <a href="/edit" class="btn-secondary flex-1">Member sign-in</a>
         </li>
       </ul>
     </details>

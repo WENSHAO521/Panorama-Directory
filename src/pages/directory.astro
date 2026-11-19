@@ -17,39 +17,39 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
   active="directory"
 >
   <section class="border-b border-rule bg-surface">
-    <div class="wrap py-10 md:py-14">
+    <div class="wrap py-12 md:py-16">
       <p class="kicker mb-2">Editorial Directory</p>
-      <h1 class="mb-3 text-3xl font-semibold tracking-tight md:text-[2.75rem]">Editorial Board</h1>
+      <h1 class="mb-3 text-3xl font-medium tracking-[-0.02em] md:text-[2.75rem]">Editorial board</h1>
       <p class="max-w-2xl text-muted">
         Editors, board members and editorial staff of Panorama Scholarly Group journals, listed by editorial role.
       </p>
     </div>
   </section>
 
-  <div class="wrap grid gap-10 py-10 md:py-12 lg:grid-cols-12">
+  <div class="wrap grid gap-10 py-12 lg:grid-cols-12">
     <aside class="lg:col-span-3">
-      <div class="space-y-6 lg:sticky lg:top-28">
+      <div class="space-y-8 lg:sticky lg:top-24">
         <div>
-          <label for="directory-search" class="mb-2 block text-sm font-semibold">Search members</label>
-          <div class="flex items-center rounded-md border border-rule bg-paper px-3 focus-within:border-brand-600 focus-within:ring-2 focus-within:ring-brand-600/15">
+          <label for="directory-search" class="mb-2 block text-sm font-medium">Search members</label>
+          <div class="flex h-10 items-center rounded-md border border-rule bg-paper px-3 transition-colors focus-within:border-brand-600 focus-within:ring-2 focus-within:ring-brand-600/15">
             <Icon name="search" class="text-faint" />
             <input
               type="search"
               id="directory-search"
               autocomplete="off"
-              class="w-full border-0 bg-transparent px-2 py-2.5 text-sm placeholder:text-faint focus:ring-0 focus:outline-none"
-              placeholder="Name, institution, field…"
+              class="h-full w-full border-0 bg-transparent px-2 text-sm focus:ring-0 focus:outline-none"
+              placeholder="Name, institution or field"
             />
           </div>
         </div>
 
         <fieldset>
-          <legend class="mb-2 text-sm font-semibold">Editorial role</legend>
-          <ul class="space-y-1.5 text-sm">
+          <legend class="mb-2 text-sm font-medium">Editorial role</legend>
+          <ul class="space-y-1 text-sm">
             {
               board.map((g) => (
                 <li>
-                  <label class="flex cursor-pointer items-center gap-2.5">
+                  <label class="flex h-8 cursor-pointer items-center gap-3">
                     <input type="checkbox" class="tier-box size-4 rounded-sm border-rule text-brand focus:ring-brand-600/30" value={g.key} checked />
                     <span class="grow">{g.title}</span>
                     <span class="tabular text-faint">{g.members.length}</span>
@@ -61,7 +61,7 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
         </fieldset>
 
         <fieldset>
-          <legend class="mb-2 text-sm font-semibold">Name starts with</legend>
+          <legend class="mb-2 text-sm font-medium">Name starts with</legend>
           <div class="grid grid-cols-7 gap-1" id="alphabet-filter">
             <button type="button" data-letter="ALL" aria-pressed="true" class="alpha-btn col-span-2 h-8 rounded-sm text-xs font-medium">All</button>
             {
@@ -83,7 +83,7 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
         {
           board.map((g) => (
             <section class="tier" data-tier={g.key} aria-labelledby={`tier-${g.key}`}>
-              <h2 id={`tier-${g.key}`} class="flex items-baseline gap-2 border-b-2 border-brand pb-2 text-lg font-semibold text-brand">
+              <h2 id={`tier-${g.key}`} class="flex items-baseline gap-2 border-b-2 border-brand pb-2 text-lg font-medium text-brand">
                 {g.title}
                 <span class="tier-count tabular text-sm font-normal text-faint">({g.members.length})</span>
               </h2>
@@ -100,7 +100,7 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
       </div>
 
       <div id="empty-state" hidden class="rounded-lg border border-dashed border-rule px-6 py-14 text-center">
-        <p class="mb-2 font-semibold">No members match these filters.</p>
+        <p class="mb-2 font-medium">No members match these filters</p>
         <button type="button" id="reset-filters" class="link text-sm">Clear all filters</button>
       </div>
     </div>
@@ -112,12 +112,13 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
 <style>
   .alpha-btn {
     border: 1px solid var(--color-rule);
+    border-radius: var(--radius-sm);
     color: var(--color-ink);
-    transition: border-color 120ms, background-color 120ms, color 120ms;
+    transition: border-color 150ms var(--ease-out), background-color 150ms var(--ease-out), color 150ms var(--ease-out);
   }
   .alpha-btn:hover:not(:disabled) {
-    border-color: var(--color-brand-600);
-    color: var(--color-brand-600);
+    border-color: color-mix(in srgb, var(--color-ink) 25%, transparent);
+    background: var(--color-surface);
   }
   .alpha-btn[aria-pressed="true"] {
     background: var(--color-brand);

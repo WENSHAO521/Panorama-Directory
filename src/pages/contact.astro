@@ -4,17 +4,17 @@ import Icon from "../components/Icon.astro";
 
 const channels = [
   {
-    title: "Editorial Directory Administration",
+    title: "Directory administration",
     text: "For updates to scholar profiles, directory corrections, ORCID-related matters, or general directory questions.",
     email: "directory.admin@panorama-sg.com",
   },
   {
-    title: "Publishing & Institutional Partnerships",
+    title: "Publishing and institutional partnerships",
     text: "For inquiries relating to journal development, institutional cooperation, special issues, and scholarly publishing partnerships.",
     email: "partnerships@panorama-sg.com",
   },
   {
-    title: "General Contact",
+    title: "General contact",
     text: "For general editorial, policy, or administrative questions related to Panorama Scholarly Group.",
     email: "contact@panorama-sg.com",
   },
@@ -27,19 +27,19 @@ const channels = [
   active="contact"
 >
   <section class="border-b border-rule bg-surface">
-    <div class="wrap py-10 md:py-14">
+    <div class="wrap py-12 md:py-16">
       <p class="kicker mb-2">Administration & support</p>
-      <h1 class="mb-3 text-3xl font-semibold tracking-tight md:text-[2.75rem]">Contact Us</h1>
+      <h1 class="mb-3 text-3xl font-medium tracking-[-0.02em] md:text-[2.75rem]">Contact</h1>
       <p class="max-w-2xl text-muted">
         Whether you are a researcher with directory inquiries, an academic interested in editorial participation, or an institution seeking publishing or collaboration information, we welcome your correspondence.
       </p>
     </div>
   </section>
 
-  <div class="wrap grid gap-10 py-10 md:py-14 lg:grid-cols-12">
+  <div class="wrap grid gap-6 py-12 md:py-16 lg:grid-cols-12">
     <div class="flex flex-col gap-4 rounded-lg border border-brand-600/20 bg-brand-50 p-5 sm:flex-row sm:items-center sm:justify-between lg:col-span-12">
       <div>
-        <h2 class="mb-1 text-base font-semibold text-brand">Board members: update your own profile</h2>
+        <h2 class="mb-1 text-base font-medium text-brand">Board members can update their own profile</h2>
         <p class="text-sm text-muted">Sign in with a one-time link sent to your email. New members can submit a profile there too; every change is reviewed before it goes live.</p>
       </div>
       <a href="/edit" class="btn-primary shrink-0">Edit your profile</a>
@@ -49,10 +49,10 @@ const channels = [
       {
         channels.map((c) => (
           <div class="flex flex-col rounded-lg border border-rule p-5">
-            <h2 class="mb-2 text-base font-semibold">{c.title}</h2>
+            <h2 class="mb-2 text-base font-medium">{c.title}</h2>
             <p class="mb-5 flex-1 text-sm leading-relaxed text-muted">{c.text}</p>
             <a href={`mailto:${c.email}`} class="link inline-flex items-center gap-1.5 text-sm font-medium break-all">
-              <Icon name="mail" class="text-base! no-underline" />
+              <Icon name="mail" class="text-base! text-faint no-underline" />
               {c.email}
             </a>
           </div>
@@ -62,7 +62,7 @@ const channels = [
 
     <div class="rounded-lg border border-rule bg-surface p-6 md:p-8 lg:col-span-12 lg:grid lg:grid-cols-12 lg:gap-8">
       <div class="lg:col-span-5">
-        <h2 class="kicker mb-3">Administrative and operational contact</h2>
+        <h2 class="kicker mb-3">Administrative and operational office</h2>
         <address class="text-lg leading-snug not-italic">
           Panorama Scholarly Group<br />
           Room 1508, 15/F., Office Tower Two, Grand Plaza,<br />
@@ -74,7 +74,7 @@ const channels = [
           Selected journals within the group hold ISSNs assigned through the German ISSN Centre. Administrative and operational correspondence is coordinated through the contact information listed on this page.
         </p>
         <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
-          Visit Official Publishing Platform <Icon name="open_in_new" class="text-base!" />
+          Publishing platform <Icon name="open_in_new" class="text-base!" />
         </a>
       </div>
     </div>
