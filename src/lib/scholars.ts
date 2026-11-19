@@ -73,12 +73,18 @@ export async function getBoard() {
 
 export const orcidOf = (s: Scholar) => s.data.identifiers?.find((i) => i.label === "ORCID");
 
-/** The group's journals, with the cloth colour of their cover on the home page. */
+/** The group's journals. Covers are the thumbnails on panorama-sg.com/journals
+ *  (re-copy the URLs there if the platform is rebuilt and they change);
+ *  cloth is the colour shown while a cover loads or if it fails. */
 export const JOURNALS = [
-  { key: "grhas", title: "Global Review of Humanities, Arts, and Society", short: "GRHAS", match: "Global Review of Humanities", cloth: "#0e2a47" },
-  { key: "health-nexus", title: "Health Nexus", short: "HN", match: "Health Nexus", cloth: "#1f4a3d" },
-  { key: "silence", title: "Silence", short: "", match: "Silence", cloth: "#5e2230" },
-  { key: "jscc", title: "Journal of Social Cognition and Communication", short: "JSCC", match: "Social Cognition and Communication", cloth: "#7a5420" },
+  { key: "grhas", title: "Global Review of Humanities, Arts, and Society", match: "Global Review of Humanities", cloth: "#0e2a47",
+    cover: "https://panorama-sg.com/_astro/GRAHS.BtHTsGij_Zoz362.webp" },
+  { key: "health-nexus", title: "Health Nexus", match: "Health Nexus", cloth: "#1f4a3d",
+    cover: "https://panorama-sg.com/_astro/HealthNexus.DCOkz9l5_Z11Civ3.webp" },
+  { key: "silence", title: "Silence", match: "Silence", cloth: "#5e2230",
+    cover: "https://panorama-sg.com/_astro/Silence.IojSUrbS_Z1mER13.webp" },
+  { key: "jscc", title: "Journal of Social Cognition and Communication", match: "Social Cognition and Communication", cloth: "#7a5420",
+    cover: "https://panorama-sg.com/_astro/JSCC.DfN3giso_tTPst.webp" },
 ] as const;
 
 /** Journals a scholar's profile names (summary, body or appointments). */
