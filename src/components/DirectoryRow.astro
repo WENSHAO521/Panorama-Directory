@@ -1,0 +1,53 @@
+---
+// One member as a row of the board listing: portrait, name and role,
+// affiliation, ORCID iD. Columns line up across the whole board.
+import { profileUrl, orcidOf, type Scholar } from "../lib/scholars";
+import Portrait from "./Portrait.astro";
+
+interface Props {
+  scholar: Scholar;
+}
+const { scholar } = Astro.props;
+const { name, nativeName, affiliation, role } = scholar.data;
+const orcid = orcidOf(scholar);
+---
+
+<article class="row group relative isolate grid grid-cols-[3rem_minmax(0,1fr)] items-start gap-x-4 gap-y-1 py-4 md:grid-cols-[3rem_minmax(0,1fr)_minmax(0,1.2fr)_11rem] md:items-center md:gap-x-6">
+  <Portrait scholar={scholar} widths={[96, 144]} sizes="48px" class="row-span-2 w-12 rounded-sm md:row-span-1" />
+  <div class="min-w-0">
+    <h3 class="font-medium text-ink">
+      <a href={profileUrl(scholar)} class="transition-colors after:absolute after:inset-0 group-hover:text-brand-600">{name}</a>
+      {nativeName && <span class="ml-1 font-normal text-muted" lang="zh">{nativeName}</span>}
+    </h3>
+    <p class="text-sm text-muted">{role}</p>
+  </div>
+  <p class="col-start-2 text-sm text-muted md:col-start-auto">{affiliation}</p>
+  <p class="hidden text-xs text-faint md:block">
+    {
+      orcid ? (
+        <a href={orcid.href} target="_blank" rel="noopener noreferrer" class="relative z-10 inline-flex items-center gap-2 transition-colors hover:text-brand-600" title={`ORCID: ${orcid.value}`}>
+          <span class="size-2 rounded-full bg-orcid" aria-hidden="true" />
+          <span class="idnum">{orcid.value}</span>
+        </a>
+      ) : (
+        <span aria-label="No ORCID iD listed">—</span>
+      )
+    }
+  </p>
+</article>
+
+<style>
+  .row::before {
+    content: "";
+    position: absolute;
+    inset: 0 -12px;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    opacity: 0;
+    z-index: -1;
+    transition: opacity 150ms var(--ease-out);
+  }
+  .row:hover::before {
+    opacity: 1;
+  }
+</style>

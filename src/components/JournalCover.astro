@@ -1,0 +1,70 @@
+---
+// A journal's front cover with the number of board members on this site who
+// serve it. The one rich object on the home page; everything around it stays
+// quiet. Covers live in src/assets/journals/<key>.jpg.
+import { Image } from "astro:assets";
+import type { ImageMetadata } from "astro";
+
+const covers = import.meta.glob<{ default: ImageMetadata }>("../assets/journals/*.jpg", { eager: true });
+
+interface Props {
+  key: string;
+  title: string;
+  cloth: string;
+  count: number;
+  href: string;
+}
+const { key, title, cloth, count, href } = Astro.props;
+const cover = covers[`../assets/journals/${key}.jpg`]?.default;
+---
+
+<a href={href} class="cover group block" aria-label={`${title}: ${count} board members`}>
+  <span class="cover-frame" style={`--cloth:${cloth}`}>
+    {
+      cover && (
+        <Image src={cover} alt="" widths={[240, 360, 480, 720]} sizes="(min-width: 1024px) 168px, (min-width: 640px) 25vw, 45vw" loading="eager" />
+      )
+    }
+  </span>
+  <span class="mt-3 block text-sm leading-snug font-medium text-ink italic transition-colors group-hover:text-brand-600">{title}</span>
+  <span class="tabular mt-1 block text-xs text-faint">{count} {count === 1 ? "editor" : "editors"} listed</span>
+</a>
+
+<style>
+  .cover-frame {
+    position: relative;
+    display: block;
+    aspect-ratio: 210 / 297;
+    overflow: hidden;
+    border-radius: 3px;
+    background: var(--cloth);
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.1),
+      0 16px 32px -16px rgb(0 0 0 / 0.35);
+    transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
+  }
+  .cover-frame :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* A faint spine highlight so the cover reads as a printed object. */
+  .cover-frame::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, rgb(0 0 0 / 0.14) 0, rgb(255 255 255 / 0.1) 3px, transparent 8px);
+    pointer-events: none;
+  }
+  .cover:hover .cover-frame {
+    transform: translateY(-4px);
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.1),
+      0 22px 36px -16px rgb(0 0 0 / 0.4);
+  }
+  .cover:active .cover-frame {
+    transform: translateY(-2px) scale(0.99);
+  }
+</style>

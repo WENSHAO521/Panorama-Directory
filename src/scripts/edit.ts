@@ -240,7 +240,7 @@ function listOf(
     };
     let row: HTMLElement;
     if (collapsible) {
-      const summary = h("summary", { class: "flex cursor-pointer items-center justify-between gap-3 px-4 py-2.5 text-sm" });
+      const summary = h("summary", { class: "flex cursor-pointer items-center justify-between gap-3 px-4 py-3 text-sm" });
       const text = h("span", { class: "min-w-0 truncate" });
       const refresh = () => (text.textContent = item.title() || "(new · 新条目)");
       refresh();
@@ -559,7 +559,7 @@ function publications(sec: Obj, orcid: Value) {
       const meta = [w.year, w.venue, w.doi && `DOI ${w.doi}`].filter(Boolean).join(" · ");
       const el = h(
         "label",
-        { class: `flex gap-3 px-4 py-2.5 text-sm ${added ? "opacity-60" : "cursor-pointer hover:bg-surface/60"}` },
+        { class: `flex gap-3 px-4 py-3 text-sm ${added ? "opacity-60" : "cursor-pointer hover:bg-surface/60"}` },
         box,
         h("span", { class: "min-w-0" }, h("span", { class: "block" }, w.title), h("span", { class: "block text-xs text-faint" }, meta + (added ? " · Already added 已添加" : ""))),
       );
@@ -602,7 +602,7 @@ function publications(sec: Obj, orcid: Value) {
       h(
         "div",
         { class: "rounded-md border border-rule" },
-        h("label", { class: "flex cursor-pointer items-center gap-3 border-b border-rule bg-surface px-4 py-2.5 text-sm font-medium" }, all, "Select all · 全选"),
+        h("label", { class: "flex cursor-pointer items-center gap-3 border-b border-rule bg-surface px-4 py-3 text-sm font-medium" }, all, "Select all · 全选"),
         h("div", { class: "max-h-96 divide-y divide-rule overflow-y-auto" }, ...rows.map((r) => r.el)),
       ),
       h("div", { class: "mt-3 flex flex-wrap items-center gap-4" }, addButton, addStatus),
@@ -634,7 +634,7 @@ function publications(sec: Obj, orcid: Value) {
 
 function section(title: string, body: HTMLElement, note?: string) {
   const s = h("section", { class: "grid min-w-0 gap-4 md:grid-cols-12 md:gap-8" });
-  const head = h("div", { class: "md:col-span-4" }, h("h2", { class: "text-base font-semibold" }, title));
+  const head = h("div", { class: "md:col-span-4" }, h("h2", { class: "text-base font-medium" }, title));
   if (note) head.append(h("p", { class: "mt-1 text-sm text-muted" }, note));
   s.append(head, h("div", { class: "min-w-0 md:col-span-8" }, body));
   return s;

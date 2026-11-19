@@ -40,10 +40,10 @@ export function inline(text: string): string {
 
 /** Editorial board tiers, in display order, and the roles that belong to each. */
 export const TIERS = [
-  { key: "chief", title: "Editors-in-Chief", match: /editor-in-chief/i },
-  { key: "executive", title: "Executive Editorial Board", match: /^executive editorial board/i },
-  { key: "board", title: "Editorial Board", match: /editorial board member/i },
-  { key: "office", title: "Editorial Office & Research", match: /./ },
+  { key: "chief", title: "Editors-in-chief", match: /editor-in-chief/i },
+  { key: "executive", title: "Executive editorial board", match: /^executive editorial board/i },
+  { key: "board", title: "Editorial board", match: /editorial board member/i },
+  { key: "office", title: "Editorial office and research", match: /./ },
 ] as const;
 
 export type TierKey = (typeof TIERS)[number]["key"];
@@ -72,3 +72,18 @@ export async function getBoard() {
 }
 
 export const orcidOf = (s: Scholar) => s.data.identifiers?.find((i) => i.label === "ORCID");
+
+/** The group's journals. Covers are the A4 front covers from the
+ *  panorama-homepage repo (web/src/assets/journal-covers), resized to 1000px. */
+export const JOURNALS = [
+  { key: "grhas", title: "Global Review of Humanities, Arts, and Society", match: "Global Review of Humanities", cloth: "#d9cfbf" },
+  { key: "health-nexus", title: "Health Nexus", match: "Health Nexus", cloth: "#1f4a4a" },
+  { key: "silence", title: "Silence", match: "Silence", cloth: "#e8e6e1" },
+  { key: "jscc", title: "Journal of Social Cognition and Communication", match: "Social Cognition and Communication", cloth: "#0f1a33" },
+] as const;
+
+/** Journals a scholar's profile names (summary, body or appointments). */
+export function journalsOf(s: Scholar) {
+  const text = [s.data.summary, s.body ?? "", ...s.data.sections.flatMap((sec) => sec.items.map((i) => i.title))].join(" ");
+  return JOURNALS.filter((j) => text.includes(j.match));
+}

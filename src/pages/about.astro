@@ -3,9 +3,9 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "../components/Icon.astro";
 
 const facts = [
-  { label: "Type", value: "Independent Academic Publishing Initiative" },
-  { label: "Model", value: "Open Access" },
-  { label: "Focus", value: "Editorial Transparency & Scholarly Communication" },
+  { label: "Type", value: "Independent academic publishing initiative" },
+  { label: "Model", value: "Open access" },
+  { label: "Focus", value: "Editorial transparency and scholarly communication" },
 ];
 ---
 
@@ -14,16 +14,16 @@ const facts = [
   description="Panorama Scholarly Group is an independent academic publishing initiative supporting open scholarly communication through transparent editorial practice."
   active="about"
 >
-  <section class="border-b border-rule bg-surface">
-    <div class="wrap py-10 md:py-14">
+  <section class="border-b border-rule">
+    <div class="wrap py-12 md:py-16">
       <p class="kicker mb-2">About us</p>
-      <h1 class="max-w-3xl text-3xl font-semibold tracking-tight md:text-[2.75rem] md:leading-tight">
+      <h1 class="max-w-3xl text-[2.5rem] leading-[1.05] font-medium tracking-[-0.03em] md:text-[3.5rem] ">
         Panorama Scholarly Group Editorial Directory
       </h1>
     </div>
   </section>
 
-  <div class="wrap grid gap-10 py-10 md:py-14 lg:grid-cols-12">
+  <div class="wrap grid gap-12 py-12 md:py-16 lg:grid-cols-12">
     <div class="lg:col-span-8">
       <p class="mb-8 text-xl leading-relaxed text-ink md:text-[1.375rem]">
         Panorama Scholarly Group (PSG) is an independent academic publishing initiative dedicated to supporting open scholarly communication through transparent editorial practice, responsible peer review, and distributed digital publishing workflows.
@@ -43,12 +43,12 @@ const facts = [
 
     <aside class="space-y-6 lg:col-span-4">
       <div class="rounded-lg border border-rule">
-        <h2 class="border-b border-rule bg-surface px-5 py-3 text-sm font-semibold">At a glance</h2>
+        <h2 class="border-b border-rule px-5 py-3 text-sm font-medium">At a glance</h2>
         <dl class="divide-y divide-rule text-sm">
           {
             facts.map((f) => (
               <div class="px-5 py-3">
-                <dt class="label mb-0.5">{f.label}</dt>
+                <dt class="label mb-1">{f.label}</dt>
                 <dd>{f.value}</dd>
               </div>
             ))
@@ -58,7 +58,7 @@ const facts = [
       <div class="flex flex-col gap-3">
         <a href="/directory" class="btn-primary">Browse the editorial board</a>
         <a href="https://panorama-sg.com/" target="_blank" rel="noopener noreferrer" class="btn-secondary">
-          Visit Official Publishing Platform <Icon name="open_in_new" class="text-base!" />
+          Publishing platform <Icon name="open_in_new" class="text-base!" />
         </a>
       </div>
     </aside>

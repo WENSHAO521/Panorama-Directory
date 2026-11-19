@@ -37,7 +37,7 @@ const short = (label: string) =>
           ) : (
             <Icon name="link" class="text-base!" />
           )}
-          <span>{id.label === "ORCID" ? id.value : short(id.label)}</span>
+          <span class:list={[id.label === "ORCID" && "idnum"]}>{id.label === "ORCID" ? id.value : short(id.label)}</span>
         </a>
       </li>
     ))

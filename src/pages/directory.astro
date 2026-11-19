@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
-import MemberEntry from "../components/MemberEntry.astro";
+import DirectoryRow from "../components/DirectoryRow.astro";
 import SearchIndex from "../components/SearchIndex.astro";
 import Icon from "../components/Icon.astro";
 import { getBoard, getScholars, nameInitials } from "../lib/scholars";
@@ -16,40 +16,41 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
   description="The editorial board of Panorama Scholarly Group: editors-in-chief, executive and editorial board members, searchable by name, institution and research field."
   active="directory"
 >
-  <section class="border-b border-rule bg-surface">
-    <div class="wrap py-10 md:py-14">
-      <p class="kicker mb-2">Editorial Directory</p>
-      <h1 class="mb-3 text-3xl font-semibold tracking-tight md:text-[2.75rem]">Editorial Board</h1>
-      <p class="max-w-2xl text-muted">
-        Editors, board members and editorial staff of Panorama Scholarly Group journals, listed by editorial role.
-      </p>
+  <section class="border-b border-rule">
+    <div class="wrap grid gap-8 py-12 md:py-16 lg:grid-cols-12 lg:items-end">
+      <div class="lg:col-span-7">
+        <p class="kicker mb-2">Editorial directory</p>
+        <h1 class="mb-3 text-[2.5rem] leading-[1.05] font-medium tracking-[-0.03em] md:text-[3.5rem]">Editorial board</h1>
+        <p class="max-w-2xl text-muted">
+          Editors, board members and editorial staff of Panorama Scholarly Group journals, listed by editorial role.
+        </p>
+      </div>
+      <div class="lg:col-span-5">
+        <label for="directory-search" class="sr-only">Search members</label>
+        <div class="flex h-12 items-center rounded-lg border border-ink/15 bg-paper px-4 transition-colors focus-within:border-brand-600 focus-within:ring-4 focus-within:ring-brand-600/10">
+          <Icon name="search" class="text-faint" />
+          <input
+            type="search"
+            id="directory-search"
+            autocomplete="off"
+            class="h-full w-full border-0 bg-transparent px-3 text-base focus:ring-0 focus:outline-none"
+            placeholder="Search name, institution or field"
+          />
+        </div>
+      </div>
     </div>
   </section>
 
   <div class="wrap grid gap-10 py-10 md:py-12 lg:grid-cols-12">
     <aside class="lg:col-span-3">
-      <div class="space-y-6 lg:sticky lg:top-28">
-        <div>
-          <label for="directory-search" class="mb-2 block text-sm font-semibold">Search members</label>
-          <div class="flex items-center rounded-md border border-rule bg-paper px-3 focus-within:border-brand-600 focus-within:ring-2 focus-within:ring-brand-600/15">
-            <Icon name="search" class="text-faint" />
-            <input
-              type="search"
-              id="directory-search"
-              autocomplete="off"
-              class="w-full border-0 bg-transparent px-2 py-2.5 text-sm placeholder:text-faint focus:ring-0 focus:outline-none"
-              placeholder="Name, institution, field…"
-            />
-          </div>
-        </div>
-
+      <div class="space-y-8 lg:sticky lg:top-24">
         <fieldset>
-          <legend class="mb-2 text-sm font-semibold">Editorial role</legend>
-          <ul class="space-y-1.5 text-sm">
+          <legend class="mb-2 text-sm font-medium">Editorial role</legend>
+          <ul class="space-y-1 text-sm">
             {
               board.map((g) => (
                 <li>
-                  <label class="flex cursor-pointer items-center gap-2.5">
+                  <label class="flex h-8 cursor-pointer items-center gap-3">
                     <input type="checkbox" class="tier-box size-4 rounded-sm border-rule text-brand focus:ring-brand-600/30" value={g.key} checked />
                     <span class="grow">{g.title}</span>
                     <span class="tabular text-faint">{g.members.length}</span>
@@ -61,12 +62,12 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
         </fieldset>
 
         <fieldset>
-          <legend class="mb-2 text-sm font-semibold">Name starts with</legend>
+          <legend class="mb-2 text-sm font-medium">Name starts with</legend>
           <div class="grid grid-cols-7 gap-1" id="alphabet-filter">
-            <button type="button" data-letter="ALL" aria-pressed="true" class="alpha-btn col-span-2 h-8 rounded-sm text-xs font-medium">All</button>
+            <button type="button" data-letter="ALL" aria-pressed="true" class="alpha-btn col-span-2 h-8 text-xs font-medium">All</button>
             {
               letters.map((l) => (
-                <button type="button" data-letter={l} aria-pressed="false" disabled={!available.has(l)} class="alpha-btn h-8 rounded-sm text-xs font-medium">
+                <button type="button" data-letter={l} aria-pressed="false" disabled={!available.has(l)} class="alpha-btn h-8 text-xs font-medium">
                   {l}
                 </button>
               ))
@@ -79,18 +80,24 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
     <div class="lg:col-span-9">
       <p id="result-count" class="tabular mb-6 text-sm text-muted" aria-live="polite">Showing all {total} members</p>
 
-      <div class="space-y-12">
+      <div class="space-y-16">
         {
           board.map((g) => (
             <section class="tier" data-tier={g.key} aria-labelledby={`tier-${g.key}`}>
-              <h2 id={`tier-${g.key}`} class="flex items-baseline gap-2 border-b-2 border-brand pb-2 text-lg font-semibold text-brand">
+              <h2 id={`tier-${g.key}`} class="flex items-baseline gap-2 border-b-2 border-brand pb-3 text-xl font-medium tracking-tight text-brand">
                 {g.title}
                 <span class="tier-count tabular text-sm font-normal text-faint">({g.members.length})</span>
               </h2>
-              <div class="tier-list grid divide-y divide-rule md:grid-cols-2 md:gap-x-10 md:divide-y-0">
+              <div class="hidden grid-cols-[3rem_minmax(0,1fr)_minmax(0,1.2fr)_11rem] gap-x-6 border-b border-rule py-2 text-xs text-faint md:grid" aria-hidden="true">
+                <span />
+                <span>Name and role</span>
+                <span>Affiliation</span>
+                <span>ORCID iD</span>
+              </div>
+              <div class="tier-list flex flex-col divide-y divide-rule">
                 {g.members.map((s) => (
-                  <div class="member md:border-b md:border-rule" data-id={s.id} data-initials={nameInitials(s.data.name).join("")}>
-                    <MemberEntry scholar={s} />
+                  <div class="member" data-id={s.id} data-initials={nameInitials(s.data.name).join("")}>
+                    <DirectoryRow scholar={s} />
                   </div>
                 ))}
               </div>
@@ -100,7 +107,7 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
       </div>
 
       <div id="empty-state" hidden class="rounded-lg border border-dashed border-rule px-6 py-14 text-center">
-        <p class="mb-2 font-semibold">No members match these filters.</p>
+        <p class="mb-2 font-medium">No members match these filters</p>
         <button type="button" id="reset-filters" class="link text-sm">Clear all filters</button>
       </div>
     </div>
@@ -112,12 +119,13 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
 <style>
   .alpha-btn {
     border: 1px solid var(--color-rule);
+    border-radius: var(--radius-sm);
     color: var(--color-ink);
-    transition: border-color 120ms, background-color 120ms, color 120ms;
+    transition: border-color 150ms var(--ease-out), background-color 150ms var(--ease-out), color 150ms var(--ease-out);
   }
   .alpha-btn:hover:not(:disabled) {
-    border-color: var(--color-brand-600);
-    color: var(--color-brand-600);
+    border-color: color-mix(in srgb, var(--color-ink) 25%, transparent);
+    background: var(--color-surface);
   }
   .alpha-btn[aria-pressed="true"] {
     background: var(--color-brand);
