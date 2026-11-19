@@ -1,10 +1,10 @@
 ---
 name: Emory (Yueqi) Tian
 order: 9
-role: Youth Editorial Board Member
+role: Early-Career Editorial Board Member
 affiliation: University of Rochester
 photo: ../../assets/scholars/emory-tian.jpg
-summary: Youth Editorial Board Member for AI & Future Society. Applied researcher specializing in AI-driven energy systems, power market optimization, and machine learning applications.
+summary: Early-Career Editorial Board Member for AI & Future Society. Applied researcher specializing in AI-driven energy systems, power market optimization, and machine learning applications.
 keywords:
   - AI-Energy Systems
   - Machine Learning
@@ -51,7 +51,7 @@ sections:
         title: Editorial Board Roles
         entries:
           - title: AI & Future Society
-            meta: Youth Editorial Board Member
+            meta: Early-Career Editorial Board Member
           - title: Journal of Applied AI and Interdisciplinary Innovations
             meta: Editor
       - type: card
@@ -70,4 +70,4 @@ Emory (Yueqi) Tian is an applied researcher at the intersection of energy system
 
 She is a highly active contributor to the academic and industrial energy sectors. She frequently serves as an invited expert panelist for *Microgrid Knowledge*, discussing utility tariff intelligence and data-driven microgrid strategies, and is recognized as a Certified Top Contributor at *Energy Central*.
 
-Furthermore, she demonstrates profound dedication to scholarly publishing. She is an active peer reviewer for prominent IEEE journals, including *IEEE Access* (with 12 verified reviews), and serves as the Youth Editorial Board Member for *AI & Future Society*, alongside her role as Editor for the *Journal of Applied AI and Interdisciplinary Innovations*.
+Furthermore, she demonstrates profound dedication to scholarly publishing. She is an active peer reviewer for prominent IEEE journals, including *IEEE Access* (with 12 verified reviews), and serves as an Early-Career Editorial Board Member for *AI & Future Society*, alongside her role as Editor for the *Journal of Applied AI and Interdisciplinary Innovations*.

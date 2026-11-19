@@ -37,7 +37,7 @@ const topFields = fields.slice(0, 8);
 const topMax = topFields[0]?.n ?? 1;
 const moreFields = fields.slice(8).filter((f) => f.n > 1);
 
-const journals = JOURNALS.map((j) => ({ ...j, count: scholars.filter((s) => journalsOf(s).includes(j)).length }));
+const journals = JOURNALS.map((j) => ({ ...j, count: scholars.filter((s) => journalsOf(s).some((x) => x.key === j.key)).length }));
 
 const stats = [
   { value: scholars.length, label: "Board members" },
@@ -97,7 +97,7 @@ const stats = [
           {
             journals.map((j) => (
               <li>
-                <JournalCover key={j.key} title={j.title} cloth={j.cloth} count={j.count} href={`/directory?q=${encodeURIComponent(j.match)}`} />
+                <JournalCover key={j.key} title={j.title} cloth={j.cloth} count={j.count} href={`/directory?journal=${j.key}`} />
               </li>
             ))
           }

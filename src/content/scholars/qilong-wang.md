@@ -1,10 +1,10 @@
 ---
 name: Qilong Wang
 order: 6
-role: Editorial Board Member
+role: Editor-in-Chief
 affiliation: Gansu University of Chinese Medicine
 photo: ../../assets/scholars/qilong-wang.jpg
-summary: Editorial Board Member for Silence and Youth Editorial Board Member for Health Nexus. Researcher specializing in psychiatric epidemiology, geriatric psychiatry, and AI predictive modeling in medical research.
+summary: "Editor-in-Chief of Health Nexus: Digital Health and Medical AI, Editorial Board Member for Silence and Early-Career Editorial Board Member for Health Nexus. Researcher specializing in psychiatric epidemiology, geriatric psychiatry, and AI predictive modeling in medical research."
 keywords:
   - Psychiatric Epidemiology
   - Geriatric Psychiatry
@@ -107,7 +107,7 @@ sections:
           - title: Silence
             meta: Editorial Board Member
           - title: Health Nexus
-            meta: Youth Editorial Board Member
+            meta: Early-Career Editorial Board Member
           - title: "Health Nexus: Digital Health and Medical AI"
             meta: Editor-in-Chief
       - type: card
@@ -123,4 +123,4 @@ Qilong Wang is a Master's researcher in Psychiatry at Gansu University of Chines
 
 Utilizing large-scale international population databases—such as NHANES, CHARLS, ELSA, MHAS, SHARE, and HRS—he systematically investigates the epidemiological factors influencing psychiatric and psychological conditions. He possesses robust capabilities in integrating multi-source heterogeneous data, complex statistical analysis, and machine learning predictive modeling. His research focuses on risk factor screening, identification, and the precision stratified management of common mental health conditions, particularly depression.
 
-He serves on the Editorial Board of *Silence* and the Youth Editorial Board of *Health Nexus*. Furthermore, he contributes to the global scientific community as a peer reviewer for prominent international journals, including the *World Journal of Pediatrics* and *Frontiers in Nutrition*.
+He serves as Editor-in-Chief of *Health Nexus: Digital Health and Medical AI*, and on the Editorial Board of *Silence* and the Early-Career Editorial Board of *Health Nexus*. Furthermore, he contributes to the global scientific community as a peer reviewer for prominent international journals, including the *World Journal of Pediatrics* and *Frontiers in Nutrition*.

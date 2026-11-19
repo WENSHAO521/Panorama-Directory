@@ -19,7 +19,7 @@ const orcid = orcidOf(scholar);
       <a href={profileUrl(scholar)} class="transition-colors after:absolute after:inset-0 group-hover:text-brand-600">{name}</a>
       {nativeName && <span class="ml-1 font-normal text-muted" lang="zh">{nativeName}</span>}
     </h3>
-    <p class="text-sm text-muted">{role}</p>
+    <p class="member-role text-sm text-muted">{role}</p>
   </div>
   <p class="col-start-2 text-sm text-muted md:col-start-auto">{affiliation}</p>
   <p class="hidden text-xs text-faint md:block">

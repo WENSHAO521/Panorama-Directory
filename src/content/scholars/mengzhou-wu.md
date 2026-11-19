@@ -2,10 +2,10 @@
 name: Mengzhou Wu
 order: 16
 role: Editor-in-Chief
-affiliation: International Review of Education & Learning Sciences
-headline: Editorial Office, International Review of Education & Learning Sciences
+affiliation: Party School of the CPC Ning Guo Municipal Committee (Ning Guo Administrative College), China
+headline: Editorial Office, International Review of Education and Learning Sciences
 photo: ../../assets/scholars/mengzhou-wu.jpg
-summary: Editor-in-Chief for the International Review of Education & Learning Sciences. Researcher specializing in Marxist Principles, Chinese Modernization, state ideology, and grassroots governance.
+summary: Editor-in-Chief for the International Review of Education and Learning Sciences. Researcher specializing in Marxist Principles, Chinese Modernization, state ideology, and grassroots governance.
 keywords:
   - Marxist Philosophy
   - Chinese Modernization
@@ -44,7 +44,7 @@ sections:
     columns: 2
     items:
       - type: card
-        title: International Review of Education & Learning Sciences
+        title: International Review of Education and Learning Sciences
         meta:
           - Editor-in-Chief
       - type: card
@@ -57,4 +57,4 @@ Mengzhou Wu is a dedicated researcher specializing in Marxist Principles and the
 
 Her research bridges abstract Marxist and Hegelian philosophy with concrete practices in state ideology construction, grassroots governance, and the societal integration of family education and traditions. Her academic contributions have been published in a variety of scholarly venues, including the *Journal of Jiamusi University*, the *PoliEcoM Administration Review*, and the *Global Review of Humanities, Arts, and Society*.
 
-Demonstrating significant academic leadership, she currently serves as the Editor-in-Chief of the *International Review of Education & Learning Sciences*, guiding rigorous interdisciplinary discourse across educational and societal paradigms.
+Demonstrating significant academic leadership, she currently serves as the Editor-in-Chief of the *International Review of Education and Learning Sciences*, guiding rigorous interdisciplinary discourse across educational and societal paradigms.

@@ -3,7 +3,7 @@ name: "Mingliang Han"
 order: 199
 role: Editorial Board Member
 affiliation: "Department of Music, Harvard University, Cambridge, MA, USA"
-summary: "Editorial Board Member of Resonance. Research interests: Historical Musicology, Music and Culture and Interdisciplinary Music Research."
+summary: "Editorial Board Member of Resonance: Journal of Global Music Studies. Research interests: Historical Musicology, Music and Culture and Interdisciplinary Music Research."
 keywords:
   - "Historical Musicology"
   - "Music and Culture"
@@ -15,11 +15,11 @@ sections:
     columns: 2
     items:
       - type: card
-        title: "Resonance"
+        title: "Resonance: Journal of Global Music Studies"
         meta:
           - Editorial Board Member
 ---
 
 Mingliang Han is affiliated with the Department of Music, Harvard University, Cambridge, MA, USA. Their research interests include Historical Musicology, Music and Culture and Interdisciplinary Music Research.
 
-Within Panorama Scholarly Group, Mingliang Han serves as Editorial Board Member of *Resonance*.
+Within Panorama Scholarly Group, Mingliang Han serves as Editorial Board Member of *Resonance: Journal of Global Music Studies*.

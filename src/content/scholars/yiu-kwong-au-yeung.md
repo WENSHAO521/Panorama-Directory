@@ -19,11 +19,11 @@ sections:
         meta:
           - Editorial Board Member
       - type: card
-        title: "Global Review of Humanities, Arts, & Society"
+        title: "Global Review of Humanities, Arts, and Society"
         meta:
           - International Advisory Board Member
 ---
 
 Yiu Kwong Au-Yeung is affiliated with University of Metaphysical Sciences, California, USA. Their research interests include Philosophy of Religion, Theological Studies and Cultural Spirituality.
 
-Within Panorama Scholarly Group, Yiu Kwong Au-Yeung serves as Editorial Board Member of *Journal of Law, Psychology, and Communication Studies* and International Advisory Board Member of *Global Review of Humanities, Arts, & Society*.
+Within Panorama Scholarly Group, Yiu Kwong Au-Yeung serves as Editorial Board Member of *Journal of Law, Psychology, and Communication Studies* and International Advisory Board Member of *Global Review of Humanities, Arts, and Society*.

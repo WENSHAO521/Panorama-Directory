@@ -1,10 +1,10 @@
 ---
 name: Siheng Ma
 order: 11
-role: Academic Researcher
+role: Deputy Editor
 affiliation: Xi'an Medical University
 photo: ../../assets/scholars/siheng-ma.jpg
-summary: Researcher specializing in adolescent depression, non-invasive neuromodulation (rTMS), digital mental health, and psychiatric epidemiology using machine learning.
+summary: "Deputy Editor of Health Nexus: Digital Health and Medical AI. Researcher specializing in adolescent depression, non-invasive neuromodulation (rTMS), digital mental health, and psychiatric epidemiology using machine learning."
 keywords:
   - Psychiatry
   - Adolescent Depression
@@ -79,7 +79,7 @@ sections:
       - type: card
         title: Health Nexus
         meta:
-          - Youth Editorial Board Member
+          - Early-Career Editorial Board Member
       - type: card
         title: "Health Nexus: Digital Health and Medical AI"
         meta:
@@ -90,4 +90,4 @@ Siheng Ma is a psychiatry and mental health researcher currently completing his 
 
 His work is distinguished by an interdisciplinary approach that seamlessly integrates clinical trial methodology, neuroimaging analysis (fNIRS), psychiatric assessment, and large-scale public health database mining (e.g., NHANES, CHARLS). He is actively involved in pioneering clinical studies, including randomized controlled trials (RCTs) investigating the efficacy of repetitive transcranial magnetic stimulation (rTMS) for anhedonia in adolescent depression.
 
-Possessing comprehensive hands-on capability in full-cycle clinical trials, he is GCP-certified and highly skilled in statistical modeling and machine learning applications. In parallel, his research evaluates the quality of digital mental health information and the emerging role of artificial intelligence in psychiatric care. He has successfully published multiple first-author and co-first-author articles in high-impact Q1 journals. He currently serves as an Editorial Board Member for *Silence* and a Youth Editorial Board Member for *Health Nexus*.
+Possessing comprehensive hands-on capability in full-cycle clinical trials, he is GCP-certified and highly skilled in statistical modeling and machine learning applications. In parallel, his research evaluates the quality of digital mental health information and the emerging role of artificial intelligence in psychiatric care. He has successfully published multiple first-author and co-first-author articles in high-impact Q1 journals. He currently serves as Deputy Editor of *Health Nexus: Digital Health and Medical AI*, an Editorial Board Member for *Silence* and an Early-Career Editorial Board Member for *Health Nexus*.

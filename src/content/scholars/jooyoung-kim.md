@@ -3,7 +3,7 @@ name: "Jooyoung Kim"
 order: 182
 role: International Advisory Board Member
 affiliation: "College of Arts and Culture, Kangwon National University, South Korea"
-summary: "International Advisory Board Member of Global Review of Humanities, Arts, & Society."
+summary: "International Advisory Board Member of Global Review of Humanities, Arts, and Society."
 keywords: []
 sections:
   - eyebrow: Academic Leadership
@@ -12,11 +12,11 @@ sections:
     columns: 2
     items:
       - type: card
-        title: "Global Review of Humanities, Arts, & Society"
+        title: "Global Review of Humanities, Arts, and Society"
         meta:
           - International Advisory Board Member
 ---
 
 Jooyoung Kim is affiliated with the College of Arts and Culture, Kangwon National University, South Korea.
 
-Within Panorama Scholarly Group, Jooyoung Kim serves as International Advisory Board Member of *Global Review of Humanities, Arts, & Society*.
+Within Panorama Scholarly Group, Jooyoung Kim serves as International Advisory Board Member of *Global Review of Humanities, Arts, and Society*.

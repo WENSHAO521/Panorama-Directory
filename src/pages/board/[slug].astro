@@ -7,7 +7,7 @@ import ProfileSection from "../../components/ProfileSection.astro";
 import MemberEntry from "../../components/MemberEntry.astro";
 import SectionHeading from "../../components/SectionHeading.astro";
 import Icon from "../../components/Icon.astro";
-import { getFeatured, journalsOf, type Scholar } from "../../lib/scholars";
+import { getFeatured, journalsOf, clothOf, type Scholar } from "../../lib/scholars";
 
 export async function getStaticPaths() {
   const all = await getFeatured(Infinity);
@@ -90,7 +90,7 @@ const jsonLd = {
               <dd class="space-y-1">
                 {journals.map((j) => (
                   <p class="flex items-center gap-2">
-                    <span class="size-2 shrink-0 rounded-[2px]" style={`background:${j.cloth}`} aria-hidden="true" />
+                    <span class="size-2 shrink-0 rounded-[2px]" style={`background:${clothOf(j.key)}`} aria-hidden="true" />
                     <span class="italic">{j.title}</span>
                   </p>
                 ))}

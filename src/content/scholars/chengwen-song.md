@@ -176,7 +176,7 @@ sections:
     columns: 2
     items:
       - type: card
-        title: "Resonance: Global Music Studies"
+        title: "Resonance: Journal of Global Music Studies"
         meta:
           - Co-Editor-in-Chief
       - type: card
@@ -186,4 +186,4 @@ sections:
 ---
 Chengwen Song is a Ph.D. candidate in Public Administration at Kookmin University, South Korea, where he also earned his Master's degree in Public Administration. He holds a Bachelor's degree in Business Administration from Sangmyung University, South Korea. His primary research is highly interdisciplinary, encompassing public governance, organizational behavior, and political philosophy. His extensive academic work explores diverse fields including the digital transformation of SMEs, modern governance dilemmas, Marxist and traditional Chinese philosophy, psychological models in human relationships, and interdisciplinary intersections with public health management and arts theory.
 
-With significant expertise in academic publishing and journal management, he serves as Co-Editor-in-Chief of *Resonance: Global Music Studies* and serves as an Executive Editorial Board Member for the Panorama Scholarly Group.
+With significant expertise in academic publishing and journal management, he serves as Co-Editor-in-Chief of *Resonance: Journal of Global Music Studies* and serves as an Executive Editorial Board Member for the Panorama Scholarly Group.

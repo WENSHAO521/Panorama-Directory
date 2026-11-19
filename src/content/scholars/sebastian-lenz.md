@@ -3,7 +3,7 @@ name: "Sebastian Lenz"
 order: 178
 role: Editor-in-Chief
 affiliation: "Panorama Scholarly Group, Berlin, Germany"
-summary: "Editor-in-Chief of Global Review of Humanities, Arts, & Society."
+summary: "Editor-in-Chief of Global Review of Humanities, Arts, and Society."
 keywords: []
 sections:
   - eyebrow: Academic Leadership
@@ -12,11 +12,11 @@ sections:
     columns: 2
     items:
       - type: card
-        title: "Global Review of Humanities, Arts, & Society"
+        title: "Global Review of Humanities, Arts, and Society"
         meta:
           - Editor-in-Chief
 ---
 
 Sebastian Lenz is affiliated with Panorama Scholarly Group, Berlin, Germany.
 
-Within Panorama Scholarly Group, Sebastian Lenz serves as Editor-in-Chief of *Global Review of Humanities, Arts, & Society*.
+Within Panorama Scholarly Group, Sebastian Lenz serves as Editor-in-Chief of *Global Review of Humanities, Arts, and Society*.

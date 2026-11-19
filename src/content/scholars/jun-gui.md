@@ -27,11 +27,11 @@ sections:
         meta:
           - Editorial Board Member
       - type: card
-        title: "Global Review of Humanities, Arts, & Society"
+        title: "Global Review of Humanities, Arts, and Society"
         meta:
           - Editorial Board Member
 ---
 
 Jun Gui is affiliated with Guangzhou Huali College, Guangzhou, China. Their research interests include Social Media, Digital Communication, Media Psychology, Uses and Gratifications, AI in Journalism and Media Practice, Sustainable Tourism and Communication.
 
-Within Panorama Scholarly Group, Jun Gui serves as Editorial Board Member of *Journal of Law, Psychology, and Communication Studies*, Editorial Board Member of *Journal of Social Cognition and Communication* and Editorial Board Member of *Global Review of Humanities, Arts, & Society*.
+Within Panorama Scholarly Group, Jun Gui serves as Editorial Board Member of *Journal of Law, Psychology, and Communication Studies*, Editorial Board Member of *Journal of Social Cognition and Communication* and Editorial Board Member of *Global Review of Humanities, Arts, and Society*.

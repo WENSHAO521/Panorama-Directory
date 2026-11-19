@@ -3,10 +3,13 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import DirectoryRow from "../components/DirectoryRow.astro";
 import SearchIndex from "../components/SearchIndex.astro";
 import Icon from "../components/Icon.astro";
-import { getBoard, getScholars, nameInitials } from "../lib/scholars";
+import { getBoard, getScholars, nameInitials, journalsOf, journalRolesOf, ALL_JOURNALS } from "../lib/scholars";
 
 const board = await getBoard();
-const total = (await getScholars()).length;
+const scholars = await getScholars();
+const total = scholars.length;
+// Only journals that have at least one member here, with their member counts.
+const journalCounts = ALL_JOURNALS.map((j) => ({ ...j, count: scholars.filter((s) => journalsOf(s).includes(j)).length })).filter((j) => j.count);
 const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInitials(s.data.name))));
 ---
@@ -61,6 +64,14 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
           </ul>
         </fieldset>
 
+        <div>
+          <label for="journal-filter" class="mb-2 block text-sm font-medium">Journal</label>
+          <select id="journal-filter" class="h-10 w-full rounded-md border border-rule bg-paper px-3 text-sm focus:border-brand-600 focus:ring-4 focus:ring-brand-600/10">
+            <option value="">All journals</option>
+            {journalCounts.map((j) => <option value={j.key}>{j.title} ({j.count})</option>)}
+          </select>
+        </div>
+
         <fieldset>
           <legend class="mb-2 text-sm font-medium">Name starts with</legend>
           <div class="grid grid-cols-7 gap-1" id="alphabet-filter">
@@ -96,7 +107,7 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
               </div>
               <div class="tier-list flex flex-col divide-y divide-rule">
                 {g.members.map((s) => (
-                  <div class="member" data-id={s.id} data-initials={nameInitials(s.data.name).join("")}>
+                  <div class="member" data-id={s.id} data-initials={nameInitials(s.data.name).join("")} data-journals={journalsOf(s).map((j) => j.key).join(" ")} data-roles={JSON.stringify(journalRolesOf(s))} data-role={s.data.role} data-tier={g.key}>
                     <DirectoryRow scholar={s} />
                   </div>
                 ))}
@@ -148,16 +159,42 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
   const tierBoxes = [...document.querySelectorAll<HTMLInputElement>(".tier-box")];
   const letterBtns = [...document.querySelectorAll<HTMLButtonElement>(".alpha-btn")];
   const index = loadIndex();
+  const members = [...document.querySelectorAll<HTMLElement>(".member")];
+  const listOf = new Map(tiers.map((t) => [t.dataset.tier!, t.querySelector<HTMLElement>(".tier-list")!]));
+  const byName = new Map(index.map((e) => [e.id, e.name]));
+  // Same rules as TIERS and roleRank in src/lib/scholars.ts.
+  const tierOfRole = (r: string) =>
+    /editor-in-chief/i.test(r) ? "chief" : /^executive editorial board/i.test(r) ? "executive" : /editorial board member|chair of the editorial board/i.test(r) ? "board" : "office";
+  const roleRank = (r: string) => (/^(editor-in-chief|chair of the)/i.test(r) ? 0 : /^co-editor/i.test(r) ? 1 : /^deputy/i.test(r) ? 2 : 3);
+
+  // With a journal chosen, each member shows and is grouped by their role on
+  // that journal, not by their highest role anywhere.
+  function placeMembers(journal: string) {
+    const placed = members.map((el) => {
+      const role = journal ? (JSON.parse(el.dataset.roles!)[journal] ?? el.dataset.role!) : el.dataset.role!;
+      el.querySelector(".member-role")!.textContent = role;
+      return { el, role, tier: journal ? tierOfRole(role) : el.dataset.tier! };
+    });
+    placed
+      .sort((a, b) => roleRank(a.role) - roleRank(b.role) || byName.get(a.el.dataset.id!)!.localeCompare(byName.get(b.el.dataset.id!)!))
+      .forEach((p) => listOf.get(p.tier)?.append(p.el));
+  }
   const total = index.length;
   let letter = "ALL";
 
-  input.value = new URLSearchParams(location.search).get("q") ?? "";
+  const journalSel = document.getElementById("journal-filter") as HTMLSelectElement;
+  const params = new URLSearchParams(location.search);
+  input.value = params.get("q") ?? "";
+  journalSel.value = params.get("journal") ?? "";
+  if (journalSel.selectedIndex < 0) journalSel.value = "";
 
   function apply() {
     const q = input.value.trim();
     const ranked = search(index, q).map((e) => e.id);
     const rank = new Map(ranked.map((id, i) => [id, i]));
     const activeTiers = new Set(tierBoxes.filter((b) => b.checked).map((b) => b.value));
+    const journal = journalSel.value;
+    placeMembers(journal);
     let shown = 0;
     for (const tier of tiers) {
       let inTier = 0;
@@ -165,6 +202,7 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
         const ok =
           activeTiers.has(tier.dataset.tier!) &&
           rank.has(el.dataset.id!) &&
+          (!journal || el.dataset.journals!.split(" ").includes(journal)) &&
           (letter === "ALL" || el.dataset.initials!.includes(letter));
         el.hidden = !ok;
         // While searching, best matches first within each role group.
@@ -180,6 +218,7 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
 
     const url = new URL(location.href);
     q ? url.searchParams.set("q", q) : url.searchParams.delete("q");
+    journal ? url.searchParams.set("journal", journal) : url.searchParams.delete("journal");
     history.replaceState(null, "", url);
   }
 
@@ -192,8 +231,10 @@ const available = new Set(board.flatMap((g) => g.members.flatMap((s) => nameInit
   );
   tierBoxes.forEach((b) => b.addEventListener("change", apply));
   input.addEventListener("input", apply);
+  journalSel.addEventListener("change", apply);
   document.getElementById("reset-filters")!.addEventListener("click", () => {
     input.value = "";
+    journalSel.value = "";
     tierBoxes.forEach((b) => (b.checked = true));
     letterBtns[0].click();
   });

@@ -3,7 +3,7 @@ name: "Zeyu Wang"
 order: 106
 role: Editor-in-Chief
 affiliation: "Graduate School, Kyung Hee University, South Korea"
-summary: "Editor-in-Chief of Journal of Engineering Systems & Applications, and on the boards of 1 more Panorama journal."
+summary: "Editor-in-Chief of Journal of Engineering Systems and Applications, and on the boards of 1 more Panorama journal."
 keywords: []
 sections:
   - eyebrow: Academic Leadership
@@ -12,15 +12,15 @@ sections:
     columns: 2
     items:
       - type: card
-        title: "Journal of Engineering Systems & Applications"
+        title: "Journal of Engineering Systems and Applications"
         meta:
           - Editor-in-Chief
       - type: card
-        title: "Global Review of Humanities, Arts, & Society"
+        title: "Global Review of Humanities, Arts, and Society"
         meta:
           - International Advisory Board Member
 ---
 
 Zeyu Wang is affiliated with the Graduate School, Kyung Hee University, South Korea.
 
-Within Panorama Scholarly Group, Zeyu Wang serves as Editor-in-Chief of *Journal of Engineering Systems & Applications* and International Advisory Board Member of *Global Review of Humanities, Arts, & Society*.
+Within Panorama Scholarly Group, Zeyu Wang serves as Editor-in-Chief of *Journal of Engineering Systems and Applications* and International Advisory Board Member of *Global Review of Humanities, Arts, and Society*.

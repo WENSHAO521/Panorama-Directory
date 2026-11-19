@@ -3,7 +3,7 @@ name: "Hanlin Li"
 order: 194
 role: Assistant Editor
 affiliation: "School of Music and Dance, Kunming University, China"
-summary: "Assistant Editor of Resonance. Research interests: Performance Studies, Musicology and Academic Communication."
+summary: "Assistant Editor of Resonance: Journal of Global Music Studies. Research interests: Performance Studies, Musicology and Academic Communication."
 keywords:
   - "Performance Studies"
   - "Musicology"
@@ -15,11 +15,11 @@ sections:
     columns: 2
     items:
       - type: card
-        title: "Resonance"
+        title: "Resonance: Journal of Global Music Studies"
         meta:
           - Assistant Editor
 ---
 
 Hanlin Li is affiliated with the School of Music and Dance, Kunming University, China. Their research interests include Performance Studies, Musicology and Academic Communication.
 
-Within Panorama Scholarly Group, Hanlin Li serves as Assistant Editor of *Resonance*.
+Within Panorama Scholarly Group, Hanlin Li serves as Assistant Editor of *Resonance: Journal of Global Music Studies*.
