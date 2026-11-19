@@ -50,6 +50,9 @@ const { title, cover, thumb, cloth, count, href } = Astro.props;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    /* Issue covers are full wraps (back, spine, front): show the front,
+       which is the right-hand part. Front-only thumbnails are unaffected. */
+    object-position: right center;
   }
   /* A faint spine highlight so the cover reads as a printed object. */
   .cover-frame::after {
