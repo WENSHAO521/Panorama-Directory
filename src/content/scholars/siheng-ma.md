@@ -2,7 +2,7 @@
 name: Siheng Ma
 order: 11
 role: Deputy Editor
-affiliation: Xi'an Medical University
+affiliation: "Xijing Hospital, Air Force Medical University (The Fourth Military Medical University), Xi'an, China; Xi'an Medical University"
 photo: ../../assets/scholars/siheng-ma.jpg
 summary: "Deputy Editor of Health Nexus: Digital Health and Medical AI. Researcher specializing in adolescent depression, non-invasive neuromodulation (rTMS), digital mental health, and psychiatric epidemiology using machine learning."
 keywords:

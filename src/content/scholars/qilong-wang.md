@@ -2,7 +2,7 @@
 name: Qilong Wang
 order: 6
 role: Editor-in-Chief
-affiliation: Gansu University of Chinese Medicine
+affiliation: "Gansu University of Chinese Medicine, Lanzhou, China; Panorama Research Institute, Hong Kong, China"
 photo: ../../assets/scholars/qilong-wang.jpg
 summary: "Editor-in-Chief of Health Nexus: Digital Health and Medical AI, Editorial Board Member for Silence and Early-Career Editorial Board Member for Health Nexus. Researcher specializing in psychiatric epidemiology, geriatric psychiatry, and AI predictive modeling in medical research."
 keywords:
