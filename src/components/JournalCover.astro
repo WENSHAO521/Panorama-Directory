@@ -1,0 +1,98 @@
+---
+// A journal drawn as a cloth-bound cover: spine, title block, and the number
+// of board members on this site who serve it. The one rich object on the
+// home page; everything around it stays quiet.
+interface Props {
+  title: string;
+  short: string;
+  cloth: string;
+  count: number;
+  href: string;
+}
+const { title, short, cloth, count, href } = Astro.props;
+---
+
+<a href={href} class="cover group block" style={`--cloth:${cloth}`} aria-label={`${title}: ${count} board members`}>
+  <span class="cover-face">
+    <span class="cover-top">
+      <span>Panorama Scholarly Group</span>
+      {short && <span class="idnum">{short}</span>}
+    </span>
+    <span class="cover-title">{title}</span>
+    <span class="cover-foot">
+      <span class="tabular">{count} {count === 1 ? "editor" : "editors"} listed</span>
+      <span class="cover-arrow" aria-hidden="true">→</span>
+    </span>
+  </span>
+</a>
+
+<style>
+  .cover {
+    position: relative;
+    aspect-ratio: 3 / 4;
+    border-radius: 4px 10px 10px 4px;
+    color: rgb(255 255 255 / 0.92);
+    /* Cloth: one hue, a soft tone shift and a darker spine on the left. */
+    background:
+      linear-gradient(90deg, rgb(0 0 0 / 0.28) 0, rgb(0 0 0 / 0.1) 10px, rgb(255 255 255 / 0.08) 11px, transparent 12px),
+      linear-gradient(160deg, color-mix(in srgb, var(--cloth) 88%, white) 0%, var(--cloth) 45%, color-mix(in srgb, var(--cloth) 80%, black) 100%);
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.12),
+      0 18px 36px -18px rgb(0 0 0 / 0.45);
+    transition: transform 180ms var(--ease-out), box-shadow 180ms var(--ease-out);
+  }
+  .cover:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 1px 2px rgb(0 0 0 / 0.12),
+      0 24px 40px -18px rgb(0 0 0 / 0.5);
+  }
+  .cover:active {
+    transform: translateY(-2px) scale(0.99);
+  }
+  .cover-face {
+    position: absolute;
+    inset: 0 0 0 12px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 16px 16px 12px;
+  }
+  .cover-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 11px;
+    line-height: 16px;
+    color: rgb(255 255 255 / 0.7);
+    padding-bottom: 8px;
+    border-bottom: 1px solid rgb(255 255 255 / 0.22);
+  }
+  .cover-title {
+    margin-top: 16px;
+    font-size: 17px;
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+    text-wrap: balance;
+  }
+  .cover-foot {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-size: 12px;
+    line-height: 16px;
+    color: rgb(255 255 255 / 0.75);
+  }
+  .cover-arrow {
+    transition: transform 180ms var(--ease-out);
+  }
+  .cover:hover .cover-arrow {
+    transform: translateX(2px);
+  }
+  @media (min-width: 1024px) {
+    .cover-title {
+      font-size: 19px;
+    }
+  }
+</style>

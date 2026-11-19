@@ -72,3 +72,17 @@ export async function getBoard() {
 }
 
 export const orcidOf = (s: Scholar) => s.data.identifiers?.find((i) => i.label === "ORCID");
+
+/** The group's journals, with the cloth colour of their cover on the home page. */
+export const JOURNALS = [
+  { key: "grhas", title: "Global Review of Humanities, Arts, and Society", short: "GRHAS", match: "Global Review of Humanities", cloth: "#0e2a47" },
+  { key: "health-nexus", title: "Health Nexus", short: "HN", match: "Health Nexus", cloth: "#1f4a3d" },
+  { key: "silence", title: "Silence", short: "", match: "Silence", cloth: "#5e2230" },
+  { key: "jscc", title: "Journal of Social Cognition and Communication", short: "JSCC", match: "Social Cognition and Communication", cloth: "#7a5420" },
+] as const;
+
+/** Journals a scholar's profile names (summary, body or appointments). */
+export function journalsOf(s: Scholar) {
+  const text = [s.data.summary, s.body ?? "", ...s.data.sections.flatMap((sec) => sec.items.map((i) => i.title))].join(" ");
+  return JOURNALS.filter((j) => text.includes(j.match));
+}

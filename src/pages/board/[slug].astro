@@ -6,9 +6,8 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProfileSection from "../../components/ProfileSection.astro";
 import MemberEntry from "../../components/MemberEntry.astro";
 import SectionHeading from "../../components/SectionHeading.astro";
-import IdBadges from "../../components/IdBadges.astro";
 import Icon from "../../components/Icon.astro";
-import { getFeatured, type Scholar } from "../../lib/scholars";
+import { getFeatured, journalsOf, type Scholar } from "../../lib/scholars";
 
 export async function getStaticPaths() {
   const all = await getFeatured(Infinity);
@@ -27,6 +26,7 @@ interface Props {
 const { scholar, more } = Astro.props;
 const d = scholar.data;
 const { Content } = await render(scholar);
+const journals = journalsOf(scholar);
 const anchors = [
   { id: "biography", title: "Biography" },
   ...d.sections.map((sec, i) => ({ id: `section-${i + 1}`, title: sec.title ?? "Areas of Expertise" })),
@@ -52,7 +52,7 @@ const jsonLd = {
 <BaseLayout title={`${d.name} | Academic Profile`} description={d.summary} active="directory" image={og?.src} type="profile">
   <script slot="head" type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
-  <div class="border-b border-rule bg-surface">
+  <div class="border-b border-rule">
     <nav class="wrap flex h-10 items-center" aria-label="Breadcrumb">
       <ol class="flex flex-wrap items-center gap-1 text-sm text-muted">
         <li><a href="/" class="transition-colors hover:text-ink">Home</a></li>
@@ -64,109 +64,101 @@ const jsonLd = {
     </nav>
   </div>
 
-  <section class="border-b border-rule">
-    <div class="wrap flex flex-col gap-6 py-8 sm:flex-row sm:gap-8 md:py-12">
-      <Portrait
-        scholar={scholar}
-        widths={[288, 384, 576]}
-        sizes="(min-width: 768px) 192px, 144px"
-        class="w-36 rounded-md md:w-48"
-        loading="eager"
-        fetchpriority="high"
-      />
-      <div class="min-w-0">
-        <p class="kicker mb-2">{d.role}</p>
-        <h1 class="mb-2 text-3xl font-medium tracking-[-0.02em] md:text-[2.75rem] md:leading-tight">
-          {d.name}
-          {d.nativeName && <span class="ml-2 text-2xl font-normal text-muted md:text-3xl" lang="zh">{d.nativeName}</span>}
-        </h1>
-        <p class="mb-5 max-w-3xl text-lg text-muted">{d.headline ?? d.affiliation}</p>
-        <div class="mb-5"><IdBadges scholar={scholar} size="md" email={false} /></div>
-        <ul class="mb-6 flex flex-wrap gap-2" aria-label="Research fields">
-          {d.keywords.map((k) => <li class="tag">{k}</li>)}
-        </ul>
-        {
-          d.email && (
-            <a href={`mailto:${d.email}`} class="btn-primary">
-              <Icon name="mail" /> Contact researcher
-            </a>
-          )
-        }
-      </div>
-    </div>
-  </section>
-
-  <nav class="sticky top-16 z-40 border-b border-rule bg-paper" aria-label="On this page">
-    <ul class="wrap no-scrollbar flex gap-6 overflow-x-auto text-sm">
-      {
-        anchors.map((a) => (
-          <li class="shrink-0">
-            <a href={`#${a.id}`} class="flex h-12 items-center border-b-2 border-transparent text-muted transition-colors hover:border-ink/25 hover:text-ink">
-              {a.title}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
-
-  <div class="wrap grid gap-12 py-10 md:py-14 lg:grid-cols-12">
-    <div class="space-y-16 lg:col-span-8">
-      <section id="biography" class="scroll-mt-28">
-        <SectionHeading kicker="Profile" title="Biography" />
-        <div class="prose-bio max-w-[44rem] text-[1.0625rem] leading-relaxed text-ink/90">
-          <Content />
-        </div>
-      </section>
-      {d.sections.map((section, i) => <ProfileSection section={section} id={`section-${i + 1}`} />)}
-    </div>
-
+  <div class="wrap grid gap-10 py-10 md:py-14 lg:grid-cols-12 lg:gap-16">
     <aside class="lg:col-span-4">
-      <div class="space-y-4 lg:sticky lg:top-32">
-        <div class="rounded-lg border border-rule">
-          <p class="border-b border-rule px-5 py-3 text-sm font-medium">Editorial role</p>
-          <dl class="space-y-3 px-5 py-4 text-sm">
-            <div>
-              <dt class="label">Position</dt>
-              <dd>{d.role}</dd>
-            </div>
-            <div>
-              <dt class="label">Affiliation</dt>
-              <dd>{d.affiliation}</dd>
-            </div>
-            <div>
-              <dt class="label">Publisher</dt>
-              <dd>Panorama Scholarly Group</dd>
-            </div>
-          </dl>
-        </div>
-        {
-          (d.identifiers || d.email) && (
-            <div class="rounded-lg border border-rule">
-              <p class="border-b border-rule px-5 py-3 text-sm font-medium">Identifiers and contact</p>
-              <dl class="space-y-3 px-5 py-4 text-sm">
-                {d.identifiers?.map((id) => (
-                  <div>
-                    <dt class="label">{id.label}</dt>
-                    <dd>
-                      <a href={id.href} target="_blank" rel="noopener noreferrer" class="link idnum">{id.value}</a>
-                    </dd>
-                  </div>
+      <div class="flex flex-col gap-6 sm:flex-row lg:sticky lg:top-24 lg:flex-col">
+        <Portrait
+          scholar={scholar}
+          widths={[288, 384, 576]}
+          sizes="(min-width: 1024px) 320px, 160px"
+          class="w-40 rounded-lg sm:w-48 lg:w-full"
+          loading="eager"
+          fetchpriority="high"
+        />
+        <dl class="min-w-0 grow divide-y divide-rule border-y border-rule text-sm">
+          <div class="py-3">
+            <dt class="label mb-1">Position</dt>
+            <dd>{d.role}</dd>
+          </div>
+          <div class="py-3">
+            <dt class="label mb-1">Affiliation</dt>
+            <dd>{d.affiliation}</dd>
+          </div>
+          {journals.length > 0 && (
+            <div class="py-3">
+              <dt class="label mb-1">{journals.length === 1 ? "Journal" : "Journals"}</dt>
+              <dd class="space-y-1">
+                {journals.map((j) => (
+                  <p class="flex items-center gap-2">
+                    <span class="size-2 shrink-0 rounded-[2px]" style={`background:${j.cloth}`} aria-hidden="true" />
+                    <span class="italic">{j.title}</span>
+                  </p>
                 ))}
-                {d.email && (
-                  <div>
-                    <dt class="label">Email</dt>
-                    <dd class="break-all">
-                      <a href={`mailto:${d.email}`} class="link">{d.email}</a>
-                    </dd>
-                  </div>
-                )}
-              </dl>
+              </dd>
             </div>
-          )
-        }
+          )}
+          {d.identifiers?.map((id) => (
+            <div class="py-3">
+              <dt class="label mb-1">{id.label}</dt>
+              <dd>
+                <a href={id.href} target="_blank" rel="noopener noreferrer" class="link idnum inline-flex items-center gap-2">
+                  {id.label === "ORCID" && <span class="size-2 rounded-full bg-orcid" aria-hidden="true" />}
+                  {id.value}
+                </a>
+              </dd>
+            </div>
+          ))}
+          {d.email && (
+            <div class="py-3">
+              <dt class="label mb-1">Email</dt>
+              <dd class="break-all">
+                <a href={`mailto:${d.email}`} class="link">{d.email}</a>
+              </dd>
+            </div>
+          )}
+        </dl>
       </div>
     </aside>
+
+    <div class="min-w-0 lg:col-span-8">
+      <header class="mb-12 border-b border-rule pb-10">
+        <p class="kicker mb-3">{d.role}</p>
+        <h1 class="mb-3 text-[2.5rem] leading-[1.05] font-medium tracking-[-0.03em] md:text-[3.5rem]">
+          {d.name}
+          {d.nativeName && <span class="ml-2 text-[0.6em] font-normal tracking-normal text-muted" lang="zh">{d.nativeName}</span>}
+        </h1>
+        <p class="mb-6 max-w-2xl text-lg leading-relaxed text-muted">{d.headline ?? d.affiliation}</p>
+        <ul class="mb-8 flex flex-wrap gap-2" aria-label="Research fields">
+          {d.keywords.map((k) => <li><a href={`/directory?q=${encodeURIComponent(k)}`} class="tag h-7 px-2.5 text-sm transition-colors hover:border-ink/25 hover:bg-surface">{k}</a></li>)}
+        </ul>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3">
+          {d.email && (
+            <a href={`mailto:${d.email}`} class="btn-primary">
+              <Icon name="mail" class="text-lg!" /> Contact researcher
+            </a>
+          )}
+          {anchors.length > 1 && (
+            <nav aria-label="On this page">
+              <ul class="flex flex-wrap gap-x-5 gap-y-2 text-sm">
+                {anchors.map((a) => (
+                  <li><a href={`#${a.id}`} class="text-muted underline decoration-rule underline-offset-4 transition-colors hover:text-ink hover:decoration-ink/40">{a.title}</a></li>
+                ))}
+              </ul>
+            </nav>
+          )}
+        </div>
+      </header>
+
+      <div class="space-y-16">
+        <section id="biography" class="scroll-mt-24">
+          <SectionHeading kicker="Profile" title="Biography" />
+          <div class="prose-bio max-w-[44rem] text-[1.0625rem] leading-relaxed text-ink/90">
+            <Content />
+          </div>
+        </section>
+        {d.sections.map((section, i) => <ProfileSection section={section} id={`section-${i + 1}`} />)}
+      </div>
+    </div>
   </div>
 
   <section class="border-t border-rule bg-surface">
@@ -180,12 +172,3 @@ const jsonLd = {
     </div>
   </section>
 </BaseLayout>
-
-<style>
-  .no-scrollbar {
-    scrollbar-width: none;
-  }
-  .no-scrollbar::-webkit-scrollbar {
-    display: none;
-  }
-</style>
