@@ -1,14 +1,16 @@
 /*
-  Theme for the Decap editor at /admin.
+  Theme for the redesigned Decap editor at /admin.
 
-  Direction: the editorial office of the publisher whose site this is. A navy
-  bar across the top, the site's cool greys and hairlines, near-square
-  corners, Inter. Scholars show as 4:5 photo cards like the Editorial Board
-  page; the editor puts the form on the left and a live profile preview
-  (preview.js / preview.css) on the right. Status colours: green published,
-  amber draft, blue awaiting publish. Fields are soft grey fills that turn
-  white while you type; lists are white rounded panels whose rows (year,
-  title, authors and journal) are built by rows.js.
+  Direction: the editorial office of Panorama Scholarly Group. Calm, exact,
+  quietly institutional. The chrome is white and grey with hairlines and one
+  navy accent (primary actions, the open tab, focus). Colour lives in the
+  content: the 4:5 portraits in the roster, the journal covers on the sign-in
+  page, and the proof on the right of the editor, which renders the profile
+  exactly as /board/<slug> does (preview.js). Signature: the proof slip
+  "校样 · /board/<slug>" above that page.
+
+  Scale: spacing on a 4px grid; type 12 / 13 / 14 / 16 / 24 at weights 400
+  and 500; radii 4 tag, 8 control, 12 card / panel.
 
   How it hooks in: Decap styles itself with Emotion, whose class names look
   like `css-<hash>-<ComponentName>`. The hash changes between Decap versions
@@ -17,7 +19,6 @@
   Decap, open /admin and check that these still apply.
 */
 
-/* Inter is already served for the public site. */
 @font-face {
   font-family: "Inter";
   font-style: normal;
@@ -27,36 +28,34 @@
 }
 
 :root {
-  --canvas: #f4f5f7;
+  /* One cool grey ramp, the same as the public site. */
   --paper: #ffffff;
-  --hover: #eef3f8;
-  --ink: #1b1f24;
-  --text: #2a2f36;
-  --muted: #5b6470;
-  --faint: #8a929c;
-  --rule: #e1e4e8;
-  --rule-strong: #cdd2d8;
+  --canvas: #f5f6f8;
+  --step: #eceef2;
+  --fill: #f2f4f6;
+  --rule: #e3e6eb;
+  --rule-strong: #d3d8df;
+  --ink: #141a22;
+  --muted: #4d5663;
+  --faint: #6b7380;
 
-  --navy: #0e2a47;
-  --navy-600: #1d4a78;
-  --navy-line: #2b4868;
-  --navy-text: #c4d2e1;
-  --navy-50: #eef3f8;
-  --focus-ring: 0 0 0 3px #dbe6f1;
+  --brand: #0e2a47;
+  --brand-600: #1d4a78;
+  --brand-50: #eef3f8;
+  --ring: 0 0 0 3px #dbe6f1;
 
   --red: #a8322d;
   --red-bg: #fbeceb;
   --green: #2e7d4f;
-  --green-bg: #e9f4ee;
-  --amber: #8a5a00;
-  --amber-bg: #fff4dc;
+  --amber: #9a6a00;
+  --blue: #1d4a78;
 
-  --r-sm: 3px;
-  --r: 4px;
-  --r-field: 8px;
-  --r-panel: 10px;
-  --fill: #f4f5f7;
-  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+  --r-tag: 4px;
+  --r-control: 8px;
+  --r-card: 12px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --fast: 120ms;
 
   --font: "Inter", -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
     "Noto Sans SC", "Helvetica Neue", Arial, sans-serif;
@@ -68,8 +67,9 @@
 html,
 body {
   background: var(--canvas) !important;
-  color: var(--text);
+  color: var(--ink);
   font-family: var(--font) !important;
+  font-feature-settings: "cv11", "ss01";
   -webkit-font-smoothing: antialiased;
 }
 #nc-root,
@@ -80,83 +80,96 @@ body {
   font-family: var(--font) !important;
 }
 #nc-root ::selection {
-  background: #dbe6f1;
+  background: var(--brand-50);
+  color: var(--brand);
 }
 #nc-root a,
 #nc-root button,
 #nc-root [role="button"] {
-  transition: background-color 0.15s var(--ease), color 0.15s var(--ease), border-color 0.15s var(--ease);
+  transition: background-color var(--fast) var(--ease), color var(--fast) var(--ease),
+    border-color var(--fast) var(--ease), box-shadow var(--fast) var(--ease);
+}
+#nc-root button:active {
+  transform: scale(0.98);
 }
 #nc-root :focus-visible {
-  outline: 2px solid var(--navy-600) !important;
+  outline: 2px solid var(--brand-600) !important;
   outline-offset: 2px;
 }
 
-/* ---------- Sign-in: navy panel on the left, the button on the right ---------- */
+/* ---------- Sign-in ----------
+   Left: the mark, what this is, one button. Right: the four journal covers
+   the board members serve on (covers.webp, built from
+   src/assets/journals). */
 
 [class*="-StyledAuthenticationPage"] {
   position: relative;
+  box-sizing: border-box;
   min-height: 100vh;
-  background: linear-gradient(90deg, var(--navy) 0 44%, var(--paper) 44%) !important;
   justify-content: center !important;
   align-items: flex-start !important;
   gap: 0 !important;
-  padding: 0 0 40px calc(44% + 96px) !important;
-  box-sizing: border-box;
+  padding: 0 0 0 max(32px, calc(50% - 600px)) !important;
+  background: var(--paper) !important;
+  overflow: hidden;
 }
 [class*="-StyledAuthenticationPage"]::before {
+  content: "编辑部在这里维护编委的资料、照片和论文。改动先存为草稿，发布后约 1–2 分钟在网站上线";
+  order: 1;
+  max-width: 400px;
+  margin: 0 0 32px;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: 1.6;
+}
+/* The title rides on the logo's wrapper, under the mark. */
+[class*="-CustomIconWrapper"]::after {
   content: "学者名录后台";
-  white-space: pre-wrap;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 44%;
-  box-sizing: border-box;
-  padding: 120px 64px 0;
-  color: #fff;
-  font-size: 30px;
-  font-weight: 600;
-  line-height: 1.3;
+  margin-top: 24px;
+  color: var(--ink);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 40px;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
 }
 [class*="-StyledAuthenticationPage"]::after {
-  content: "■  新增或修改学者资料、照片和论文\A■  编辑时右侧实时预览网站上的个人页\A■  改动先存草稿，点“发布”后约 1–2 分钟上线";
-  white-space: pre-wrap;
+  content: "";
   position: absolute;
-  top: 200px;
-  left: 0;
-  width: 44%;
-  box-sizing: border-box;
-  padding: 0 64px;
-  color: var(--navy-text);
-  font-size: 15px;
-  line-height: 2.2;
+  top: 50%;
+  right: max(0px, calc(50% - 640px));
+  width: min(680px, 50vw);
+  aspect-ratio: 1248 / 518;
+  transform: translateY(-50%);
+  background: url("/admin/covers.webp") center / contain no-repeat;
+  pointer-events: none;
 }
 [class*="-CustomIconWrapper"] {
   order: 0;
-  width: 56px !important;
-  height: 56px !important;
-  margin: 0 0 22px !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0 0 12px !important;
   display: flex !important;
-  align-items: center;
-  justify-content: flex-start;
+  flex-direction: column;
+  align-items: flex-start;
 }
 [class*="-CustomIconWrapper"] img {
-  max-width: 100%;
-  max-height: 100%;
+  width: 48px !important;
+  height: 48px !important;
   object-fit: contain;
 }
 [class*="-LoginButton-"] {
-  order: 1;
+  order: 2;
   position: relative;
   display: inline-flex !important;
   align-items: center;
   justify-content: center !important;
-  gap: 10px;
-  width: 320px;
-  height: 42px !important;
+  gap: 8px;
+  width: 280px;
+  height: 44px !important;
   margin: 0 !important;
   padding: 0 20px !important;
-  font-size: 14.5px !important;
+  font-size: 14px !important;
   font-weight: 500 !important;
 }
 [class*="-LoginButtonIcon"] {
@@ -164,45 +177,42 @@ body {
   width: 18px !important;
   height: 18px !important;
   margin: 0 !important;
-  color: #fff;
 }
 [class*="-LoginButtonIcon"] svg {
   width: 18px !important;
   height: 18px !important;
 }
 [class*="-GoBackButtonStyle"] {
-  order: 2;
-  margin-top: 18px !important;
-  color: var(--muted) !important;
+  order: 3;
+  margin-top: 16px !important;
+  color: var(--faint) !important;
   font-size: 13px;
 }
 [class*="-GoBackButtonStyle"]:hover {
-  color: var(--navy) !important;
+  color: var(--ink) !important;
 }
 [class*="-NetlifyCreditIcon"] {
-  opacity: 0.25;
-  filter: grayscale(1);
-  transform: scale(0.8);
+  display: none !important;
 }
 
 /* ---------- Buttons ---------- */
 
-/* Primary: navy, flat. */
+/* Primary: navy, the only filled colour in the chrome. */
 [class*="-LoginButton-"],
 [class*="-CollectionTopNewButton"],
 [class*="-SaveButton"],
 [class*="-PublishButton"] {
-  background: var(--navy) !important;
+  background: var(--brand) !important;
   color: #fff !important;
   border: 0 !important;
-  border-radius: var(--r-sm) !important;
+  border-radius: var(--r-control) !important;
   box-shadow: none !important;
 }
 [class*="-LoginButton-"]:hover,
 [class*="-CollectionTopNewButton"]:hover,
 [class*="-SaveButton"]:hover,
 [class*="-PublishButton"]:hover {
-  background: var(--navy-600) !important;
+  background: var(--brand-600) !important;
 }
 [class*="-LoginButton-"] svg path {
   fill: #fff !important;
@@ -211,86 +221,98 @@ body {
   color: #fff !important;
 }
 [class*="-CollectionTopNewButton"] {
-  height: 34px !important;
-  padding: 0 14px !important;
-  line-height: 34px !important;
-  font-size: 13.5px !important;
+  height: 36px !important;
+  padding: 0 16px !important;
+  line-height: 36px !important;
+  font-size: 14px !important;
   font-weight: 500 !important;
 }
 
-/* Secondary: outlined. On the navy bar it turns into a ghost button. */
-[class*="-AppHeaderQuickNewButton"] {
-  background: transparent !important;
-  color: #fff !important;
-  border: 1px solid var(--navy-line) !important;
-  border-radius: var(--r-sm) !important;
+/* Secondary: white with a hairline. */
+[class*="-AppHeaderQuickNewButton"],
+[class*="-AddButton"],
+[class*="-FileWidgetButton"] {
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--rule-strong) !important;
+  border-radius: var(--r-control) !important;
   box-shadow: none !important;
   font-weight: 500 !important;
+}
+[class*="-AppHeaderQuickNewButton"]:hover,
+[class*="-AddButton"]:hover,
+[class*="-FileWidgetButton"]:hover {
+  background: var(--canvas) !important;
+  border-color: var(--faint) !important;
+}
+[class*="-AppHeaderQuickNewButton"] {
   height: 32px !important;
-  padding: 0 30px 0 12px !important;
+  padding: 0 32px 0 12px !important;
   line-height: 30px !important;
   font-size: 13px !important;
-}
-[class*="-AppHeaderQuickNewButton"]:hover {
-  background: var(--navy-line) !important;
 }
 [class*="-AppHeaderQuickNewButton"]::after {
   top: 50% !important;
   right: 12px !important;
   transform: translateY(-50%);
-  color: var(--navy-text) !important;
-}
-
-/* Destructive: quiet until hovered. */
-[class*="-DeleteButton"] {
-  background: transparent !important;
-  color: var(--red) !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  font-weight: 500 !important;
-}
-[class*="-DeleteButton"]:hover {
-  background: var(--red-bg) !important;
-}
-
-/* Status of the open entry. */
-[class*="-PublishedToolbarButton"] {
-  background: var(--green-bg) !important;
-  color: var(--green) !important;
-  border: 0 !important;
-  border-radius: var(--r-sm) !important;
-  box-shadow: none !important;
-  font-weight: 500 !important;
-}
-[class*="-PublishedToolbarButton"]::after {
-  color: var(--green) !important;
-}
-
-/* In-form "add" buttons. */
-[class*="-AddButton"] {
-  background: var(--paper) !important;
-  color: var(--navy) !important;
-  border: 1px solid var(--rule-strong) !important;
-  border-radius: var(--r-sm) !important;
-  font-weight: 500 !important;
-}
-[class*="-AddButton"]:hover {
-  background: var(--hover) !important;
+  color: var(--faint) !important;
 }
 [class*="-AddButton"] svg path {
   fill: currentColor;
 }
 
-/* ---------- Top bar: navy, like the publisher's own systems ---------- */
+/* Destructive: quiet text until hovered. */
+[class*="-DeleteButton"] {
+  background: transparent !important;
+  color: var(--faint) !important;
+  border: 0 !important;
+  border-radius: var(--r-control) !important;
+  box-shadow: none !important;
+  font-weight: 500 !important;
+}
+[class*="-DeleteButton"]:hover {
+  background: var(--red-bg) !important;
+  color: var(--red) !important;
+}
+
+/* Status of the open entry: a dot and a word, not a coloured block. */
+[class*="-PublishedToolbarButton"] {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 8px;
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--rule-strong) !important;
+  border-radius: var(--r-control) !important;
+  box-shadow: none !important;
+  font-weight: 500 !important;
+}
+[class*="-PublishedToolbarButton"]::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+}
+[class*="-PublishedToolbarButton"]::after {
+  color: var(--faint) !important;
+}
+[class*="-PublishedToolbarButton"]:hover {
+  background: var(--canvas) !important;
+}
+
+/* ---------- Top bar: white, hairline, the open section underlined ---------- */
 
 [class*="-AppHeader-"] {
-  background: var(--navy) !important;
-  border-bottom: 0;
+  background: var(--paper) !important;
+  border-bottom: 1px solid var(--rule) !important;
   box-shadow: none !important;
 }
 [class*="-AppHeaderContent"] {
-  max-width: 1320px;
-  min-height: 54px;
+  max-width: 1440px;
+  min-height: 56px;
+  padding: 0 24px !important;
+  box-sizing: border-box;
   justify-content: flex-start !important;
   align-items: center !important;
 }
@@ -301,41 +323,43 @@ body {
 }
 [class*="-AppHeaderActions"] {
   margin-left: auto;
+  gap: 16px;
 }
+/* The mark and the product name. */
 [class*="-AppHeaderContent"]::before {
   content: "Panorama";
   display: flex;
   align-items: center;
-  padding-left: 4px;
-  font-weight: 600;
+  height: 28px;
+  padding-left: 36px;
+  background: url("/assets/logos/favicon.png") left center / 28px 28px no-repeat;
+  color: var(--ink);
   font-size: 15px;
-  color: #fff;
+  font-weight: 600;
   white-space: nowrap;
 }
 [class*="-AppHeaderNavList"] {
   align-items: stretch;
   align-self: stretch;
-  gap: 2px;
+  gap: 4px;
 }
 [class*="-AppHeaderNavList"]::before {
   content: "编辑部后台";
   display: flex;
   align-items: center;
-  margin: 0 28px 0 12px;
-  padding-left: 12px;
-  border-left: 1px solid var(--navy-line);
-  font-size: 13px;
-  color: var(--navy-text);
-  white-space: nowrap;
-  height: 18px;
   align-self: center;
+  height: 16px;
+  margin: 0 24px 0 12px;
+  padding-left: 12px;
+  border-left: 1px solid var(--rule-strong);
+  color: var(--faint);
+  font-size: 13px;
+  white-space: nowrap;
 }
 [class*="-AppHeaderNavList"] > li {
   display: flex;
-  align-items: flex-end;
+  align-items: stretch;
 }
-/* Sections are folder tabs: the open one is cut from the page below it, so
-   the bar and the page read as one sheet. */
 [class*="-AppHeaderNavLink"],
 [class*="-AppHeaderButton"] {
   position: relative;
@@ -343,16 +367,15 @@ body {
   flex-direction: row !important;
   align-items: center;
   justify-content: center;
-  height: 40px !important;
+  height: 56px !important;
   line-height: 1 !important;
   margin: 0 !important;
-  padding: 0 18px !important;
+  padding: 0 12px !important;
   border: 0 !important;
-  border-radius: var(--r) var(--r) 0 0 !important;
-  color: var(--navy-text) !important;
+  border-radius: 0 !important;
+  color: var(--muted) !important;
   font-size: 14px !important;
   font-weight: 500 !important;
-  letter-spacing: 0.02em;
   background: transparent !important;
 }
 [class*="-AppHeaderNavLink"] [class*="-IconWrapper"],
@@ -361,101 +384,98 @@ body {
 }
 [class*="-AppHeaderNavLink"]:hover,
 [class*="-AppHeaderButton"]:hover {
-  color: #fff !important;
-  background: rgba(255, 255, 255, 0.06) !important;
+  color: var(--ink) !important;
 }
 [class*="-AppHeaderNavLink"].header-link-active,
 [class*="-AppHeaderNavLink"].header-link-active:hover {
-  color: var(--navy) !important;
-  font-weight: 600 !important;
-  background: var(--canvas) !important;
-}
-/* Inverted corners where the open tab meets the bar. */
-[class*="-AppHeaderNavLink"].header-link-active::before,
-[class*="-AppHeaderNavLink"].header-link-active::after {
-  content: "";
-  position: absolute;
-  bottom: 0;
-  width: 8px;
-  height: 8px;
-  pointer-events: none;
-}
-[class*="-AppHeaderNavLink"].header-link-active::before {
-  left: -8px;
-  background: radial-gradient(circle at 0 0, transparent 7.5px, var(--canvas) 8px);
-}
-[class*="-AppHeaderNavLink"].header-link-active::after {
-  right: -8px;
-  background: radial-gradient(circle at 100% 0, transparent 7.5px, var(--canvas) 8px);
+  color: var(--ink) !important;
+  box-shadow: inset 0 -2px 0 var(--brand) !important;
 }
 [class*="-AppHeaderSiteLink"] {
-  font-family: var(--mono) !important;
-  color: var(--navy-text) !important;
-  font-size: 12px !important;
+  color: var(--faint) !important;
+  font-family: var(--font) !important;
+  font-size: 13px !important;
 }
 [class*="-AppHeaderSiteLink"]:hover {
-  color: #fff !important;
+  color: var(--ink) !important;
 }
 [class*="-AvatarImage"],
 [class*="-AvatarPlaceholderIcon"] {
-  border: 1px solid var(--navy-line);
+  width: 28px !important;
+  height: 28px !important;
+  border: 1px solid var(--rule);
   border-radius: 50%;
 }
 [class*="-AvatarPlaceholderIcon"] path {
-  fill: var(--navy-text);
+  fill: var(--faint);
 }
 
-/* ---------- Collection view ---------- */
+/* ---------- Collection: sidebar + roster ---------- */
 
 [class*="-AppMainContainer"] {
-  max-width: 1320px !important;
+  max-width: 1440px !important;
+  padding: 0 24px !important;
+  box-sizing: border-box;
 }
 [class*="-CollectionContainer"] {
-  margin-top: 28px !important;
+  margin: 32px 0 0 !important;
+}
+@media (min-width: 801px) {
+  [class*="-CollectionMain"] {
+    padding-left: 272px !important;
+  }
+  [class*="-SidebarContainer"] {
+    width: 240px !important;
+  }
 }
 
-/* Sidebar: a grey column of plain rows, the current one highlighted. */
 [class*="-SidebarContainer"] {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
   padding: 0 !important;
 }
+/* "集合" over a single collection says nothing. */
 [class*="-SidebarHeading"] {
-  padding: 0 10px !important;
-  margin: 4px 0 10px !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  color: var(--faint) !important;
-  letter-spacing: 0.06em;
+  display: none !important;
 }
 [class*="-SearchContainer"] {
-  margin: 0 0 10px !important;
+  margin: 0 0 16px !important;
   padding: 0 !important;
 }
+[class*="-SearchContainer"] [class*="-IconWrapper"] svg path,
+[class*="-SearchContainer"] svg path {
+  fill: var(--faint) !important;
+}
 [class*="-SearchInput"] {
-  height: 34px;
+  box-sizing: border-box;
+  height: 36px !important;
   background: var(--paper) !important;
   border: 1px solid var(--rule-strong) !important;
-  border-radius: var(--r-sm) !important;
-  font-size: 13.5px !important;
+  border-radius: var(--r-control) !important;
+  color: var(--ink) !important;
+  font-size: 14px !important;
+}
+[class*="-SearchInput"]::placeholder {
+  color: var(--faint);
 }
 [class*="-SearchInput"]:focus {
-  border-color: var(--navy-600) !important;
-  box-shadow: var(--focus-ring) !important;
+  border-color: var(--brand-600) !important;
+  box-shadow: var(--ring) !important;
   outline: none;
 }
-/* Collections read like the board page's role list: plain rows, the open
-   one tinted navy. Decap's pen icon is swapped for a 4:5 portrait frame,
-   the same shape as the photo cards beside it. */
+/* Collections: 36px rows, a 4:5 portrait frame for the icon, the open one
+   a step darker than the page. */
 [class*="-SidebarNavLink"] {
   display: flex !important;
   align-items: center;
-  gap: 10px;
-  margin: 1px 0;
-  padding: 9px 12px !important;
+  gap: 8px;
+  height: 36px;
+  box-sizing: border-box;
+  margin: 0 0 4px !important;
+  padding: 0 12px !important;
   border: 0 !important;
-  border-radius: var(--r-sm);
+  border-radius: var(--r-control);
   color: var(--muted) !important;
   font-size: 14px !important;
   font-weight: 500 !important;
@@ -463,7 +483,7 @@ body {
 [class*="-SidebarNavLink"] [class*="-IconWrapper"] {
   width: 14px !important;
   height: 18px !important;
-  margin: 0 !important;
+  margin: 0 2px 0 0 !important;
   flex: none;
   background: currentColor;
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 18'%3E%3Cpath fill-rule='evenodd' d='M2 0h10a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2Zm0 1.5a.5.5 0 0 0-.5.5v14c0 .28.22.5.5.5h.3c.5-2.8 2.2-4.3 4.7-4.3s4.2 1.5 4.7 4.3h.3a.5.5 0 0 0 .5-.5V2a.5.5 0 0 0-.5-.5H2ZM7 4a2.75 2.75 0 1 1 0 5.5A2.75 2.75 0 0 1 7 4Z'/%3E%3C/svg%3E") center / contain no-repeat;
@@ -473,17 +493,20 @@ body {
   display: none !important;
 }
 [class*="-SidebarNavLink"]:hover {
-  background: #e9ecf0 !important;
+  background: var(--step) !important;
   color: var(--ink) !important;
 }
 [class*="-SidebarNavLink"].sidebar-active,
 [class*="-SidebarNavLink"].sidebar-active:hover {
-  background: #e3eaf2 !important;
-  color: var(--navy) !important;
-  font-weight: 600 !important;
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  box-shadow: inset 0 0 0 1px var(--rule);
+}
+[class*="-SidebarNavLink"].sidebar-active [class*="-IconWrapper"] {
+  background: var(--brand);
 }
 
-/* Page heading */
+/* Heading: the collection name, one line on what it publishes, one action. */
 [class*="-CollectionTopContainer"],
 [class*="-CollectionControlsContainer"] {
   width: auto !important;
@@ -493,57 +516,62 @@ body {
   background: transparent !important;
   border: 0 !important;
   box-shadow: none !important;
-  padding: 0 0 18px !important;
-  margin-bottom: 4px !important;
+  padding: 0 0 20px !important;
+  margin: 0 !important;
   border-bottom: 1px solid var(--rule) !important;
   border-radius: 0 !important;
 }
 [class*="-CollectionTopRow"] {
-  align-items: flex-end !important;
+  align-items: center !important;
 }
 [class*="-CollectionTopHeading"] {
   font-size: 24px !important;
-  font-weight: 600 !important;
-  line-height: 1.2 !important;
+  font-weight: 500 !important;
+  line-height: 32px !important;
+  letter-spacing: -0.015em;
   color: var(--ink) !important;
 }
 [class*="-CollectionTopDescription"] {
   max-width: 64ch;
-  margin-top: 6px !important;
+  margin-top: 4px !important;
   color: var(--muted) !important;
-  font-size: 13px !important;
-  line-height: 1.6 !important;
+  font-size: 14px !important;
+  line-height: 20px !important;
 }
 [class*="-CollectionControlsContainer"] {
-  margin: 10px 0 14px !important;
+  margin: 12px 0 16px !important;
 }
 [class*="-ViewControlsText"],
 [class*="-ControlButton"] {
   color: var(--muted) !important;
+  font-size: 13px !important;
   font-weight: 500 !important;
+}
+[class*="-ControlButton"]:hover {
+  color: var(--ink) !important;
 }
 [class*="-ViewControlsButton"] {
   color: var(--faint) !important;
 }
 [class*="-ViewControlsButton"]:hover {
-  color: var(--navy) !important;
+  color: var(--ink) !important;
 }
 /* Decap marks the active view only with its blue; repaint that blue. */
 [class*="-ViewControlsButton"][style*="color"],
 [class*="-ViewControlsButton"] svg[style*="color"] {
-  color: var(--navy) !important;
+  color: var(--brand) !important;
 }
-/* Group headings (分组 → 编委会层级) read like the board page's tier rules. */
+/* Group headings (分组 → 编委会层级): a sentence-case label on a hairline. */
 [class*="-GroupHeading"] {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin: 18px 0 10px !important;
-  color: var(--navy-600) !important;
-  font-size: 12px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  margin: 24px 0 12px !important;
+  color: var(--ink) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0;
+  text-transform: none !important;
 }
 [class*="-GroupHeading"]::after {
   content: "";
@@ -552,30 +580,27 @@ body {
   background: var(--rule);
 }
 
-/* Photo cards: the Editorial Board page in miniature. */
+/* Roster: the Editorial Board page in miniature. */
 [class*="-CardsGrid"]:has(> [class*="-GridCard-"]) {
   display: grid !important;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fill, minmax(168px, 1fr));
+  gap: 16px;
   margin: 0 !important;
   padding: 0 !important;
 }
-/* Trailing dash: the card is "-GridCard-card", its link "-GridCardLink".
-   Matching the link too gave it a second border that stopped short of the
-   row height, so cards with a one-line role showed a strip below them. */
 [class*="-GridCard-"] {
   width: auto !important;
   height: auto !important;
   margin: 0 !important;
   background: var(--paper) !important;
   border: 1px solid var(--rule) !important;
-  border-radius: var(--r) !important;
+  border-radius: var(--r-card) !important;
   box-shadow: none !important;
   overflow: hidden;
 }
 [class*="-GridCard-"]:hover {
-  border-color: var(--navy-600) !important;
-  box-shadow: 0 0 0 1px var(--navy-600) !important;
+  border-color: var(--rule-strong) !important;
+  box-shadow: 0 2px 8px rgba(20, 26, 34, 0.06) !important;
 }
 [class*="-GridCardLink"] {
   display: flex !important;
@@ -589,25 +614,25 @@ body {
   aspect-ratio: 4 / 5;
   background-size: cover !important;
   background-position: center !important;
-  background-color: #d9dde2;
+  background-color: var(--step);
 }
 /* Decap mounts each card without its photo and adds it a frame later, and
-   it remounts the whole grid several times while entries and images load.
-   Without a placeholder every card shrank to its name and sprang back each
-   time, so the grid flickered. Hold the 4:5 photo space until the photo is
-   there (and for scholars with no photo). */
+   remounts the grid several times while loading. Hold the 4:5 space so the
+   grid does not flicker (and for scholars with no photo, a blank portrait). */
 [class*="-GridCardLink"]:not(:has([class*="-StyledImage"]))::before {
   content: "";
   order: -1;
   display: block;
   width: 100%;
   aspect-ratio: 4 / 5;
-  background-color: #d9dde2;
+  background: var(--canvas)
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 100'%3E%3Ccircle cx='40' cy='38' r='16' fill='%23d3d8df'/%3E%3Cpath d='M8 100c2-22 15-34 32-34s30 12 32 34z' fill='%23d3d8df'/%3E%3C/svg%3E")
+    center bottom / 64% no-repeat;
 }
 [class*="-GridCard"] [class*="-CardBody"] {
   flex-grow: 1;
   height: auto !important;
-  padding: 9px 11px 11px !important;
+  padding: 12px 12px 16px !important;
 }
 [class*="-GridCard"] [class*="-CardBody"]::after {
   display: none !important;
@@ -617,26 +642,26 @@ body {
   -webkit-line-clamp: unset !important;
   margin: 0 !important;
   white-space: pre-line;
-  color: var(--muted) !important;
-  font-size: 11.5px !important;
+  color: var(--faint) !important;
+  font-size: 12px !important;
   font-weight: 400 !important;
-  line-height: 1.45 !important;
+  line-height: 16px !important;
 }
 [class*="-GridCard"] [class*="-CardHeading"]::first-line {
   color: var(--ink);
-  font-size: 13.5px;
-  font-weight: 600;
-  line-height: 1.6;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 24px;
 }
 
-/* List view (the table toggle): one bordered sheet with hairline rows. */
+/* List view: one sheet with hairline rows. */
 [class*="-CardsGrid"]:has(> [class*="-ListCard-"]) {
   display: block !important;
   margin: 0 !important;
   padding: 0 !important;
   background: var(--paper);
   border: 1px solid var(--rule);
-  border-radius: var(--r);
+  border-radius: var(--r-card);
   overflow: hidden;
 }
 [class*="-ListCard-"] {
@@ -652,79 +677,132 @@ body {
   border-bottom: 0 !important;
 }
 [class*="-ListCard-"]:hover {
-  background: var(--hover) !important;
+  background: var(--canvas) !important;
 }
 [class*="-ListCardLink"] {
-  padding: 11px 18px !important;
-}
-[class*="-ListCardTitle"] {
-  white-space: pre-line;
-  color: var(--muted) !important;
-  font-size: 12.5px !important;
-  font-weight: 400 !important;
-}
-[class*="-ListCardTitle"]:has(.pd-card) {
-  font-size: 0 !important;
+  padding: 12px 20px !important;
 }
 [class*="-ListCardTitle"] {
   flex: 1 1 auto;
   margin-right: auto !important;
   text-align: left !important;
+  white-space: pre-line;
+  color: var(--muted) !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+}
+[class*="-ListCardTitle"]:has(.pd-card) {
+  font-size: 0 !important;
 }
 .pd-card {
   order: -1;
   margin-right: auto;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 2px;
+  align-items: baseline;
+  gap: 12px;
 }
 .pd-card-name {
+  min-width: 200px;
   color: var(--ink);
-  font: 600 14px/1.45 var(--font);
+  font: 500 14px/20px var(--font);
 }
 .pd-card-role {
-  color: var(--muted);
-  font: 400 12.5px/1.45 var(--font);
+  color: var(--faint);
+  font: 400 13px/20px var(--font);
 }
 
-/* ---------- Editor: form on the left, live profile preview on the right ---------- */
+/* Search results heading */
+[class*="-SearchResultContainer"] {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--rule) !important;
+  border-radius: 0 !important;
+  padding: 0 0 20px !important;
+  margin-bottom: 16px !important;
+  width: 100% !important;
+  max-width: none !important;
+}
+[class*="-SearchResultHeading"] {
+  padding: 0 !important;
+  border: 0 !important;
+  color: var(--ink) !important;
+  font-size: 24px !important;
+  font-weight: 500 !important;
+}
+
+/* ---------- Editor: form on the left, the proof on the right ---------- */
 
 [class*="-ToolbarContainer"] {
+  min-height: 56px;
   background: var(--paper) !important;
-  border-bottom: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule) !important;
   box-shadow: none !important;
 }
 [class*="-ToolbarSectionBackLink"] {
+  padding: 0 24px !important;
   border-right-color: var(--rule) !important;
 }
 [class*="-ToolbarSectionBackLink"]:hover {
-  background: var(--hover) !important;
+  background: var(--canvas) !important;
+}
+[class*="-BackArrow"] {
+  color: var(--muted) !important;
+  font-size: 18px !important;
 }
 [class*="-BackCollection"] {
   color: var(--ink) !important;
-  font-weight: 600 !important;
-}
-[class*="-BackArrow"] {
-  color: var(--navy) !important;
-}
-[class*="-BackStatus"] {
-  font-size: 12px !important;
+  font-size: 14px !important;
   font-weight: 500 !important;
 }
+[class*="-BackStatus"] {
+  color: var(--faint) !important;
+  font-size: 12px !important;
+  font-weight: 400 !important;
+}
+[class*="-BackStatus"][class*="Changed"],
+[class*="-BackStatusChanged"] {
+  color: var(--amber) !important;
+}
+[class*="-ToolbarSectionMain"] {
+  gap: 8px;
+  padding: 0 16px !important;
+}
+[class*="-ToolbarSubSectionFirst"],
+[class*="-ToolbarSubSectionLast"] {
+  gap: 8px;
+}
+[class*="-ToolbarSubSectionFirst"] > *,
+[class*="-ToolbarSubSectionLast"] > * {
+  margin: 0 !important;
+}
+[class*="-ToolbarButton"],
+[class*="-ToolbarDropdown"] > button {
+  height: 36px !important;
+  line-height: 36px !important;
+  padding: 0 16px !important;
+  font-size: 14px !important;
+}
+[class*="-PublishButton"],
+[class*="-PublishedToolbarButton"] {
+  padding-right: 36px !important;
+}
 [class*="-ToolbarSectionMeta"] {
+  padding: 0 24px !important;
   border-left-color: var(--rule) !important;
 }
 [class*="-PreviewLink"] {
   color: var(--muted) !important;
+  font-size: 13px !important;
   font-weight: 500;
 }
 [class*="-PreviewLink"]:hover {
-  color: var(--navy) !important;
+  color: var(--ink) !important;
 }
 [class*="-PreviewLink"] * {
   color: inherit !important;
 }
+
 [class*="-EditorContainer"],
 [class*="-ControlPaneContainer"],
 [class*="-NoPreviewContainer"] {
@@ -733,31 +811,41 @@ body {
   box-shadow: none !important;
 }
 [class*="-ControlPaneContainer"] {
-  padding: 4px 28px 120px !important;
+  padding: 8px 32px 128px !important;
 }
-/* Keep the preview clear of the eye / scroll-sync buttons Decap floats at
-   its top right. */
+/* Keep the proof clear of the toggles Decap floats at its top right. */
 [class*="-PreviewPaneContainer "] {
-  padding-right: 60px !important;
+  padding-right: 56px !important;
 }
 [class*="-PreviewPaneFrame"] {
   background: var(--canvas) !important;
   border: 0 !important;
   box-shadow: none !important;
 }
-/* The pane-switch buttons Decap floats over the split. */
 [class*="-EditorToggle"] {
+  width: 32px !important;
+  height: 32px !important;
+  margin-bottom: 8px !important;
   background: var(--paper) !important;
-  border: 1px solid var(--rule-strong) !important;
+  border: 1px solid var(--rule) !important;
   box-shadow: none !important;
-  border-radius: var(--r-sm) !important;
+  border-radius: var(--r-control) !important;
+}
+[class*="-EditorToggle"]:hover {
+  border-color: var(--rule-strong) !important;
+}
+[class*="-EditorToggle"] svg {
+  width: 18px !important;
+  height: 18px !important;
+}
+[class*="-EditorToggle"] svg path {
+  fill: var(--faint) !important;
 }
 
-/* Fields: label above a soft filled input, hint beneath. Inputs sit on a
-   light grey fill with rounded corners and turn white with a navy outline
-   while you type. */
+/* Fields: label, a soft filled input that turns white with a navy outline
+   while typing, a hint beneath. */
 [class*="-ControlContainer"] {
-  margin-top: 22px !important;
+  margin-top: 24px !important;
 }
 [class*="-ControlTopbar"] {
   background: none !important;
@@ -766,11 +854,13 @@ body {
 [class*="-FieldLabel"] {
   background: none !important;
   border: 0 !important;
-  padding: 0 0 7px !important;
-  color: var(--text) !important;
+  padding: 0 0 8px !important;
+  color: var(--ink) !important;
   font-size: 13px !important;
   font-weight: 500 !important;
+  line-height: 16px !important;
   text-transform: none !important;
+  letter-spacing: 0 !important;
 }
 [class*="-FieldLabel"]::before,
 [class*="-FieldLabel"]::after {
@@ -781,19 +871,19 @@ body {
 .pd-doi-row input,
 [aria-label="select field"] [class*="-control"] {
   border: 1px solid transparent !important;
-  border-radius: var(--r-field) !important;
+  border-radius: var(--r-control) !important;
   background: var(--fill) !important;
   box-shadow: none !important;
   outline: none;
-  transition: background-color 0.12s, border-color 0.12s;
 }
 [class*="-ControlTopbar"] + input,
 [class*="-ControlTopbar"] + textarea,
 .pd-doi-row input {
+  box-sizing: border-box;
   padding: 8px 12px !important;
   min-height: 40px;
   font-size: 14px !important;
-  line-height: 1.55 !important;
+  line-height: 22px !important;
   color: var(--ink) !important;
 }
 [class*="-ControlTopbar"] + input:hover,
@@ -807,22 +897,21 @@ body {
 .pd-doi-row input:focus,
 [aria-label="select field"] [class*="-control"]:focus-within {
   background: var(--paper) !important;
-  border-color: var(--navy-600) !important;
-  box-shadow: var(--focus-ring) !important;
+  border-color: var(--brand-600) !important;
+  box-shadow: var(--ring) !important;
 }
-/* Other widgets (markdown editor) keep a plain outlined box. */
+/* Other widgets (markdown editor) keep one outlined box. */
 [class*="-ControlTopbar"] + div:not([class*="-container"]) {
   border: 1px solid var(--rule-strong) !important;
-  border-radius: var(--r-field) !important;
+  border-radius: var(--r-control) !important;
   background: var(--paper) !important;
   box-shadow: none !important;
 }
 [class*="-ControlTopbar"] + div:not([class*="-container"]):focus-within {
-  border-color: var(--navy-600) !important;
-  box-shadow: var(--focus-ring) !important;
+  border-color: var(--brand-600) !important;
+  box-shadow: var(--ring) !important;
 }
-/* ...but lists, objects, switches, photos and the DOI box are not inputs:
-   no frame around them. */
+/* Lists, objects, switches, photos and the DOI box are not inputs. */
 [aria-label="list field"] > [class*="-ControlTopbar"] + div,
 [aria-label="object field"] > [class*="-ControlTopbar"] + div,
 [aria-label="boolean field"] > [class*="-ControlTopbar"] + div,
@@ -835,11 +924,23 @@ body {
   box-shadow: none !important;
   padding: 0 !important;
 }
+[aria-label="object field"] > [class*="-ControlTopbar"] + div:focus-within,
+[aria-label="boolean field"] > [class*="-ControlTopbar"] + div:focus-within,
+[aria-label="image field"] > [class*="-ControlTopbar"] + div:focus-within,
+[aria-label="doi field"] > [class*="-ControlTopbar"] + div:focus-within,
+[aria-label="select field"] > [class*="-ControlTopbar"] + div:focus-within {
+  box-shadow: none !important;
+}
 [class*="-ControlHint"] {
   color: var(--faint) !important;
   font-size: 12px !important;
-  line-height: 1.55 !important;
-  margin-top: 6px !important;
+  line-height: 18px !important;
+  margin-top: 8px !important;
+}
+[class*="-ControlErrorsList"] li {
+  color: var(--red) !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
 }
 
 /* Select: same height and fill as a text input. */
@@ -855,14 +956,18 @@ body {
   font-size: 14px !important;
 }
 [aria-label="select field"] [class*="-indicatorContainer"] {
-  padding: 0 10px !important;
+  padding: 0 12px !important;
 }
 [aria-label="select field"] [class*="-indicatorContainer"] svg {
   width: 16px;
   height: 16px;
 }
+[aria-label="select field"] [class*="-indicatorSeparator"] {
+  display: none;
+}
 
-/* Switch: smaller, navy when on. */
+/* Switch: 36 × 20, navy when on. Decap slides the handle with
+   translateX(20px); place it with left so it fits the smaller track. */
 [aria-label="boolean field"] > [class*="-ControlTopbar"] + div {
   padding: 2px 0 !important;
 }
@@ -877,16 +982,14 @@ body {
   background-color: var(--rule-strong) !important;
 }
 [class*="-ToggleContainer"][aria-checked="true"] [class*="-ToggleBackground"] {
-  background-color: var(--navy) !important;
+  background-color: var(--brand) !important;
 }
-/* Decap slides the handle with translateX(20px); place it with left instead
-   so it lines up with the smaller track. */
 [class*="-ToggleHandle"] {
   width: 16px !important;
   height: 16px !important;
   top: 2px !important;
   transform: none !important;
-  box-shadow: 0 1px 2px rgba(14, 42, 71, 0.25) !important;
+  box-shadow: 0 1px 2px rgba(20, 26, 34, 0.2) !important;
 }
 [class*="-ToggleContainer"]:not([aria-checked="true"]) [class*="-ToggleHandle"] {
   left: 2px !important;
@@ -896,16 +999,15 @@ body {
 }
 
 /* ---------- Lists (论文、学术 ID、板块…) ----------
-   A list is one white rounded panel. rows.js turns each item's summary into
-   a row: year badge, bold title, authors and journal underneath. Click the
-   row to open it; drag handle on the left, delete (×) on the right. The add button
-   sits at the bottom of the panel. */
+   One white panel. rows.js turns each item's summary into a row: year,
+   title, authors and journal. Drag on the left, open and delete on the
+   right, always visible; the add button closes the panel. */
 
 [aria-label="list field"] > [class*="-ControlTopbar"] + div {
   display: flex !important;
   flex-direction: column;
   border: 1px solid var(--rule) !important;
-  border-radius: var(--r-panel) !important;
+  border-radius: var(--r-card) !important;
   background: var(--paper) !important;
   /* not overflow: hidden, which would clip the "添加条目" type menu */
 }
@@ -913,14 +1015,6 @@ body {
   border-color: var(--rule) !important;
   box-shadow: none !important;
 }
-[aria-label="object field"] > [class*="-ControlTopbar"] + div:focus-within,
-[aria-label="boolean field"] > [class*="-ControlTopbar"] + div:focus-within,
-[aria-label="image field"] > [class*="-ControlTopbar"] + div:focus-within,
-[aria-label="doi field"] > [class*="-ControlTopbar"] + div:focus-within,
-[aria-label="select field"] > [class*="-ControlTopbar"] + div:focus-within {
-  box-shadow: none !important;
-}
-/* The header (count + collapse-all + add) moves under the rows. */
 [aria-label="list field"] [class*="-TopBarContainer"] {
   order: 2;
   display: flex !important;
@@ -951,28 +1045,24 @@ body {
   justify-content: flex-start !important;
   box-sizing: border-box;
   width: 100% !important;
-  height: 46px !important;
+  height: 44px !important;
   margin: 0 !important;
-  padding: 0 0 0 34px !important;
+  padding: 0 0 0 36px !important;
   background: transparent !important;
-  color: var(--navy-600) !important;
+  color: var(--brand-600) !important;
   border: 0 !important;
-  border-radius: 0 !important;
+  border-radius: 0 0 11px 11px !important;
   box-shadow: none !important;
-  font: 500 13.5px/46px var(--font) !important;
+  font: 500 13px/44px var(--font) !important;
   text-transform: none !important;
-}
-[aria-label="list field"] [class*="-AddButton"],
-[aria-label="list field"] [class*="-StyledDropdownButton"] {
-  border-radius: 0 0 calc(var(--r-panel) - 1px) calc(var(--r-panel) - 1px) !important;
 }
 [aria-label="list field"]:not(:has([class*="-SortableListItem"])) [class*="-AddButton"],
 [aria-label="list field"]:not(:has([class*="-SortableListItem"])) [class*="-StyledDropdownButton"] {
-  border-radius: calc(var(--r-panel) - 1px) !important;
+  border-radius: 11px !important;
 }
 [aria-label="list field"] [class*="-AddButton"]:hover,
 [aria-label="list field"] [class*="-StyledDropdownButton"]:hover {
-  background: var(--navy-50) !important;
+  background: var(--canvas) !important;
 }
 [aria-label="list field"] [class*="-AddButton"] > span,
 [aria-label="list field"] [class*="-StyledDropdownButton"]::after {
@@ -981,42 +1071,42 @@ body {
 [aria-label="list field"] [class*="-AddButton"]::before,
 [aria-label="list field"] [class*="-StyledDropdownButton"]::before {
   content: "+";
+  width: 16px;
   margin-right: 8px;
   font-size: 18px;
   font-weight: 400;
+  text-align: center;
 }
 
 /* One item: [drag] [row] [open] [delete] */
 [class*="-SortableListItem"] {
   position: relative;
   display: grid !important;
-  grid-template-columns: 22px minmax(0, 1fr) 28px 28px;
+  grid-template-columns: 24px minmax(0, 1fr) 28px 28px;
   align-items: start;
-  column-gap: 6px;
+  column-gap: 4px;
   margin: 0 !important;
-  padding: 14px 10px 14px 6px !important;
+  padding: 12px 8px 12px 8px !important;
   background: transparent !important;
   border: 0 !important;
   border-radius: 0 !important;
   box-shadow: none !important;
   overflow: visible !important;
 }
-/* Hairline between rows, inset to start under the text. */
 [class*="-SortableListItem"] + [class*="-SortableListItem"]::before {
   content: "";
   position: absolute;
   top: 0;
-  left: 34px;
+  left: 36px;
   right: 0;
   border-top: 1px solid var(--rule);
 }
 [class*="-SortableListItem"]:has(> [class*="-NestedObjectLabel"]:hover) {
-  background: #fafbfc !important;
+  background: var(--canvas) !important;
 }
 [class*="-SortableListItem"]:first-child {
-  border-radius: calc(var(--r-panel) - 1px) calc(var(--r-panel) - 1px) 0 0 !important;
+  border-radius: 11px 11px 0 0 !important;
 }
-/* Single values (要点、段落、登录邮箱): the text itself, not bold. */
 .pd-row-title.is-value {
   font-weight: 400;
 }
@@ -1054,14 +1144,14 @@ body {
   background: transparent !important;
 }
 [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] svg {
-  width: 15px !important;
-  height: 15px !important;
+  width: 16px !important;
+  height: 16px !important;
 }
 [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] svg path {
   fill: var(--faint) !important;
 }
 [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:hover {
-  background: var(--hover) !important;
+  background: var(--step) !important;
 }
 [class*="-SortableListItem"] > [class*="-StyledListItemTopBar"] > button:last-child:hover {
   background: var(--red-bg) !important;
@@ -1077,7 +1167,7 @@ body {
   grid-row: 1;
   display: block !important;
   min-width: 0;
-  padding: 3px 0 0 !important;
+  padding: 4px 0 0 !important;
   background: transparent !important;
   border: 0 !important;
   color: var(--ink) !important;
@@ -1091,33 +1181,29 @@ body {
 .pd-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  column-gap: 14px;
+  column-gap: 16px;
 }
+/* Publications read like the profile page: the label in a mono column. */
 [data-row="pub"] .pd-row {
-  grid-template-columns: 58px minmax(0, 1fr);
+  grid-template-columns: 48px minmax(0, 1fr);
 }
 .pd-row-tag {
   justify-self: start;
   align-self: start;
-  padding: 1px 8px;
-  border-radius: 5px;
-  background: #f1f2f4;
-  color: var(--muted);
-  font: 500 12.5px/1.5 var(--font);
+  color: var(--faint);
+  font: 400 13px/20px var(--mono);
   font-variant-numeric: tabular-nums;
 }
 .pd-row-tag.is-empty {
   visibility: hidden;
 }
 .pd-row-tag.is-year {
-  background: var(--navy-50);
-  color: var(--navy);
-  font-weight: 600;
+  color: var(--brand-600);
 }
 .pd-row-body {
   display: flex;
   flex-direction: column;
-  gap: 3px;
+  gap: 2px;
   min-width: 0;
 }
 .pd-row-title {
@@ -1126,12 +1212,12 @@ body {
   -webkit-line-clamp: 2;
   overflow: hidden;
   color: var(--ink);
-  font: 600 14px/1.45 var(--font);
+  font: 500 14px/20px var(--font);
 }
 .pd-row-meta {
   overflow: hidden;
-  color: var(--muted);
-  font: 400 12.5px/1.5 var(--font);
+  color: var(--faint);
+  font: 400 13px/20px var(--font);
   white-space: nowrap;
   text-overflow: ellipsis;
 }
@@ -1144,7 +1230,7 @@ body {
   grid-column: 2 / 4;
   grid-row: 2;
   min-width: 0;
-  padding: 2px 0 6px !important;
+  padding: 0 0 8px !important;
   background: transparent !important;
   border: 0 !important;
 }
@@ -1173,7 +1259,7 @@ body {
 /* A nested object (e.g. 链接) opens like a small section. */
 [aria-label="object field"] > [class*="-ControlTopbar"] + div {
   border-top: 1px solid var(--rule) !important;
-  padding-top: 6px !important;
+  padding-top: 8px !important;
 }
 [aria-label="object field"] [class*="-TopBarContainer"] {
   padding: 0 !important;
@@ -1185,35 +1271,13 @@ body {
 }
 [aria-label="object field"] > [class*="-ControlTopbar"] + div > div:last-child {
   border: 0 !important;
-  padding: 0 0 6px !important;
+  padding: 0 0 8px !important;
 }
 [class*="-ExpandButtonContainer"] {
   text-transform: none !important;
 }
 
-/* Narrow screens: nested fields use the full width, year sits above the title. */
-@media (max-width: 799px) {
-  [class*="-SortableListItem"] {
-    padding: 12px 4px 12px 2px !important;
-    column-gap: 4px;
-  }
-  [class*="-SortableListItem"] + [class*="-SortableListItem"]::before {
-    left: 10px;
-  }
-  [class*="-SortableListItem"] > div:last-child:not([class*="-NestedObjectLabel"]):not([class*="-StyledListItemTopBar"]) {
-    grid-column: 1 / -1;
-    padding: 2px 6px 6px !important;
-  }
-  [data-row="pub"] .pd-row {
-    grid-template-columns: minmax(0, 1fr);
-    row-gap: 4px;
-  }
-  [data-row="pub"] > div:last-child > div {
-    grid-template-columns: 90px minmax(0, 1fr);
-  }
-}
-
-/* Markdown editor: one outer frame; drop Decap's inner grey borders. */
+/* Markdown editor: one outer frame, a quiet toolbar. */
 [aria-label="markdown field"] > [class*="-ControlTopbar"] + div {
   overflow: hidden;
 }
@@ -1224,26 +1288,34 @@ body {
   border-radius: 0 !important;
 }
 [aria-label="markdown field"] [class*="-ToolbarContainer"] {
+  min-height: 44px;
+  padding: 0 8px !important;
   border-radius: 0 !important;
+  background: var(--canvas) !important;
 }
-
-/* Markdown editor toolbar */
 [class*="-StyledToolbarButton"] {
+  width: 32px;
+  height: 32px;
   background: transparent !important;
   border: 0 !important;
-  border-radius: var(--r-sm) !important;
+  border-radius: 6px !important;
   color: var(--muted) !important;
 }
 [class*="-StyledToolbarButton"]:hover {
-  background: var(--hover) !important;
-  color: var(--navy) !important;
+  background: var(--step) !important;
+  color: var(--ink) !important;
 }
 [class*="-ToolbarToggleLabel"] {
   color: var(--muted) !important;
+  font-size: 13px !important;
   font-weight: 500;
 }
-[class*="-ToggleBackground"] {
-  background-color: var(--rule-strong) !important;
+[aria-label="markdown field"] [data-slate-editor],
+[aria-label="markdown field"] textarea {
+  padding: 16px !important;
+  font-size: 15px !important;
+  line-height: 1.6 !important;
+  color: var(--ink) !important;
 }
 
 /* Photo field: the portrait in the site's 4:5 frame, buttons beside it. */
@@ -1256,13 +1328,14 @@ body {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 6px;
+  gap: 8px;
 }
 [class*="-ImageWrapper"] {
+  background: var(--canvas) !important;
   width: 120px !important;
   height: 150px !important;
   margin: 0 !important;
-  border-radius: var(--r-field) !important;
+  border-radius: var(--r-control) !important;
   border: 1px solid var(--rule);
   box-shadow: none !important;
   overflow: hidden;
@@ -1276,161 +1349,19 @@ body {
   height: 32px;
   margin: 0 !important;
   padding: 0 12px !important;
-  border-radius: var(--r-field) !important;
   font-size: 13px !important;
-  font-weight: 500 !important;
-  background: var(--paper) !important;
-  color: var(--navy) !important;
-  border: 1px solid var(--rule-strong) !important;
-}
-[class*="-FileWidgetButton"]:hover {
-  background: var(--navy-50) !important;
 }
 [class*="-FileWidgetButtonRemove"] {
   background: transparent !important;
-  color: var(--red) !important;
+  color: var(--faint) !important;
   border-color: transparent !important;
 }
 [class*="-FileWidgetButtonRemove"]:hover {
   background: var(--red-bg) !important;
+  color: var(--red) !important;
 }
 
-/* ---------- Photo library ---------- */
-
-[class*="-MediaLibraryTop"] h1,
-[class*="-LibraryTitle"] {
-  color: var(--ink) !important;
-  font-weight: 600 !important;
-}
-[class*="-CardGrid"] [class*="-Card-"],
-[class*="-MediaLibraryCard"] {
-  border: 1px solid var(--rule) !important;
-  border-radius: var(--r) !important;
-  box-shadow: none !important;
-}
-[class*="-MediaLibraryCard"][class*="isPrivate"],
-[class*="-CardImageWrapper"] {
-  background-color: var(--canvas) !important;
-}
-
-/* ---------- Editorial workflow board (待发布) ---------- */
-
-[class*="-WorkflowTop"] {
-  background: transparent !important;
-  border: 0 !important;
-  box-shadow: none !important;
-  padding: 0 0 18px !important;
-  border-bottom: 1px solid var(--rule) !important;
-  border-radius: 0 !important;
-}
-[class*="-WorkflowTopHeading"] {
-  font-size: 24px !important;
-  font-weight: 600 !important;
-  color: var(--ink) !important;
-}
-[class*="-WorkflowTopDescription"] {
-  color: var(--muted) !important;
-}
-[class*="-ColumnHeader"] {
-  border-radius: var(--r-sm) !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-}
-[class*="-ColumnCount"] {
-  color: var(--muted) !important;
-}
-[class*="-WorkflowCardContainer"] {
-  background: var(--paper) !important;
-  border: 1px solid var(--rule) !important;
-  border-radius: var(--r) !important;
-  box-shadow: none !important;
-}
-[class*="-WorkflowCardContainer"]:hover {
-  border-color: var(--navy-600) !important;
-}
-
-/* ---------- Dropdowns, modals, toasts ---------- */
-
-[class*="-DropdownList"],
-[class*="-dropdownList"] {
-  background: var(--paper) !important;
-  border: 1px solid var(--rule) !important;
-  border-radius: var(--r) !important;
-  box-shadow: 0 8px 24px rgba(14, 42, 71, 0.08) !important;
-  padding: 4px !important;
-  overflow: hidden;
-}
-[class*="-StyledMenuItem"],
-[class*="-dropdownItem"] {
-  border-radius: var(--r-sm) !important;
-  font-size: 14px !important;
-}
-[class*="-StyledMenuItem"]:hover,
-[class*="-dropdownItem"]:hover,
-[class*="-StyledMenuItem"]:focus,
-[class*="-dropdownItem"]:focus {
-  background: var(--hover) !important;
-  color: var(--navy) !important;
-}
-.ReactModal__Content {
-  border-radius: var(--r) !important;
-  border: 1px solid var(--rule) !important;
-  box-shadow: 0 16px 48px rgba(14, 42, 71, 0.12) !important;
-}
-.Toastify__toast {
-  border-radius: var(--r) !important;
-  font-family: var(--font) !important;
-  font-size: 14px;
-}
-
-/* ---------- Small screens ---------- */
-
-@media (max-width: 800px) {
-  [class*="-StyledAuthenticationPage"] {
-    background: var(--paper) !important;
-    align-items: center !important;
-    padding: 0 16px 40px !important;
-  }
-  [class*="-StyledAuthenticationPage"]::before {
-    position: static;
-    width: auto;
-    order: -1;
-    padding: 0 0 24px;
-    color: var(--navy);
-    font-size: 22px;
-    text-align: center;
-  }
-  [class*="-StyledAuthenticationPage"]::after {
-    display: none;
-  }
-  [class*="-CustomIconWrapper"] {
-    justify-content: center;
-  }
-  [class*="-LoginButton-"] {
-    width: 100%;
-    max-width: 320px;
-  }
-  [class*="-AppHeaderContent"]::before,
-  [class*="-AppHeaderNavList"]::before {
-    display: none;
-  }
-  [class*="-CollectionContainer"] {
-    margin-top: 16px !important;
-  }
-  [class*="-CardsGrid"]:has(> [class*="-GridCard-"]) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #nc-root *,
-  #nc-root *::after {
-    transition: none !important;
-  }
-}
-
-/* ---------- "DOI 自动填写" on publication rows (doi.js) ---------- */
-
+/* "DOI 自动填写" on publication rows (doi.js) */
 .pd-doi-row {
   display: flex;
   gap: 8px;
@@ -1444,78 +1375,50 @@ body {
   flex: 0 0 auto;
   min-height: 40px;
   padding: 0 16px;
-  background: var(--navy);
-  color: #fff;
-  border: 0;
-  border-radius: var(--r-field);
-  font: 500 13.5px/1 var(--font);
+  background: var(--paper);
+  color: var(--ink);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--r-control);
+  font: 500 13px/1 var(--font);
   cursor: pointer;
 }
 #nc-root .pd-doi-button:hover {
-  background: var(--navy-600);
+  background: var(--canvas);
+  border-color: var(--faint);
 }
 #nc-root .pd-doi-button:disabled {
-  opacity: 0.6;
+  color: var(--faint);
   cursor: default;
 }
 .pd-doi-message {
-  margin: 6px 0 0;
+  margin: 8px 0 0;
   color: var(--muted);
-  font-size: 12.5px;
+  font-size: 12px;
 }
 
-/* ---------- Details ---------- */
+/* ---------- Photo library ---------- */
 
-/* Menu icons (e.g. 复制) in Decap's teal -> grey. */
-[class*="-MenuItemIconContainer"] svg path {
-  fill: var(--muted) !important;
-}
-/* Search results: a plain heading like the collection title, not a card. */
-[class*="-SearchResultContainer"] {
-  background: transparent !important;
-  box-shadow: none !important;
-  border: 0 !important;
-  border-bottom: 1px solid var(--rule) !important;
-  border-radius: 0 !important;
-  padding: 0 0 18px !important;
-  margin-bottom: 18px !important;
-  width: 100% !important;
-  max-width: none !important;
-}
-[class*="-SearchResultHeading"] {
-  padding: 0 !important;
-  border: 0 !important;
-}
-[class*="-SearchResultHeading"] {
-  color: var(--ink) !important;
-  font-size: 22px !important;
-  font-weight: 600 !important;
-}
-/* Photo library: plain grey tiles instead of a checkerboard. */
-[class*="-CardImageWrapper"],
-[class*="-CardGridContainer"] [class*="-CardImage"] {
-  background-image: none !important;
-  background-color: var(--fill) !important;
-}
-[class*="-CardGridContainer"] [class*="-Card "] {
+.ReactModal__Content {
+  border-radius: var(--r-card) !important;
   border: 1px solid var(--rule) !important;
-  border-radius: var(--r-field) !important;
-  box-shadow: none !important;
-  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(20, 26, 34, 0.12) !important;
 }
-[class*="-CardGridContainer"] [class*="-Card "]:hover {
-  border-color: var(--rule-strong) !important;
+[class*="-MediaLibraryTop"] h1,
+[class*="-LibraryTitle"] {
+  color: var(--ink) !important;
+  font-size: 20px !important;
+  font-weight: 500 !important;
 }
-/* Library buttons: navy for upload / use, quiet grey for the rest. */
 [class*="-LibraryTop"] button,
 [class*="-ButtonsContainer"] button {
-  border-radius: var(--r-field) !important;
+  height: 36px;
+  border-radius: var(--r-control) !important;
   font: 500 13px/1 var(--font) !important;
   box-shadow: none !important;
 }
 [class*="-UploadButton"],
 [class*="-InsertButton"] {
-  background: var(--navy) !important;
+  background: var(--brand) !important;
   color: #fff !important;
 }
 [class*="-InsertButton"][class*="disabled"] {
@@ -1523,10 +1426,203 @@ body {
   color: var(--faint) !important;
 }
 [class*="-ActionButton"] {
-  background: var(--fill) !important;
-  color: var(--text) !important;
+  background: var(--paper) !important;
+  color: var(--ink) !important;
+  border: 1px solid var(--rule-strong) !important;
+}
+[class*="-CardImageWrapper"],
+[class*="-CardGridContainer"] [class*="-CardImage"] {
+  background-image: none !important;
+  background-color: var(--canvas) !important;
+}
+[class*="-CardGridContainer"] [class*="-Card "] {
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--r-control) !important;
+  box-shadow: none !important;
+  overflow: hidden;
+}
+[class*="-CardGridContainer"] [class*="-Card "]:hover {
+  border-color: var(--rule-strong) !important;
 }
 [class*="-CardText"] {
   color: var(--muted) !important;
-  font-size: 12.5px !important;
+  font-size: 12px !important;
+}
+
+/* ---------- Editorial workflow board (工作流) ---------- */
+
+[class*="-WorkflowTop"] {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  padding: 0 0 20px !important;
+  border-bottom: 1px solid var(--rule) !important;
+  border-radius: 0 !important;
+}
+[class*="-WorkflowTopHeading"] {
+  font-size: 24px !important;
+  font-weight: 500 !important;
+  color: var(--ink) !important;
+}
+[class*="-WorkflowTopDescription"] {
+  color: var(--muted) !important;
+  font-size: 14px !important;
+}
+/* Column heads: a status dot and a word, the same colours as the editor. */
+[class*="-ColumnHeader"] {
+  display: flex !important;
+  align-items: center;
+  gap: 8px;
+  padding: 0 0 12px !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--rule) !important;
+  border-radius: 0 !important;
+  color: var(--ink) !important;
+  font-size: 14px !important;
+  font-weight: 500 !important;
+}
+[class*="-ColumnHeader"]::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+[class*="-ColumnHeader"][class*="review"]::before {
+  background: var(--blue);
+}
+[class*="-ColumnHeader"][class*="ready"]::before {
+  background: var(--green);
+}
+[class*="-ColumnCount"] {
+  color: var(--faint) !important;
+  font-size: 13px !important;
+}
+[class*="-WorkflowCardContainer"] {
+  background: var(--paper) !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--r-card) !important;
+  box-shadow: none !important;
+}
+[class*="-WorkflowCardContainer"]:hover {
+  border-color: var(--rule-strong) !important;
+}
+
+/* ---------- Dropdowns, menus, toasts ---------- */
+
+[class*="-DropdownList"],
+[class*="-dropdownList"] {
+  background: var(--paper) !important;
+  border: 1px solid var(--rule) !important;
+  border-radius: var(--r-control) !important;
+  box-shadow: 0 8px 24px rgba(20, 26, 34, 0.08) !important;
+  padding: 4px !important;
+  overflow: hidden;
+}
+[class*="-StyledMenuItem"],
+[class*="-dropdownItem"] {
+  border-radius: 6px !important;
+  color: var(--ink) !important;
+  font-size: 14px !important;
+}
+[class*="-StyledMenuItem"]:hover,
+[class*="-dropdownItem"]:hover,
+[class*="-StyledMenuItem"]:focus,
+[class*="-dropdownItem"]:focus {
+  background: var(--canvas) !important;
+  color: var(--ink) !important;
+}
+[class*="-MenuItemIconContainer"] svg path {
+  fill: var(--faint) !important;
+}
+.Toastify__toast {
+  border-radius: var(--r-control) !important;
+  font-family: var(--font) !important;
+  font-size: 14px;
+  box-shadow: 0 8px 24px rgba(20, 26, 34, 0.1) !important;
+}
+
+/* ---------- Small screens ---------- */
+
+@media (max-width: 1023px) {
+  [class*="-StyledAuthenticationPage"] {
+    justify-content: flex-start !important;
+    padding: 64px 24px 40px !important;
+  }
+  [class*="-StyledAuthenticationPage"]::after {
+    position: static;
+    order: 4;
+    width: 100%;
+    max-width: 560px;
+    margin-top: 48px;
+    transform: none;
+  }
+}
+
+@media (max-width: 800px) {
+  [class*="-CustomIconWrapper"]::after {
+    font-size: 24px;
+    line-height: 32px;
+  }
+  [class*="-LoginButton-"] {
+    width: 100%;
+    max-width: 320px;
+  }
+  [class*="-AppHeaderContent"] {
+    padding: 0 16px !important;
+  }
+  [class*="-AppHeaderContent"]::before {
+    display: none;
+  }
+  [class*="-ControlPaneContainer"] {
+    padding: 0 16px 96px !important;
+  }
+  [class*="-AppHeaderNavList"]::before {
+    display: none;
+  }
+  [class*="-AppHeaderSiteLink"] {
+    display: none !important;
+  }
+  [class*="-AppMainContainer"] {
+    padding: 0 16px !important;
+  }
+  [class*="-CollectionContainer"] {
+    margin-top: 16px !important;
+  }
+  [class*="-CardsGrid"]:has(> [class*="-GridCard-"]) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .pd-card {
+    flex-direction: column;
+    gap: 0;
+  }
+  [class*="-SortableListItem"] {
+    padding: 12px 4px !important;
+  }
+  [class*="-SortableListItem"] + [class*="-SortableListItem"]::before {
+    left: 12px;
+  }
+  [class*="-SortableListItem"] > div:last-child:not([class*="-NestedObjectLabel"]):not([class*="-StyledListItemTopBar"]) {
+    grid-column: 1 / -1;
+    padding: 0 8px 8px !important;
+  }
+  [data-row="pub"] .pd-row {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 4px;
+  }
+  [data-row="pub"] > div:last-child > div {
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #nc-root *,
+  #nc-root *::after {
+    transition: none !important;
+  }
+  #nc-root button:active {
+    transform: none;
+  }
 }

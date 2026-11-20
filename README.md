@@ -56,17 +56,13 @@ To add an editor: invite their GitHub account as a collaborator (Settings →
 Collaborators) and add their login to `ALLOWED_GITHUB_USERS`. To remove one,
 do both in reverse.
 
-- Editor look: `public/admin/admin.css` restyles Decap as a quiet,
-  document-style workspace (Geist, self-hosted in `public/admin/fonts/`). It
-  targets Decap's component names in its class names, so check `/admin` after
-  upgrading Decap.
-- Redesigned editor (trial): `/admin/next` (`public/admin/next.html`) runs the
-  same Decap setup with a new look in `public/admin/next/` — `admin.css`, a
-  proof of the profile page as `/board/<slug>` renders it (`preview.js`,
-  `preview.css`) and the journal covers on the sign-in page (`covers.webp`,
-  built from `src/assets/journals`). It shares config, sign-in, `rows.js` and
-  `doi.js` with `/admin`; once it replaces `/admin`, move these files over and
-  delete the old ones.
+- Editor look: `public/admin/admin.css` restyles Decap: white top bar, 4:5
+  portrait roster, and the journal covers on the sign-in page (`covers.webp`,
+  built from `src/assets/journals`). The preview beside the form is a proof
+  of the profile page as `/board/<slug>` renders it (`preview.js`,
+  `preview.css`); keep it in step with `src/pages/board/[slug].astro`. The
+  theme targets Decap's component names in its class names, so check
+  `/admin` after upgrading Decap.
 - Editor config: `public/admin/config.yml`. Its fields mirror the schema in
   `src/content.config.ts`; when you add a field to one, add it to the other.
 - GitHub sign-in runs on the site itself: `worker/oauth.ts`, wired up by
