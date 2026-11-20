@@ -21,6 +21,9 @@
         }
       } catch (e) {}
     </script>
+    <!-- main only takes changes through pull requests: route Decap's direct
+         updates of main (deleting a scholar, the photo library) through one. -->
+    <script src="/admin/via-pr.js"></script>
     <!-- Pinned with a hash so a tampered copy on the CDN is refused. -->
     <script
       src="https://unpkg.com/decap-cms@3.16.3/dist/decap-cms.js"
