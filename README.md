@@ -60,6 +60,13 @@ do both in reverse.
   document-style workspace (Geist, self-hosted in `public/admin/fonts/`). It
   targets Decap's component names in its class names, so check `/admin` after
   upgrading Decap.
+- Redesigned editor (trial): `/admin/next` (`public/admin/next.html`) runs the
+  same Decap setup with a new look in `public/admin/next/` — `admin.css`, a
+  proof of the profile page as `/board/<slug>` renders it (`preview.js`,
+  `preview.css`) and the journal covers on the sign-in page (`covers.webp`,
+  built from `src/assets/journals`). It shares config, sign-in, `rows.js` and
+  `doi.js` with `/admin`; once it replaces `/admin`, move these files over and
+  delete the old ones.
 - Editor config: `public/admin/config.yml`. Its fields mirror the schema in
   `src/content.config.ts`; when you add a field to one, add it to the other.
 - GitHub sign-in runs on the site itself: `worker/oauth.ts`, wired up by

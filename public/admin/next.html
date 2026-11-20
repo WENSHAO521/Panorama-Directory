@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Panorama Directory · 编辑部后台</title>
+    <!-- The redesigned editor. Same config, sign-in and data as /admin;
+         only the look (next/admin.css) and the live proof (next/preview.*)
+         are new, so the two pages can be compared side by side. -->
+    <link href="/admin/config.yml" type="text/yaml" rel="cms-config-url" />
+    <link href="/admin/next/admin.css" rel="stylesheet" />
+    <link href="/assets/logos/favicon.png" rel="icon" />
+  </head>
+  <body>
+    <script>
+      try {
+        if (!localStorage.getItem("decap-cms.entries.viewStyle")) {
+          localStorage.setItem("decap-cms.entries.viewStyle", "VIEW_STYLE_GRID");
+        }
+      } catch (e) {}
+    </script>
+    <!-- Pinned with a hash so a tampered copy on the CDN is refused. -->
+    <script
+      src="https://unpkg.com/decap-cms@3.16.3/dist/decap-cms.js"
+      integrity="sha384-A/Gdn928CNLufmnGWGs9RM4Q9o8bSNLeJERqBFrBjwzL7FRpoLT3MPF8Tl0+Wd2p"
+      crossorigin="anonymous"
+    ></script>
+    <!-- The proof: the profile page as it will look once published. -->
+    <script src="/admin/next/preview.js"></script>
+    <script src="/admin/doi.js"></script>
+    <script src="/admin/rows.js"></script>
+  </body>
+</html>
